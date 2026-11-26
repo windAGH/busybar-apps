@@ -239,7 +239,8 @@ export async function gamesPage() {
           ctl.start = false;
           if (tour && tour.why !== "auto") {
             tour = null;
-            dir = -1;                            // the game comes back down
+            how = main && isOn(main) ? "close" : "roll";     // behind the closing card ("BACK TO LIVE"), as
+            dir = -1;                            // at the end of a round; else the game comes back down
             break;
           }
           if (tour) break;                       // nothing is on, the carousel runs anyway: its next item now

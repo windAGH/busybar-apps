@@ -624,7 +624,8 @@ const unbind = listen("input", (event) => {
 //   When no game is on, the carousel runs by itself: today's finished games, then the ones to come - today's, or
 //   the next day's that has any when today is done.
 //   encoder  next / previous game that is on (sideways). While the carousel runs by a press of Start: through it.
-//   Start    the carousel, one round, between the two title cards; Start again = straight back to the game.
+//            With nothing on, a turn only says so ("NO GAMES ON RIGHT NOW").
+//   Start    the carousel, one round, between the two title cards; Start again = back to the game at once, behind the closing card.
 //   OK       to the followed team's game, if it is on.
 //   Back     ends the app.
 //   Signs (setting "Big play signs"), only for the game the app stays on: 3 POINTER (and, when the feed names him,
@@ -1588,7 +1589,8 @@ async function hoopsPage(p, enter) {
           ctl.start = false;
           if (tour && tour.why !== "auto") {
             tour = null;
-            dir = -1;                            // the game comes back down
+            how = main && isOn(main) ? "close" : "roll";   // behind the closing card ("BACK TO LIVE"), as
+            dir = -1;                          // at the end of a round; else the game comes back down
             break;
           }
           if (tour) break;                       // nothing is on, the carousel runs anyway: its next item now
@@ -1606,15 +1608,15 @@ async function hoopsPage(p, enter) {
           ctl.turn = 0;
           dir = turns > 0 ? 1 : -1;
           const on = allGames().filter(isOn).sort(byStart);
-          if (tour && tour.list.length) {        // while the carousel runs: through its items, up or down
+          if (!on.length) {                      // nothing is on: say so, the carousel carries on
+            await notice("none");
+            ctl.turn = 0;                        // turns made meanwhile do not queue more cards
+            dir = 1;
+          } else if (tour && tour.list.length) { // while the carousel runs: through its items, up or down
             const k = mod(tour.k - 1 + turns, tour.list.length);
             jump = tour.list[k];
             tour.k = k + 1;
             break;
-          } else if (!on.length) {               // nothing is on and nothing to turn through: say so
-            await notice("none");
-            ctl.turn = 0;
-            dir = 1;
           } else {                               // the next / previous game that is on
             const at = Math.max(0, on.findIndex((g) => g.id === mainId));
             const next = on[mod(at + turns, on.length)];
