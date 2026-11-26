@@ -6,6 +6,7 @@ Stock, index, crypto and currency prices on your BUSY Bar, one ticker at a time.
 
 - On the left, the ticker and its price. On the right, a box in the colour of the day: the change in percent, a small arrow that nods the way the price is going, and the line of the day.
 - **Rising**: a green box, arrow up. **Falling**: a red box, arrow down. **Market closed**: a slate box without an arrow, with the change and the line of the last session.
+- **Before the opening and after the close**: while a stock trades in its pre-market or after-hours session, the box turns night blue with a small sun or moon. The day's line goes quiet and the part that belongs to the session runs in colour: green turning blue for a rise, red turning pink for a fall. The price is the session's, and the change is counted from the last regular price.
 - Prices keep the decimals their market quotes them in and get shorter when they are long: 355.58, 1234.5, 98848, 123.4K.
 - When a market is open but its numbers are more than 15 minutes old, the percentage, the arrow and the line go faint until fresh numbers arrive.
 
@@ -28,7 +29,7 @@ A change applies within 10 seconds; no restart is needed.
 
 - Quotes come from Yahoo Finance's public chart endpoint (query1.finance.yahoo.com, then query2.finance.yahoo.com). When neither answers, CNBC's public quote (quote.cnbc.com) fills in: it gives the price and the day's change, but no line and no 5-day or 1-month span.
 - These are unofficial endpoints. They need no key and no account, and they can be rate-limited or change without notice. Quotes may be delayed. This is not investment advice.
-- Each symbol is asked for once a minute while its market is open and every 10 minutes while it is closed.
+- Each symbol is asked for once a minute while it trades (the extended sessions included) and every 10 minutes while its market is closed. The overnight session is not in these feeds.
 - The app sends no personal data: only the ticker symbols you entered go to those services. On the bar it keeps one small file with a count of failed requests.
 - This app is not affiliated with or endorsed by Yahoo or CNBC.
 

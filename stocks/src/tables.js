@@ -24,9 +24,17 @@ export const D = {
       ink: "#CCD5E3FF", line: "#96A4B6FF", faintInk: "#626B75FF", faintLine: "#49545FFF", name: "#96A4B6FF",
       nameDim: "#5D6671FF",
     },
+    extu: {
+      ink: "#E0FAAAFF", line: "#C4F53CFF", faintInk: "#64705BFF", faintLine: "#54692CFF", name: "#C4F53CFF",
+      nameDim: "#7A9825FF",
+    },
+    extd: {
+      ink: "#FFD6BEFF", line: "#FF7A46FF", faintInk: "#716164FF", faintLine: "#6C3830FF", name: "#FF7A46FF",
+      nameDim: "#9E4C2BFF",
+    },
   },
   // the letters that stand for the line and for its last point in the bitmaps below
-  keys: { line: "C", now: "D" },
+  keys: { line: "C", now: "D", quiet: "y", run: "zABC" },
   // the box as two XPM bitmaps a look (a bitmap has 32 colours at most): top = header, colours and rows 0-7,
   // mid = rows 8-14 (the ones the line is drawn into), bot = row 15
   plate: {
@@ -324,6 +332,202 @@ export const D = {
         bot: "kkkkkkkkkhhhhhhhha",
       },
     ],
+    extu: [
+      {
+        w: 19,
+        top: "! XPM2\n" +
+          "19 16 30 1\n" +
+          "a c #000000\n" +
+          "b c #0B0D24\n" +
+          "c c #30418E\n" +
+          "d c #162057\n" +
+          "e c #11183D\n" +
+          "f c #243379\n" +
+          "g c #0E102F\n" +
+          "h c #141C4A\n" +
+          "i c #1A2662\n" +
+          "j c #101436\n" +
+          "k c #151E50\n" +
+          "l c #30408A\n" +
+          "m c #0C0F29\n" +
+          "n c #121A44\n" +
+          "o c #26357D\n" +
+          "p c #18245D\n" +
+          "q c #161B2B\n" +
+          "r c #364747\n" +
+          "s c #1D2949\n" +
+          "t c #2F3B2D\n" +
+          "u c #1E283B\n" +
+          "v c #2A3848\n" +
+          "w c #222A2A\n" +
+          "x c #303F37\n" +
+          "y c #4A5478\n" +
+          "z c #6EEC60\n" +
+          "A c #42DEAA\n" +
+          "B c #3AB2F0\n" +
+          "C c #407CFF\n" +
+          "D c #FFFFFF\n" +
+          "accccclllllllllllll\n" +
+          "oipdkhhnneeejjjjjjj\n" +
+          "oipdkhnneejjjjjjjjj\n" +
+          "opdkhhnejjjgggggggg\n" +
+          "fpdkhneejgggmmmmmmm\n" +
+          "fddhneejggmmmbbbbbb\n" +
+          "fdkhnejjgmmbbbbbbbb\n" +
+          "fdkhnejjgmmbbbbbbbb\n",
+        mid: [
+          "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb",
+          "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb",
+        ],
+        bot: "aggggggggggmmmmmmmm",
+      },
+      {
+        w: 18,
+        top: "! XPM2\n" +
+          "18 16 30 1\n" +
+          "a c #000000\n" +
+          "b c #0B0D24\n" +
+          "c c #30418E\n" +
+          "d c #162057\n" +
+          "e c #11183D\n" +
+          "f c #243379\n" +
+          "g c #0E102F\n" +
+          "h c #141C4A\n" +
+          "i c #1A2662\n" +
+          "j c #101436\n" +
+          "k c #151E50\n" +
+          "l c #30408A\n" +
+          "m c #0C0F29\n" +
+          "n c #121A44\n" +
+          "o c #26357D\n" +
+          "p c #18245D\n" +
+          "q c #161B2B\n" +
+          "r c #364747\n" +
+          "s c #1D2949\n" +
+          "t c #2F3B2D\n" +
+          "u c #1E283B\n" +
+          "v c #2A3848\n" +
+          "w c #222A2A\n" +
+          "x c #303F37\n" +
+          "y c #4A5478\n" +
+          "z c #6EEC60\n" +
+          "A c #42DEAA\n" +
+          "B c #3AB2F0\n" +
+          "C c #407CFF\n" +
+          "D c #FFFFFF\n" +
+          "llllllllllllccccca\n" +
+          "jjjjjjeeennhhkdpio\n" +
+          "jjjjjjjjeennhkdpio\n" +
+          "gggggggjjjenhhkdpo\n" +
+          "mmmmmmgggjeenhkdpf\n" +
+          "bbbbbmmmggjeenhddf\n" +
+          "bbbbbbbmmgjjenhkdf\n" +
+          "bbbbbbbmmgjjenhkdf\n",
+        mid: [
+          "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf",
+          "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf",
+        ],
+        bot: "mmmmmmmgggggggggga",
+      },
+    ],
+    extd: [
+      {
+        w: 19,
+        top: "! XPM2\n" +
+          "19 16 30 1\n" +
+          "a c #000000\n" +
+          "b c #0B0D24\n" +
+          "c c #30418E\n" +
+          "d c #162057\n" +
+          "e c #11183D\n" +
+          "f c #243379\n" +
+          "g c #0E102F\n" +
+          "h c #141C4A\n" +
+          "i c #1A2662\n" +
+          "j c #101436\n" +
+          "k c #151E50\n" +
+          "l c #30408A\n" +
+          "m c #0C0F29\n" +
+          "n c #121A44\n" +
+          "o c #26357D\n" +
+          "p c #18245D\n" +
+          "q c #1A152C\n" +
+          "r c #412D49\n" +
+          "s c #20204A\n" +
+          "t c #39232F\n" +
+          "u c #312747\n" +
+          "v c #221D3C\n" +
+          "w c #2A1C2E\n" +
+          "x c #3B2838\n" +
+          "y c #4A5478\n" +
+          "z c #FF5848\n" +
+          "A c #FF5C76\n" +
+          "B c #FF68A8\n" +
+          "C c #FF80D6\n" +
+          "D c #FFFFFF\n" +
+          "accccclllllllllllll\n" +
+          "oipdkhhnneeejjjjjjj\n" +
+          "oipdkhnneejjjjjjjjj\n" +
+          "opdkhhnejjjgggggggg\n" +
+          "fpdkhneejgggmmmmmmm\n" +
+          "fddhneejggmmmbbbbbb\n" +
+          "fdkhnejjgmmbbbbbbbb\n" +
+          "fdkhnejjgmmbbbbbbbb\n",
+        mid: [
+          "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb",
+          "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb", "fdkhnejjgmmbbbbbbbb",
+        ],
+        bot: "aggggggggggmmmmmmmm",
+      },
+      {
+        w: 18,
+        top: "! XPM2\n" +
+          "18 16 30 1\n" +
+          "a c #000000\n" +
+          "b c #0B0D24\n" +
+          "c c #30418E\n" +
+          "d c #162057\n" +
+          "e c #11183D\n" +
+          "f c #243379\n" +
+          "g c #0E102F\n" +
+          "h c #141C4A\n" +
+          "i c #1A2662\n" +
+          "j c #101436\n" +
+          "k c #151E50\n" +
+          "l c #30408A\n" +
+          "m c #0C0F29\n" +
+          "n c #121A44\n" +
+          "o c #26357D\n" +
+          "p c #18245D\n" +
+          "q c #1A152C\n" +
+          "r c #412D49\n" +
+          "s c #20204A\n" +
+          "t c #39232F\n" +
+          "u c #312747\n" +
+          "v c #221D3C\n" +
+          "w c #2A1C2E\n" +
+          "x c #3B2838\n" +
+          "y c #4A5478\n" +
+          "z c #FF5848\n" +
+          "A c #FF5C76\n" +
+          "B c #FF68A8\n" +
+          "C c #FF80D6\n" +
+          "D c #FFFFFF\n" +
+          "llllllllllllccccca\n" +
+          "jjjjjjeeennhhkdpio\n" +
+          "jjjjjjjjeennhkdpio\n" +
+          "gggggggjjjenhhkdpo\n" +
+          "mmmmmmgggjeenhkdpf\n" +
+          "bbbbbmmmggjeenhddf\n" +
+          "bbbbbbbmmgjjenhkdf\n" +
+          "bbbbbbbmmgjjenhkdf\n",
+        mid: [
+          "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf",
+          "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf", "bbbbbbbmmgjjenhkdf",
+        ],
+        bot: "mmmmmmmgggggggggga",
+      },
+    ],
   },
   // the light under the line: per look, for each of the line's columns the letters of the pixels under a
   // line on row 8, 9, ... 13, one after another (6 + 5 + ... + 1)
@@ -360,6 +564,28 @@ export const D = {
       "BxztvAsxztAsxtvszvxtz", "BsxztvBsztvBxzvszvstz", "wBxztvBsxzvBsztBxtszx", "wBsxztwBsztwsxtBszBzs",
       "uwBsxzuBsxzwBszwszBxs", "uwwBxzuwBsxuwsxuBxwsB", "yuwBssyuwBsyuBsuwsuBw", "ryuwwsryuwByuwByuBywu",
       "rryuwwryyuwryuwrywyuy",
+    ],
+    extu: [
+      "rrvvssrrvssrvvsrvsrsv", "rrvvssrrvssrvvsrvsrsv", "rrvvsurvvssrvssrvsvsv", "xxxuuuxxuuuxxuuxuuxuu",
+      "xxxuuuxxuuuxxuuxuuxuu", "xxtuuqxxuuqxtuqxuuxuu", "xtwwqqxtwwqttwqtwqtww", "ttwwqqttwwqttwqtwqtww",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwwqttwqtwqtww", "xtwwqqxtwwqttwqtwqtww", "xxtuuqxxuuqxtuqxuuxuu",
+      "xxxuuuxxuuuxxuuxuuxuu", "xxxuuuxxuuuxxuuxuuxuu", "rrvvsurvvssrvssrvsvsv", "rrvvssrrvssrvvsrvsrsv",
+      "rrvvssrrvssrvvsrvsrsv",
+    ],
+    extd: [
+      "rruussrrussruusrusrsu", "rruussrrussruusrusrsu", "rruussrrussruvsrusrsu", "xxxvvvxxuvvxxvvxuvxvu",
+      "xxxvvvxxvvvxxvvxvvxvv", "xxtvvqxxwvqxtvqxwvxvw", "xtwwqqxtwqqxtwqtwqtqw", "xtwwqqttwqqttwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw", "ttwwqqttwqqtwwqtwqtqw",
+      "ttwwqqttwqqtwwqtwqtqw", "xtwwqqttwqqttwqtwqtqw", "xtwwqqxtwqqxtwqtwqtqw", "xxtvvqxxwvqxtvqxwvxvw",
+      "xxxvvvxxvvvxxvvxvvxvv", "xxxvvvxxuvvxxvvxuvxvu", "rruussrrussruvsrusrsu", "rruussrrussruusrusrsu",
+      "rruussrrussruusrusrsu",
     ],
   },
   // widths of the characters of the bar's font `small`, in pixels, as measured on the bar

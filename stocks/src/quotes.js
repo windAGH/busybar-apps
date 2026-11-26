@@ -1,6 +1,6 @@
 // What is known about each symbol, and where it is asked for.
 
-import { boxOf, rowsOf } from "./box.js";
+import { boxOf, COLS, rowsOf } from "./box.js";
 import { run, sleep, wake } from "./bar.js";
 
 // Where the numbers come from, in this order. The first two are the same Yahoo Finance service on two addresses
@@ -45,7 +45,7 @@ export function quoteOf(sym) {
   let q = quotes.get(sym);
   if (!q) {
     q = { sym: sym, has: false, open: false, price: 0, hint: 2, start: 0, allDay: /[-=]/.test(sym), ver: 0, fresh: 0,
-      views: [] };
+      ext: "", split: 0, edge: 0, views: [] };
     for (let i = 0; i < SPANS.length; i++) {     // per span: the close before it, the line, when asked, the box
       q.views.push({ has: false, prev: 0, rows: null, at: 0, hold: 0, fails: 0, box: null, boxKind: "" });
     }
@@ -71,23 +71,53 @@ async function bodyOf(url, who) {
 
 /** Yahoo's chart for one symbol and one span: price, the close before the span, the closes, the market's hours. */
 async function askChart(base, who, q, k) {
-  const body = await bodyOf(base + encodeURIComponent(q.sym) + "?" + (q.allDay ? SPANS[k].all : SPANS[k].ask), who);
+  // today's line of a market with hours is asked for with the sessions before the opening and after the close
+  const body = await bodyOf(base + encodeURIComponent(q.sym) + "?" + (q.allDay ? SPANS[k].all : SPANS[k].ask) +
+    (k === 0 && !q.allDay ? "&includePrePost=true" : ""), who);
   const r = JSON.parse(body).chart.result[0];
   const m = r.meta;
   const price = Number(m.regularMarketPrice);
   if (!(price > 0)) throw refused(who + " no price", 200, false);
   const raw = (r.indicators && r.indicators.quote && r.indicators.quote[0] && r.indicators.quote[0].close) || [];
-  const closes = [];
-  for (let i = 0; i < raw.length; i++) {
-    if (typeof raw[i] === "number") closes.push(raw[i]);
-  }
-  const per = (m.currentTradingPeriod && m.currentTradingPeriod.regular) || {};
+  const stamps = r.timestamp || [];
+  const tp = m.currentTradingPeriod || {}, per = tp.regular || {};
   const start = Number(per.start) || 0, end = Number(per.end) || 0, traded = Number(m.regularMarketTime) || 0;
+  const pre0 = Number(tp.pre && tp.pre.start) || start, post1 = Number(tp.post && tp.post.end) || end;
   const now = Date.now() / 1000;
   const allDay = end - start >= 23 * 3600;
+  // The sessions (a market with hours, today's line): before the opening "pre", after the close "post". The line
+  // of "pre" is that session alone; the line of "post" is the day's regular session and, from column `split` on,
+  // what has traded since the close. At any other time the line is the regular session's, as it always was.
+  let ext = "", n0 = 0;
+  const day = [], late = [], early = [];
+  for (let i = 0; i < raw.length; i++) {
+    if (typeof raw[i] !== "number") continue;
+    const t = Number(stamps[i]) || 0;
+    if (k !== 0 || allDay || !stamps.length || (t >= start && t < end)) day.push(raw[i]);
+    else if (t < start) early.push(raw[i]);
+    else late.push(raw[i]);
+  }
+  let closes = day, last = price, before = Number(m.chartPreviousClose || m.previousClose);
+  if (k === 0 && !allDay && now >= pre0 && now < start && early.length) {
+    ext = "pre";
+    closes = early;
+  } else if (k === 0 && !allDay && now >= end && now < post1 && late.length && traded >= start - 60) {
+    ext = "post";
+    closes = day.concat(late);
+    n0 = day.length;
+  }
+  if (ext) {                                     // the change of an extended session: against the last regular price
+    before = price;
+    last = closes[closes.length - 1];
+  }
   // Open: inside today's regular hours and something has traded in them (on a holiday nothing has). A market that
   // runs round the clock is open while its last trade is recent.
-  return { price: price, prev: Number(m.chartPreviousClose || m.previousClose), closes: closes, start: start,
+  let edge = 0;                                  // the next moment the market's state changes
+  const edges = [pre0, start, end, post1];
+  for (let i = 0; i < edges.length; i++) if (edges[i] > now && (!edge || edges[i] < edge)) edge = edges[i];
+  return { price: last, prev: before, closes: closes, start: start, ext: ext,
+    split: ext && closes.length > 1 ? Math.round(n0 * (COLS - 1) / (closes.length - 1)) : 0,
+    edge: allDay ? 0 : edge,
     allDay: allDay, hint: typeof m.priceHint === "number" ? Math.floor(m.priceHint) : 2,
     open: allDay ? now - traded < 1800 : now >= start && now < end && traded >= start - 60 };
 }
@@ -158,9 +188,19 @@ async function loadQuote(q, k) {
   view.prev = prev > 0 ? prev : 0;
   view.has = true;
   view.at = Date.now();
+  // in an extended session only today's answer knows the price that is trading now: the longer spans carry the
+  // regular session's, and leave the price as it is
+  const kept = k !== 0 && q.has && q.ext ? q.price : 0;
   q.price = price;                               // every answer carries the price and the hours
+  if (kept) q.price = kept;
   q.hint = got.hint;
   q.open = got.open;
+  if (k === 0) {                                 // (only today's answer knows the session)
+    if (q.ext !== (got.ext || "") || q.split !== (got.split || 0)) view.boxKind = "";
+    q.ext = got.ext || "";
+    q.split = got.split || 0;
+    q.edge = got.edge || 0;
+  }
   q.start = got.start;
   q.allDay = got.allDay;
   q.has = true;
@@ -173,7 +213,7 @@ async function loadQuote(q, k) {
 /** Numbers that can no longer be trusted to be current: the market is open (as far as we know) and the price was
  *  last confirmed more than 15 minutes ago. */
 export function staleOf(q) {
-  return q.has && q.open && Date.now() - q.fresh > STALE_MS;
+  return q.has && (q.open || !!q.ext) && Date.now() - q.fresh > STALE_MS;
 }
 
 // ---------- one ticker on screen ----------
@@ -182,6 +222,7 @@ export function rising(q, k) {
 }
 
 export function kindOf(q, k) {
+  if (q.has && q.ext && k === 0 && q.views[0].has) return rising(q, 0) !== cfg.redUp ? "extu" : "extd";
   if (!q.has || !q.open || !q.views[k].has) return "shut";
   return rising(q, k) !== cfg.redUp ? "up" : "down";
 }
@@ -192,9 +233,11 @@ function dueOf(q) {
   const live = q.views[0];
   if (live.hold) return live.hold;
   if (!live.at) return 0;
-  let due = live.at + (q.open ? OPEN_MS : SHUT_MS);
-  const opening = Math.max(q.start * 1000 + 20000, live.at + OPEN_MS);
-  if (!q.open && !q.allDay && q.start * 1000 > live.at && opening < due) due = opening;
+  let due = live.at + (q.open || q.ext ? OPEN_MS : SHUT_MS);
+  // and once just after the market's state changes (the sessions begin and end, the opening, the close), so the
+  // colours change with it and not ten minutes late
+  const turn = Math.max(q.edge * 1000 + 20000, live.at + OPEN_MS);
+  if (q.edge && q.edge * 1000 > live.at && turn < due) due = turn;
   return due;
 }
 

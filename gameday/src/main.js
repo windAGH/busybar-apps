@@ -8,7 +8,7 @@
 // (the week's games read one small request at a time, one game as a strip, the carousel, the controls, the
 // big-play signs, the season's end), then the settings and the start.
 
-const D = {"app":"io.github.windagh.gameday","team":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#10A0EA","CHI":"#FA5A12","CIN":"#FB4F14","CLE":"#FF5014","DAL":"#C4D0DE","DEN":"#FB4F14","DET":"#1E90E0","GB":"#FFB612","HOU":"#E21030","IND":"#2A66E8","JAX":"#1AA8A4","KC":"#E8162F","LAC":"#1C9BF0","LAR":"#3565F0","LV":"#C8CDD2","MIA":"#08B8BA","MIN":"#7A45D8","NE":"#D81432","NO":"#D3BC8D","NYG":"#3358DC","NYJ":"#20B06C","PHI":"#14907A","PIT":"#FFB612","SEA":"#69C828","SF":"#DC1C24","TB":"#DA1616","TEN":"#4B92DB","WSH":"#B82642"},"logo":{"ARI":[14,13,0,0],"ATL":[14,13,0,0],"BAL":[14,14,0,0],"BUF":[14,14,0,0],"CAR":[14,14,0,0],"CHI":[14,13,0,0],"CIN":[14,13,0,0],"CLE":[14,14,0,0],"DAL":[12,14,1,1],"DEN":[14,14,0,0],"DET":[14,13,0,0],"GB":[14,9,0,0],"HOU":[13,14,1,1],"IND":[12,13,1,1],"JAX":[14,14,0,0],"KC":[14,9,0,0],"LAC":[14,14,0,0],"LAR":[14,14,0,0],"LV":[12,10,1,1],"MIA":[14,14,0,0],"MIN":[14,14,0,0],"NE":[14,9,0,0],"NO":[13,9,0,1],"NYG":[14,13,0,0],"NYJ":[14,13,0,0],"PHI":[14,13,0,0],"PIT":[12,12,1,1],"SEA":[14,14,0,0],"SF":[14,9,0,0],"TB":[14,8,0,0],"TEN":[12,13,1,1],"WSH":[14,14,0,0],"XXX":[10,4]},"name":"Gameday","card":300,"roll":150,"sign":{"td":1300,"fg":1300,"safety":1300,"two":1300,"int":1300,"fumble":1300,"sack":1300,"who":2200,"final":1300,"ot":1300},"plate":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#0557A3","CHI":"#AE2306","CIN":"#AF1B07","CLE":"#B21B07","DAL":"#888E9B","DEN":"#AF1B07","DET":"#0F4F9C","GB":"#B26506","HOU":"#E21030","IND":"#2A66E8","JAX":"#0E6A75","KC":"#E8162F","LAC":"#0D54A7","LAR":"#3565F0","LV":"#30333A","MIA":"#006E82","MIN":"#7A45D8","NE":"#D81432","NO":"#937B60","NYG":"#3358DC","NYJ":"#127B58","PHI":"#0A6461","PIT":"#B26506","SEA":"#368C17","SF":"#DC1C24","TB":"#DA1616","TEN":"#305599","WSH":"#B82642"},"shade":{"ARI":"#58002B","ATL":"#5F032C","BAL":"#281B5B","BUF":"#090C62","CAR":"#001245","CHI":"#4A0007","CIN":"#4A000B","CLE":"#4B000B","DAL":"#393942","DEN":"#4A000B","DET":"#020E42","GB":"#4B1600","HOU":"#600028","IND":"#0B1062","JAX":"#022032","KC":"#620227","LAC":"#000E47","LAR":"#111066","LV":"#141419","MIA":"#002037","MIN":"#26185C","NE":"#5C0227","NO":"#3E2D27","NYG":"#13105D","NYJ":"#043431","PHI":"#01212A","PIT":"#4B1600","SEA":"#063B06","SF":"#5D0520","TB":"#5C031A","TEN":"#111541","WSH":"#4E0B2A"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.gameday","team":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#10A0EA","CHI":"#FA5A12","CIN":"#FB4F14","CLE":"#FF5014","DAL":"#C4D0DE","DEN":"#FB4F14","DET":"#1E90E0","GB":"#FFB612","HOU":"#E21030","IND":"#2A66E8","JAX":"#1AA8A4","KC":"#E8162F","LAC":"#1C9BF0","LAR":"#3565F0","LV":"#C8CDD2","MIA":"#08B8BA","MIN":"#7A45D8","NE":"#D81432","NO":"#D3BC8D","NYG":"#3358DC","NYJ":"#20B06C","PHI":"#14907A","PIT":"#FFB612","SEA":"#69C828","SF":"#DC1C24","TB":"#DA1616","TEN":"#4B92DB","WSH":"#B82642"},"logo":{"ARI":[14,13,0,0],"ATL":[14,13,0,0],"BAL":[14,14,0,0],"BUF":[14,14,0,0],"CAR":[14,14,0,0],"CHI":[14,13,0,0],"CIN":[14,13,0,0],"CLE":[14,14,0,0],"DAL":[12,14,1,1],"DEN":[14,14,0,0],"DET":[14,13,0,0],"GB":[14,9,0,0],"HOU":[13,14,1,1],"IND":[12,13,1,1],"JAX":[14,14,0,0],"KC":[14,9,0,0],"LAC":[14,14,0,0],"LAR":[14,14,0,0],"LV":[12,10,1,1],"MIA":[14,14,0,0],"MIN":[14,14,0,0],"NE":[14,9,0,0],"NO":[13,9,0,1],"NYG":[14,13,0,0],"NYJ":[14,13,0,0],"PHI":[14,13,0,0],"PIT":[12,12,1,1],"SEA":[14,14,0,0],"SF":[14,9,0,0],"TB":[14,8,0,0],"TEN":[12,13,1,1],"WSH":[14,14,0,0],"XXX":[10,4]},"name":"Gameday","card":300,"roll":150,"swap":733,"sign":{"td":1300,"fg":1300,"safety":1300,"two":1300,"int":1300,"fumble":1300,"sack":1300,"who":2200,"kick":1400,"final":1300,"ot":1300},"plate":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#0557A3","CHI":"#AE2306","CIN":"#AF1B07","CLE":"#B21B07","DAL":"#888E9B","DEN":"#AF1B07","DET":"#0F4F9C","GB":"#B26506","HOU":"#E21030","IND":"#2A66E8","JAX":"#0E6A75","KC":"#E8162F","LAC":"#0D54A7","LAR":"#3565F0","LV":"#30333A","MIA":"#006E82","MIN":"#7A45D8","NE":"#D81432","NO":"#937B60","NYG":"#3358DC","NYJ":"#127B58","PHI":"#0A6461","PIT":"#B26506","SEA":"#368C17","SF":"#DC1C24","TB":"#DA1616","TEN":"#305599","WSH":"#B82642"},"shade":{"ARI":"#58002B","ATL":"#5F032C","BAL":"#281B5B","BUF":"#090C62","CAR":"#001245","CHI":"#4A0007","CIN":"#4A000B","CLE":"#4B000B","DAL":"#393942","DEN":"#4A000B","DET":"#020E42","GB":"#4B1600","HOU":"#600028","IND":"#0B1062","JAX":"#022032","KC":"#620227","LAC":"#000E47","LAR":"#111066","LV":"#141419","MIA":"#002037","MIN":"#26185C","NE":"#5C0227","NO":"#3E2D27","NYG":"#13105D","NYJ":"#043431","PHI":"#01212A","PIT":"#4B1600","SEA":"#063B06","SF":"#5D0520","TB":"#5C031A","TEN":"#111541","WSH":"#4E0B2A"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -195,6 +195,13 @@ report("draw", got.status + " " + got.text.slice(0, 80));
 }
 return got.ok;
 }
+async function postAll(parts, n) {
+let ok = true;
+for (let i = 0; i < parts.length; i += n || 8) {
+if (!(await post(parts.slice(i, i + (n || 8))))) ok = false;
+}
+return ok;
+}
 async function drop(ids) {
 for (let i = 0; i < ids.length; i++) {
 live.delete(ids[i]);
@@ -340,13 +347,13 @@ const olds = [], way = blind || (dir < 0 ? "roll_dn" : "roll_up");   // (blind "
 for (const id of live.keys()) olds.push(id);
 for (let i = 0; i < els.length; i++) els[i].z_index -= 40;   // lifted one band above; it belongs one band under
 band -= 40;
-await post(inOrder(els, 1).map((el) => wire(el, OFF, 0)));
-await post(els.map((el) => wire(el)));
+const whole = (await postAll(inOrder(els, 1).map((el) => wire(el, OFF, 0)))) && (await postAll(els.map((el) => wire(el))));
 const t0 = Date.now();
 await post([cardAnim("zz_c1", way + "_in", 0)]);
 await sleep(D.roll - 30 - (Date.now() - t0));     // the request below needs about that long to take effect
 await drop(olds);
-remember(els);
+if (whole) remember(els);
+else await show(els, true);
 await post([cardAnim("zz_c2", way + "_out", 0), cardAnim("zz_c1", way + "_in", OFF)]);
 await sleep(D.roll + 50);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -454,6 +461,7 @@ const FINAL_STAY = 20000;           // ms the final of the game on show stays be
 const TIMEOUT_MS = 120000;          // how long a timeout usually takes on air; only used for the estimate
 const HALFTIME_MS = 13 * 60000;     // an NFL halftime (the title game's is about twice that); estimate only
 const SOON_MS = 3600000;            // from this long before kick-off a game counts as "on"
+let downStays = false;              // setting "Down & distance" = always: it keeps its row, clock and quarter take turns
 let teamsAsText = !!D.lettersOnly;  // the two teams as their three letters instead of their logos
 let TEAMS = ["CHI"];                // followed teams, first one first (set from the app's "My team" setting)
 let gameIndex = 0;                  // which game of the playlist is next; carries on from one visit to the next
@@ -518,12 +526,62 @@ return (r && r.summary) || "";
 }
 const hits = { on: true,            // setting "Big play effects"
 wait: null };                     // { kind, team, who, rank, id, at }: a sign that waits for the page loop
-const RANK = { sack: 1, fumble: 2, int: 2, two: 3, safety: 3, fg: 3, td: 4, ot: 5, final: 6 };
+const RANK = { kick: 0, sack: 1, fumble: 2, int: 2, two: 3, safety: 3, fg: 3, td: 4, ot: 5, final: 6 };
 const SIGN_GAP = D.signGap || 20000;             // ms between two signs that are not points (test builds: shorter)
 function wantSign(g, kind, team, who) {
-if (!hits.on || g.id !== mainId || (!team && RANK[kind] < RANK.ot)) return;
+if (!hits.on || g.id !== mainId || (!team && RANK[kind] < RANK.ot && kind !== "kick")) return;
 if (!hits.wait || RANK[kind] >= hits.wait.rank) {
-hits.wait = { kind: kind, team: team, who: who, rank: RANK[kind], id: g.id, at: Date.now() };
+const s = { kind: kind, team: team, who: who, rank: RANK[kind], id: g.id, at: Date.now(), asked: true };
+hits.wait = s;
+if (team && kind !== "kick" && !(who && who.num) && !g.fakeWho) {      // who it was: from the play-by-play
+s.asked = false;
+lookWho(s);
+}
+}
+}
+async function lookWho(s) {
+try {
+const base = "/v2/sports/football/leagues/nfl/events/" + s.id + "/competitions/" + s.id + "/plays?limit=";
+const n = Number((await getJsonAny(LIST_HOSTS, base + "1")).count) || 0;
+if (!n) return;
+const per = 6, page = Math.ceil(n / per);
+let items = (await getJsonAny(LIST_HOSTS, base + per + "&page=" + page)).items || [];
+if (items.length < 4 && page > 1) {
+items = ((await getJsonAny(LIST_HOSTS, base + per + "&page=" + (page - 1))).items || []).concat(items);
+}
+const want = { td: /touchdown/i, fg: /field goal/i, safety: /safety/i, two: /two.point|2.point|touchdown/i, int: /intercept/i,
+fumble: /fumble/i, sack: /sack/i }[s.kind];
+let play = null;
+for (let i = items.length - 1; i >= 0 && !play; i--) {
+const type = String((items[i].type && items[i].type.text) || "");
+if (want.test(type) && !(s.kind === "fg" && /missed|blocked/i.test(type))) play = items[i];
+}
+if (!play) return;
+const order = { td: ["scorer", "rusher", "receiver"], fg: ["scorer", "kicker"], two: ["patScorer", "scorer"] }[s.kind] || [];
+const parts = play.participants || [];
+let ref = "";
+for (let k = 0; k < order.length && !ref; k++) {
+for (let i = 0; i < parts.length && !ref; i++) {
+if (parts[i].type === order[k] && parts[i].athlete) ref = String(parts[i].athlete.$ref || "");
+}
+}
+let who = null;
+if (ref) {
+const a = await getJson(ref.replace(/^http:/, "https:").split("?")[0]);
+const name = String(a.lastName || a.displayName || "").toUpperCase().replace(/[^A-Z0-9 -]/g, "");
+if (name) who = { num: String(a.jersey || ""), name: name, first: String(a.firstName || "").charAt(0).toUpperCase() };
+}
+if (!who) who = whoOf(s.kind, { text: play.text });      // a turnover, a sack: the name in the play's own words
+if (!who) return;
+const m = /(\d+)\s*Yd\.?\s*([A-Za-z]+)/.exec(String(play.shortText || ""));
+if (m && (s.kind === "td" || s.kind === "fg")) {
+const w = m[2].toLowerCase();
+who.what = m[1] + " YD " + (w === "field" ? "FG" : w === "pass" ? "PASS" : w === "rush" || w === "run" ? "RUSH" : "RETURN");
+}
+s.who = who;
+} catch (err) {
+} finally {
+s.asked = true;
 }
 }
 function whoOf(kind, lp) {
@@ -534,7 +592,7 @@ const last = (m) => (m ? m[m.length - 1] : null);
 let name = null;
 if (kind === "int") name = last(/INTERCEPTED by\s*([A-Z]+-)?[A-Z][a-z]?[a-z]?\.\s?([A-Z][A-Za-z-]+)/.exec(text));
 else if (kind === "fumble") name = last(/RECOVERED by\s*([A-Z]+-)?[A-Z][a-z]?[a-z]?\.\s?([A-Z][A-Za-z-]+)/i.exec(text));
-else if (kind === "sack") name = last(/sacked[^()]*\(\s*[A-Z][a-z]?[a-z]?\.\s?([A-Z][A-Za-z-]+)/.exec(text));
+else if (kind === "sack") name = last(/sacked[^()]*\(\s*(sack split by\s*)?[A-Z][a-z]?[a-z]?\.\s?([A-Z][A-Za-z-]+)/.exec(text));
 else if (kind === "fg") name = last(/[A-Z][a-z]?[a-z]?\.\s?([A-Z][A-Za-z-]+)\s+\d+ yard field goal/.exec(text));
 else {                                       // points: the receiver of a pass, else whoever carried the ball
 const seg = text.split("TOUCHDOWN")[0].split("PENALTY on")[0];
@@ -551,11 +609,18 @@ return parts.length > 1 ? parts.slice(1).join(" ") : parts.join(" ");
 let pick = null;
 for (let i = 0; i < list.length && !pick; i++) {
 const fam = plain(family(list[i].displayName || list[i].fullName || list[i].shortName));
-if (name ? fam && fam === plain(name) : i === 0) pick = list[i];
+if (name ? fam && fam === plain(name) : i === 0 && RANK[kind] >= RANK.two) pick = list[i];
 }
 if (!pick && !name) return null;
 const shown = pick ? family(pick.displayName || pick.fullName || pick.shortName) || name : name;
-return { num: pick ? String(pick.jersey || "") : "", name: String(shown || "").toUpperCase().replace(/[^A-Z0-9 -]/g, "") };
+let first = pick ? String(pick.displayName || pick.fullName || pick.shortName || "").charAt(0) : "";
+if (!first && name) {
+const at = text.indexOf("." + name) !== -1 ? text.indexOf("." + name) : text.indexOf(". " + name);
+const head = at > 0 ? /([A-Z])[a-z]?[a-z]?$/.exec(text.slice(0, at)) : null;
+if (head) first = head[1];
+}
+return { num: pick ? String(pick.jersey || "") : "", name: String(shown || "").toUpperCase().replace(/[^A-Z0-9 -]/g, ""),
+first: /[A-Za-z]/.test(first) ? first.toUpperCase() : "" };
 } catch (err) {
 return null;                                 // a name is a bonus: never in the way of the scores
 }
@@ -573,6 +638,17 @@ const kind = gain >= 6 ? "td" : gain === 3 ? "fg" : gain === 2 ? (/safety/.test(
 if (kind) return wantSign(g, kind, team, g.fakeWho || whoOf(kind, lp));
 }
 if (!g.play || g.play === before.play) return;
+if (/kickoff/.test(g.last.toLowerCase())) {    // a kick-off: the film, the ball's way over the field, and after it
+const has = g.poss ? g[g.poss] : null;       // who has the ball and where
+const who = has && g.ball ? { name: has + " BALL", what: "AT " + g.ball, team: has } : null;
+const m = /kicks (\d+) yards from ([A-Z]+) (\d+)/.exec(String(g.fakeKick || (lp && lp.text) || ""));
+if (who && m && typeof g.spot === "number") {
+const right = m[2] !== g.home;             // kicked by the away side: towards the right
+const from = right ? Number(m[3]) : 100 - Number(m[3]);
+who.kick = { from: from, land: Math.max(-4, Math.min(104, from + (right ? 1 : -1) * Number(m[1]))), spot: g.spot };
+}
+return wantSign(g, "kick", null, who);
+}
 const has = g.poss ? g[g.poss] : null, other = g.poss === "away" ? g.home : g.poss === "home" ? g.away : null;
 if (/intercept/.test(play)) wantSign(g, "int", has, g.fakeWho || whoOf("int", lp));
 else if (/fumble/.test(play) && g.poss !== before.poss) wantSign(g, "fumble", has, g.fakeWho || whoOf("fumble", lp));
@@ -596,6 +672,7 @@ down_text: sit.shortDownDistanceText || "", distance: sit.distance, redzone: !!s
 poss: null, spot: null,
 status: st.type.name || "", last: (sit.lastPlay && sit.lastPlay.type && sit.lastPlay.type.text) || "",
 to_a: sit.awayTimeouts, to_h: sit.homeTimeouts,          // timeouts each side has left (3 at the start of a half)
+ball: String(sit.possessionText || ""),                  // where the ball is, as the feed writes it: "DET 25"
 play: String((sit.lastPlay && sit.lastPlay.id) || ""), timeout_by: null, timeout_since: 0, at: Date.now(),
 };
 if (/timeout/i.test(g.last)) {                 // "Timeout #2 by GB at 03:12.": who called it (else: officials / TV)
@@ -846,10 +923,17 @@ const m = /^\s*(\d)\w*\s*&\s*(\w+)/.exec(s || "");
 if (!m) return "";
 return m[1] + "&" + (m[2][0].toLowerCase() === "g" ? "G" : m[2]);
 }
-function flowHead(width) {
+function flowHead(width, team) {
 const k = 0.5 + 0.5 * Math.sin(Date.now() / 1800 * 2 * Math.PI);
 const hex = (v) => ("0" + Math.round(v).toString(16).toUpperCase()).slice(-2);
-return "! XPM2\n" + width + " 1 8 1\na c #1F6B36\nb c #2E8F4C\nc c #49C473\nd c #8CF0AE\ne c #" + hex(96 + 159 * k) +
+let tones = "a c #1F6B36\nb c #2E8F4C\nc c #49C473\nd c #8CF0AE";
+const col = team && D.team[team];
+if (col) {
+const v = [parseInt(col.slice(1, 3), 16), parseInt(col.slice(3, 5), 16), parseInt(col.slice(5, 7), 16)];
+const tone = (dark, light) => "#" + hex(v[0] * dark + 255 * light) + hex(v[1] * dark + 255 * light) + hex(v[2] * dark + 255 * light);
+tones = "a c " + tone(0.38, 0) + "\nb c " + tone(0.6, 0) + "\nc c " + tone(0.85, 0.05) + "\nd c " + tone(0.6, 0.4);
+}
+return "! XPM2\n" + width + " 1 8 1\n" + tones + "\ne c #" + hex(96 + 159 * k) +
 hex(10 + 34 * k) + hex(14 + 30 * k) + "\nf c #C85A5A\ng c #F08C8C\nh c #FFD0D0\n";
 }
 function field(els, p, g, phase, at) {
@@ -866,7 +950,7 @@ const behind = bx !== null && step !== 0 && (x - bx) * step < 0;         // the 
 const k = phase === undefined || phase === null || !behind ? 9 : mod(phase - i * step, 9);   // a bright head every
 cells += k < 3 ? (inRed ? "hgf" : "dcb")[k] : inRed ? "e" : "a";                           // 9 pixels, its tail behind
 }
-els.push({ id: p + "f", type: "xpmbitmap", x: 4, y: 15, align: "top_left", timeout: T, data: flowHead(64) + cells,
+els.push({ id: p + "f", type: "xpmbitmap", x: 4, y: 15, align: "top_left", timeout: T, data: flowHead(64, null) + cells,              // (the grass stays green: Dennis, 26 Nov)
 z_index: 1 });
 els.push(bar(p + "za", 1, 15, 3, 1, teamColour(g.away), 1), bar(p + "zh", 68, 15, 3, 1, teamColour(g.home), 1));
 if (bx === null) return;
@@ -956,7 +1040,8 @@ els.push(bar(p + "za", 1, 15, 3, 1, teamColour(g.away), 1), bar(p + "zh", 68, 15
 bar(p + "hb0", 4, 15, 64, 1, "#FFFFFF1C", 1));
 if (left > 0) {
 const sec = Math.floor(left / 1000);
-els.push(bar(p + "hb1", 4, 15, Math.max(1, Math.round(64 * left / HALFTIME_MS)), 1, "#45E06FB0", 2),
+els.push({ id: p + "hfg", type: "animation", path: "animations/flow_g.anim", x: 4, y: 15, align: "top_left", loop: true,
+section: "n" + Math.max(1, Math.min(32, Math.ceil(32 * left / HALFTIME_MS))), timeout: STILL, z_index: 2, _w: 64 },
 text(p + "m1", "Half", "small", 36, -1, LIVE, "top_mid"),
 text(p + "m2", Math.floor(sec / 60) + ":" + pad2(sec % 60), "small", 36, 6, SOFT, "top_mid"));
 } else {
@@ -967,17 +1052,25 @@ return els;
 const down = shortDown(g.down_text);
 const showDown = down !== "" && Math.floor(Date.now() / 1000) % 8 >= 5;     // the clock mostly, the down for a moment
 const left = timeoutLeft(g);
-if (left > 0) {                                // a timeout is on: "T/O" over an estimated countdown
-const sec = Math.floor(left / 1000);
-els.push(text(p + "m1", "T/O", "small", 36, -1, DOWN, "top_mid"),
-text(p + "m2", Math.floor(sec / 60) + ":" + pad2(sec % 60), "small", 36, 6, WHITE, "top_mid"));
+if (left > 0) {                                // a timeout is on: the clock and the quarter take turns on top, and
+const own = g.timeout_by === "away" || g.timeout_by === "home";
+const showQ = Math.floor(Date.now() / 1000) % 4 >= 2;
+els.push(text(p + "m1", showQ ? (g.period > 4 ? "OT" : "Q" + Math.max(1, g.period)) : g.clock, "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
+text(p + "m2", own ? "T/O" : "TV", "small", 36, 6, own ? DOWN : SOFT, "top_mid"));
 } else if (/DELAY|SUSPEND/.test(g.status)) {   // stopped by the weather or the like: "Delay" over the quarter
 els.push(text(p + "m1", "Delay", "small", 36, -1, DOWN, "top_mid"),
 text(p + "m2", g.period > 4 ? "OT" : "Q" + Math.max(1, g.period), "small", 36, 6, SOFT, "top_mid"));
 } else {
 const old = Date.now() - g.at > STALE_MS;    // no fresh numbers for a while: the quarter goes grey, the clock blank
-els.push(text(p + "m1", g.period > 4 ? "OT" : "Q" + Math.max(1, g.period), "small", 36, -1, old ? FAINT : LIVE, "top_mid"),
+const quarter = g.period > 4 ? "OT" : "Q" + Math.max(1, g.period);
+if (downStays && down !== "" && !old) {      // the down keeps the lower row; above it the clock, and for two
+const showQ = Math.floor(Date.now() / 1000) % 8 >= 6;                    // seconds in eight the quarter
+els.push(text(p + "m1", showQ ? quarter : g.clock, "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
+text(p + "m2", down, "small", 36, 6, DOWN, "top_mid"));
+} else {
+els.push(text(p + "m1", quarter, "small", 36, -1, old ? FAINT : LIVE, "top_mid"),
 text(p + "m2", old ? "--:--" : showDown ? down : g.clock, "small", 36, 6, showDown && !old ? DOWN : SOFT, "top_mid"));
+}
 }
 timeouts(els, p, g);
 field(els, p, g, phase, at);
@@ -1011,69 +1104,124 @@ const SIGN_Z = 2147480000;
 const run1 = (id, name) => '{"id":"' + id + '","type":"animation","path":"animations/' + name + '.anim","x":0,"y":0,' +
 '"align":"top_left","loop":false,"section":"default","timeout":20,"z_index":' + (SIGN_Z + 3) + "}";
 const SIGN_WORD = { td: "TOUCHDOWN", fg: "FIELD GOAL", safety: "SAFETY", two: "2 POINTS", int: "PICKED OFF", fumble: "FUMBLE", sack: "SACK" };
+const FILM_HOME = { td: 1, fg: 1, two: 1, safety: 1, who: 1 };      // films with a second cut for the team on the right
 async function playSign(s) {
-if (!s.team) {                                 // FINAL, OVERTIME: nobody's - a whole picture, no plate, no player
-busy = true;
-try {
-await post([run1("zz_s9", "sign_" + s.kind)]);
-await sleep(D.sign[s.kind] + 1300);
-await post([cardAnim("zz_c1", "roll_up_in", 0)]);
-await sleep(D.roll - 30);
-await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_s9"] }));
-await post([cardAnim("zz_c2", "roll_up_out", 0), cardAnim("zz_c1", "roll_up_in", OFF)]);
-await sleep(D.roll + 50);
-await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
-} finally {
-busy = false;
-}
-return;
-}
-const plate = { id: "zz_s0", type: "rectangle", x: 0, y: 0, width: 72, height: 16, fill: "solid",
-fill_colors: [(D.plate[s.team] || "#4A5060") + "FF"], border_width: 0, timeout: T, z_index: SIGN_Z };
-const shade = (D.shade[s.team] || "#101018") + "FF";
 const film = (id, name) => '{"id":"' + id + '","type":"animation","path":"animations/sign_' + name + '.anim","x":0,"y":0,' +
 '"align":"top_left","loop":false,"section":"default","timeout":20,"z_index":' + (SIGN_Z + 3) + "}";
-const ids = ["zz_s0", "zz_s9"];
+let ids = [];                                  // what of the sign is on screen
+const del = async (list) => {                  // (asking the bar to delete an element that is gone fails the whole request)
+const there = list.filter((id) => ids.indexOf(id) !== -1);
+ids = ids.filter((id) => there.indexOf(id) === -1);
+if (there.length) await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: there }));
+};
+const gm = games.get(s.id) || {};
 busy = true;
 try {
-await post([wire(plate, OFF, 0)]);
-const t0 = Date.now();
-await post([film("zz_s9", s.kind)]);
-await post([wire(plate)]);
-await sleep(D.sign[s.kind] + 600 - (Date.now() - t0));              // the word has landed and holds
-const who = s.who && s.who.name ? s.who : null;
-if (who) {
-const words = [], put = (id, str, font, x, y, colour) => {
-words.push({ id: id + "s", type: "text", text: str, font: font, x: x + 1, y: y + 1, align: "top_left", color: shade,
-timeout: T, z_index: SIGN_Z + 6 }, { id: id, type: "text", text: str, font: font, x: x, y: y, align: "top_left",
-color: colour, timeout: T, z_index: SIGN_Z + 7 });
-};
-let x = 4;
-if (who.num) {                             // the number on a dark patch at the left
-const w = textWidth(who.num, "bold");
-words.push({ id: "zz_s1", type: "rectangle", x: 2, y: 2, width: w + 5, height: 12, fill: "solid", fill_colors: [shade],
-border_width: 0, timeout: T, z_index: SIGN_Z + 5 });
-put("zz_s2", who.num, "bold", 5, 4, WHITE);
-x = w + 11;
+let team = s.team, rounds = 2;               // a team's sign runs twice: the word, who it was, and both again
+if (!team) {                                 // FINAL, OVERTIME, KICKOFF: nobody's - a whole picture, no plate
+await post([run1("zz_s9", "sign_" + s.kind)]);
+ids.push("zz_s9");
+await sleep(D.sign[s.kind] + (s.kind === "kick" ? 300 : 1300));
+team = s.kind === "kick" && s.who ? s.who.team : null;      // after a kick-off: who has the ball, and where
+rounds = 1;
+if (team && s.who.kick) {
+const k = s.who.kick, px = (yd) => Math.max(1, Math.min(69, 4 + Math.round(yd * 63 / 100)));
+const dot = (id, x, y, w, h, colour, zi) => '{"id":"' + id + '","type":"rectangle","x":' + x + ',"y":' + y + ',"width":' + w +
+',"height":' + h + ',"fill":"solid","fill_colors":["' + colour + '"],"border_width":0,"timeout":' + T + ',"z_index":' + (SIGN_Z + zi) + "}";
+const x0 = px(k.from), x1 = px(k.land), x2 = px(k.spot);
+await post(['{"id":"zz_k0","type":"image","path":"images/turf.png","x":0,"y":0,"align":"top_left","timeout":' + T +
+',"z_index":' + (SIGN_Z + 4) + "}", dot("zz_k1", 0, 0, 4, 16, teamColour(gm.away), 5), dot("zz_k2", 68, 0, 4, 16, teamColour(gm.home), 5),
+dot("zz_k4", x0, 13, 2, 1, "#00000090", 6), dot("zz_k3", x0, 11, 2, 2, "#FFFFFFFF", 7)]);
+ids.push("zz_k0", "zz_k1", "zz_k2", "zz_k3", "zz_k4");
+await del(["zz_s9"]);
+await sleep(350);
+const hops = 14;                         // the flight: up to the top rows and down again
+for (let i = 1; i <= hops; i++) {
+const t = i / hops, x = Math.round(x0 + (x1 - x0) * t), y = Math.round(11 - 9 * Math.sin(Math.PI * t));
+await post([dot("zz_k4", x, 13, 2, 1, "#00000090", 6), dot("zz_k3", x, y, 2, 2, "#FFFFFFFF", 7)]);
+await sleep(25);
 }
-let name = who.name;
-while (name.length > 1 && smallWidth(name) > 70 - x) name = name.slice(0, -1);
-put("zz_s3", name, "small", x, 1, WHITE);
-put("zz_s4", SIGN_WORD[s.kind], "small", x, 8, "#FFFFFFB0");
+await sleep(250);
+const carried = teamColour(team), steps = Math.max(1, Math.min(12, Math.abs(x2 - x1)));
+for (let i = 1; i <= steps; i++) {       // carried back, in the colour of the team that caught it
+const x = Math.round(x1 + (x2 - x1) * i / steps);
+await post([dot("zz_k4", x, 13, 2, 1, "#00000090", 6), dot("zz_k3", x, 11, 2, 2, carried, 7)]);
+await sleep(45);
+}
+for (let i = 0; i < 4; i++) {            // down: the ball blinks where the next play starts
+await post([dot("zz_k3", x2, 11, 2, 2, i % 2 ? carried : "#FFFFFFFF", 7), dot("zz_k5", x2, 1, 1, 14, i % 2 ? "#FFD21A60" : "#FFD21AE0", 6)]);
+if (i === 0) ids.push("zz_k5");
+await sleep(200);
+}
+}
+}
+if (team) {
+const right = team === gm.home;            // the team on the right: everything the other way round
+const flip = (name) => name + (right && FILM_HOME[name] ? "_h" : "");
+const plate = { id: "zz_s0", type: "rectangle", x: 0, y: 0, width: 72, height: 16, fill: "solid",
+fill_colors: [(D.plate[team] || "#4A5060") + "FF"], border_width: 0, timeout: T, z_index: SIGN_Z + (s.team ? 0 : 8) };
+const shade = (D.shade[team] || "#101018") + "FF";
+const up = s.team ? 0 : 8;                 // (after a kick-off the card lies above the field)
+let names = [], card = "";                 // the writing of the last "who it was", and its film
+await post([wire(plate, OFF, 0)]);
+ids.push("zz_s0");
+for (let r = 0; r < rounds; r++) {
+let word = "";
+if (s.team) {                            // the word comes down
+const t0 = Date.now();
+word = "zz_s7" + r;
+await del(names);                      // (the writing lies above the films)
+await post([film(word, flip(s.kind))]);
+ids.push(word);
+if (r === 0) await post([wire(plate)]);
+if (card) await del([card]);
+await sleep(D.sign[s.kind] + 600 - (Date.now() - t0));        // the word has landed and holds
+for (let i = 0; i < 25 && !s.asked; i++) await sleep(100);     // ... a little longer while he is looked up
+}
+const who = s.who && s.who.name ? s.who : null;
+if (!who) {
+if (s.team) await sleep(700);
+break;
+}
+const words = [], put = (id, str, font, x, y, colour, align) => {
+words.push({ id: id + "s", type: "text", text: str, font: font, x: x + 1, y: y + 1, align: align || "top_left", color: shade,
+timeout: T, z_index: SIGN_Z + up + 6 }, { id: id, type: "text", text: str, font: font, x: x, y: y, align: align || "top_left",
+color: colour, timeout: T, z_index: SIGN_Z + up + 7 });
+};
+let room = 66, edge = right ? 67 : 4;    // columns for the writing; where it starts (or, on the right, ends)
+if (who.num) {
+const w = textWidth(who.num, "bold"), x0 = right ? 64 - w : 2;
+words.push({ id: "zz_s1", type: "rectangle", x: x0, y: 2, width: w + 6, height: 11, radius: 3, fill: "solid",
+fill_colors: [shade], border_width: 0, timeout: T, z_index: SIGN_Z + up + 5 });
+put("zz_s2", who.num, "bold", x0 + 3, 2, WHITE);
+edge = right ? x0 - 5 : w + 12;
+room = right ? edge - 2 : 70 - edge;
+}
+let name = who.first ? who.first + ". " + who.name : who.name;
+if (smallWidth(name) > room && who.first) name = who.first + "." + who.name;
+if (smallWidth(name) > room) name = who.name;
+while (name.length > 1 && smallWidth(name) > room) name = name.slice(0, -1);
+put("zz_s3", name, "small", edge, 0, WHITE, right ? "top_right" : "top_left");            // rows 1-5, and under it rows 8-12
+put("zz_s4", who.what || SIGN_WORD[s.kind], "small", edge, 7, "#FFFFFFB0", right ? "top_right" : "top_left");
 const t1 = Date.now();
-await post([film("zz_s8", "who")]);        // its first frames are white: the change underneath is not seen
-await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_s9"] }));
-ids.pop();                                 // (asking the bar to delete an element that is gone fails the whole request)
+card = "zz_s8" + r;
+if (s.team) {
+await post([film(card, flip("who"))]); // its first frames are white: the change underneath is not seen
+} else {                                 // after the kick-off: above the field
+await post(['{"id":"' + card + '","type":"animation","path":"animations/sign_' + flip("who") + '.anim","x":0,"y":0,' +
+'"align":"top_left","loop":false,"section":"default","timeout":20,"z_index":' + (SIGN_Z + up + 3) + "}", wire(plate)]);
+}
+ids.push(card);
+if (word) await del([word]);
 await post(words.map((el) => wire(el)));
-for (let i = 0; i < words.length; i++) ids.push(words[i].id);
-ids.push("zz_s8");
+names = words.map((el) => el.id);
+for (let i = 0; i < names.length; i++) ids.push(names[i]);
 await sleep(D.sign.who - 100 - (Date.now() - t1));
-} else {
-await sleep(700);
+}
 }
 await post([cardAnim("zz_c1", "roll_up_in", 0)]);
 await sleep(D.roll - 30);
-await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ids }));
+await del(ids.slice());
 await post([cardAnim("zz_c2", "roll_up_out", 0), cardAnim("zz_c1", "roll_up_in", OFF)]);
 await sleep(D.roll + 50);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -1095,6 +1243,7 @@ shown = games.get(onScreen) || undefined;
 }
 }
 let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
+const seen = { id: null, poss: null, period: 0, to: false };     // the game on show as it was a moment ago
 scoresUp = true;
 try {
 while (!stopped && (solo || stay(end))) {
@@ -1151,6 +1300,7 @@ const next = lift(gameEls(game, pp), pp, z);
 if (how === "open" || how === "close") await shutter(how, next);
 else if (how === "roll") await roll(next, dir);
 else if (how === "flip") await roll(next, 1, "flip");           // OK: only the two marks turn over
+else if (how === "mid") await roll(next, 1, "mid");             // a new quarter, a timeout: only the middle
 else await slide(next, dir);
 z = bandOf(pp);                          // a roll puts the strip under the old one: its band is not the asked one
 }
@@ -1172,12 +1322,38 @@ kickId = game.id;
 const go = game && kickId === game.id && game.state === "in" && !tour;
 kickId = null;
 if (go) {
-await show(lift(gameEls(game, pp), pp, z));    // the game is there when the card has gone
-await notice("kick", 1800);
+await show(lift(gameEls(game, pp), pp, z));    // the game is there when the film has gone
+signAt = t0;
+await playSign({ kind: "kick", team: null, who: null, asked: true });
 ctl.turn = 0;
 ctl.ok = ctl.start = false;
 continue;
 }
+}
+if (game && game.state === "in" && !tour) {
+const to = timeoutLeft(game) > 0, was = seen.id === game.id;
+const swapped = was && game.poss && seen.poss && game.poss !== seen.poss;
+const turned = was && (game.period !== seen.period || (to && !seen.to));
+seen.id = game.id;
+seen.poss = game.poss || seen.poss;
+seen.period = game.period;
+seen.to = to;
+if (turned) {
+redo = true;
+how = "mid";
+jump = game;
+break;
+}
+if (swapped && !hits.wait && hits.on) {
+await show(lift(gameEls(game, pp), pp, z));
+await post(['{"id":"zz_w","type":"animation","path":"animations/swap_' + (game.poss === "away" ? "r" : "l") +
+'.anim","x":0,"y":0,"align":"top_left","loop":false,"section":"default","timeout":5,"z_index":' + (SIGN_Z + 2) + "}"]);
+await sleep(D.swap + 60);
+await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_w"] }));
+continue;
+}
+} else {
+seen.id = null;
 }
 if (hits.wait) {                       // a sign: only over the game the app stays on, and not too often
 const s = hits.wait;
@@ -1310,6 +1486,7 @@ gameIndex = 0;                               // the new team's game comes up nex
 }
 onlyMine = values.games === "mine";
 hits.on = values.effects !== false;            // "Big play effects": the signs for touchdowns and the like
+downStays = values.down === "always";          // "Down & distance": it stays, clock and quarter take turns
 if (seenTeams !== values.teams) {              // the setting is the starting state; the knob overrides it until
 seenTeams = values.teams;                    // the app is closed or the setting is changed
 teamsAsText = values.teams === "text" || !!D.lettersOnly;

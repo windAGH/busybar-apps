@@ -297,6 +297,15 @@ async function post(parts) {
   return got.ok;
 }
 
+/** Sends elements in requests of at most `n` (the bar refuses a request that is too long). False if one was refused. */
+async function postAll(parts, n) {
+  let ok = true;
+  for (let i = 0; i < parts.length; i += n || 8) {
+    if (!(await post(parts.slice(i, i + (n || 8))))) ok = false;
+  }
+  return ok;
+}
+
 async function drop(ids) {
   for (let i = 0; i < ids.length; i++) {
     live.delete(ids[i]);
@@ -480,13 +489,16 @@ async function roll(els, dir, blind) {
     for (const id of live.keys()) olds.push(id);
     for (let i = 0; i < els.length; i++) els[i].z_index -= 40;   // lifted one band above; it belongs one band under
     band -= 40;
-    await post(inOrder(els, 1).map((el) => wire(el, OFF, 0)));
-    await post(els.map((el) => wire(el)));
+    // In pieces of eight elements: both steps are out of sight (off-screen, then under the page on screen), and the
+    // bar refuses a request that is too long - a whole in-game strip in one request is. If a piece is refused all the
+    // same, the page is not taken as being on screen: it is drawn afresh below, piece by piece.
+    const whole = (await postAll(inOrder(els, 1).map((el) => wire(el, OFF, 0)))) && (await postAll(els.map((el) => wire(el))));
     const t0 = Date.now();
     await post([cardAnim("zz_c1", way + "_in", 0)]);
     await sleep(D.roll - 30 - (Date.now() - t0));     // the request below needs about that long to take effect
     await drop(olds);
-    remember(els);
+    if (whole) remember(els);
+    else await show(els, true);
     await post([cardAnim("zz_c2", way + "_out", 0), cardAnim("zz_c1", way + "_in", OFF)]);
     await sleep(D.roll + 50);
     await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -1512,6 +1524,7 @@ async function hoopsPage(p, enter) {
   // the carousel ({ list, k, why: "auto" nothing is on | "start" }), a game a control asked for, since when the
   // game on show has been over, and when the last sign was shown
   let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
+  const seen = { id: null, period: 0, to: false };       // the game on show as it was a moment ago
   scoresUp = true;
   try {
     while (!stopped) {
@@ -1559,6 +1572,7 @@ async function hoopsPage(p, enter) {
         if (how === "open" || how === "close") await shutter(how, next);
         else if (how === "roll") await roll(next, dir);
       else if (how === "flip") await roll(next, 1, "flip");           // OK: only the two marks turn over
+      else if (how === "mid") await roll(next, 1, "mid");             // a new quarter, a timeout: only the middle
         else await slide(next, dir);
         z = bandOf(pp);                          // a roll puts the strip under the old one: its band is not the asked one
       }
@@ -1585,6 +1599,23 @@ async function hoopsPage(p, enter) {
             ctl.ok = ctl.start = false;
             continue;
           }
+        }
+        // A new quarter, or a timeout just called, in the game on show: the middle turns over. (The ball changing
+        // hands gets nothing here: in basketball it does so every few seconds.)
+        if (game && game.state === "in" && !tour) {
+          const to = !!game.timeout_by, was = seen.id === game.id;
+          const turned = was && (game.period !== seen.period || (to && !seen.to));
+          seen.id = game.id;
+          seen.period = game.period;
+          seen.to = to;
+          if (turned) {
+            redo = true;
+            how = "mid";
+            jump = game;
+            break;
+          }
+        } else {
+          seen.id = null;
         }
         if (pendingSign) {                       // a sign: only over the game the app stays on, and not too often
           const s = pendingSign;

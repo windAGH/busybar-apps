@@ -175,6 +175,22 @@
           "label": "Letters"
         }
       ]
+    },
+    "down": {
+      "label": "Down & distance",
+      "type": "enum",
+      "default": "turns",
+      "description": "Always: the down (2&7) stays on screen, and the clock and the quarter take turns above it.",
+      "options": [
+        {
+          "value": "turns",
+          "label": "Takes turns with the clock"
+        },
+        {
+          "value": "always",
+          "label": "Always on screen"
+        }
+      ]
     }
   }
 }

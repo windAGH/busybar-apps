@@ -32,7 +32,7 @@ function topRight(q, now) {
  *  `still`: numbers that are not fresh - the arrow is faint and does not nod. */
 export function arrowAt(q, now) {
   const pct = pctOf(q, ui.span);
-  if (!q.open || !pct || topRight(q, now) !== pct) return null;
+  if (!(q.open || (q.ext && ui.span === 0)) || !pct || topRight(q, now) !== pct) return null;
   const st = D.style[kindOf(q, ui.span)], stale = staleOf(q);
   return { x: 69 - smallWidth(pct) - 6, up: rising(q, ui.span), colour: stale ? st.faintLine : st.line, still: stale };
 }
@@ -42,6 +42,7 @@ export function arrowAt(q, now) {
  *  the numbers are old. Grey while there is no change to go by. */
 function nameColour(q, stale) {
   if (!q.has || !q.views[ui.span].has || !pctOf(q, ui.span)) return SOFT;
+  if (q.ext && ui.span === 0) return D.style[kindOf(q, 0)].name;
   const st = D.style[rising(q, ui.span) !== cfg.redUp ? "up" : "down"];
   return q.open && !stale ? st.name : st.nameDim;
 }
@@ -82,6 +83,10 @@ export function cardEls(q, pp, nod, now) {
   }
   const ar = arrowAt(q, now);
   if (ar) arrow(els, pp, ar.x, ar.up, ar.colour, nod);
+  if (q.has && q.ext && ui.span === 0 && top) {  // which session: a sun coming up (before the opening), a moon (after the close)
+    els.push({ id: pp + "x", type: "xpmbitmap", x: X0 + 3, y: 1, align: "top_left", timeout: STILL, z_index: z + 5,
+      data: "! XPM2\n5 5 2 1\n. c none\na c #7FA2FF\n" + (q.ext === "pre" ? "a.a.a\n.aaa.\naaaaa\n.....\naaaaa" : ".aaa.\naaa..\naa...\naaa..\n.aaa.") });
+  }
   for (let i = left; i < els.length; i++) els[i]._on = i < right ? "L" : "R";
   return els;
 }
@@ -89,7 +94,7 @@ export function cardEls(q, pp, nod, now) {
 /** What a card is as a whole: which box, of which span. When this changes the card is exchanged in one step, not
  *  piece by piece. */
 export function lookOf(q) {
-  return (q.has ? kindOf(q, ui.span) : "none" + q.views[0].fails) + ui.span + (q.views[ui.span].has ? "+" : "-") + (staleOf(q) ? "!" : "");
+  return (q.has ? kindOf(q, ui.span) + q.ext : "none" + q.views[0].fails) + ui.span + (q.views[ui.span].has ? "+" : "-") + (staleOf(q) ? "!" : "");
 }
 
 /** What a card says besides: when only this changes, the elements that differ are sent. */
