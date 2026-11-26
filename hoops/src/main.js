@@ -473,10 +473,10 @@ async function change(els, dir, light) {
 //   4. the old page is taken away behind it,
 //   5. the blind runs on out of the screen (roll_<up|dn>_out.anim).
 // dir 1 = upwards, -1 = downwards.
-async function roll(els, dir) {
+async function roll(els, dir, blind) {
   busy = true;
   try {
-    const olds = [], way = dir < 0 ? "roll_dn" : "roll_up";
+    const olds = [], way = blind || (dir < 0 ? "roll_dn" : "roll_up");   // (blind "flip": over the two marks only)
     for (const id of live.keys()) olds.push(id);
     for (let i = 0; i < els.length; i++) els[i].z_index -= 40;   // lifted one band above; it belongs one band under
     band -= 40;
@@ -626,7 +626,7 @@ const unbind = listen("input", (event) => {
 //   encoder  next / previous game that is on (sideways). While the carousel runs by a press of Start: through it.
 //            With nothing on, a turn only says so ("NO GAMES ON RIGHT NOW").
 //   Start    the carousel, one round, between the two title cards; Start again = back to the game at once, behind the closing card.
-//   OK       to the followed team's game, if it is on.
+//   OK       teams as jerseys over their letters <-> as their three letters alone (until the app is closed).
 //   Back     ends the app.
 //   Signs (setting "Big play signs"), only for the game the app stays on: 3 POINTER (and, when the feed names him,
 //   who shot it: his number and name on the same plate), a run of eight and more, a change of lead, OVERTIME, FINAL.
@@ -641,6 +641,7 @@ const HALFTIME_MS = 15 * 60000;     // an NBA halftime; estimate only
 const SOON_MS = 3600000;            // from this long before tip-off a game counts as "on"
 const RUN_SHOWN = 6, RUN_SIGN = 8;  // unanswered points from which a run is written in the middle / gets its sign
 const SIGN_GAP = 20000;             // ms between two signs at least (FINAL and OVERTIME always come)
+let teamsAsText = false;            // the two teams as their three letters alone, without the jersey (OK switches it)
 let TEAMS = ["NYK"];                // the followed team (the app's "My team" setting)
 let scoresUp = false;               // the strip is on screen (live games are then refreshed faster)
 let onlyMine = false;               // true: only the followed team's game, on the days it has one
@@ -902,6 +903,8 @@ function followed(g) {
 /** How long a game's data stays good. */
 function goodFor(g) {
   if (g.state === "in") return scoresUp && (g.id === mainId || g.id === onScreen) ? 8000 : 30000;
+  // about to start, or due and the feed still says "to come": looked at often, so that the start is seen at once
+  if (g.state === "pre" && scoresUp && !off(g) && g.start - Date.now() < 120000 && Date.now() - g.start < 1800000) return 10000;
   if (g.state !== "post" && Math.abs(g.start - Date.now()) < 4 * 3600000) return 60000;
   return g.state === "post" ? 1800000 : 600000;
 }
@@ -1104,7 +1107,7 @@ function lineColour(code) {
  *  A team the build does not know gets the plain grey mark and its letters from the feed. */
 function cap(els, id, code, side, strong) {
   const known = !!D.team[code];
-  els.push(image(id, "images/team_" + (known ? code : "XXX") + "_" + side + (strong ? 1 : 0) + ".png", side === "a" ? 0 : 42, 0, 0, 30));
+  els.push(image(id, "images/team_" + (known ? code : "XXX") + "_" + side + (strong ? 1 : 0) + (teamsAsText ? "t" : "") + ".png", side === "a" ? 0 : 42, 0, 0, 30));
   if (!known) els.push(text(id + "n", code.slice(0, 3), "small", side === "a" ? 7 : 65, 8, "#ECEEF2FF", "top_mid"));
 }
 
@@ -1300,16 +1303,27 @@ function gameEls(g, p) {
   }
   if (soon(g)) {
     // The last hour before tip-off: the in-game layout already, 0 - 0 in faint white, "Tip" over a countdown to
-    // the scheduled time, and the bottom line growing from the middle as the tip-off comes nearer.
+    // the scheduled time, and the bottom line: the hour that is left as ONE length, shrinking from both ends towards the middle.
+    // Green, with a light running along each half to the middle (flow_g.anim), down to five minutes before; then
+    // what is left of it in the middle turns orange and breathes slowly (the clock turns orange too), and in the
+    // last minute red, breathing fast.
     const left = Math.max(0, Math.floor((g.start - Date.now()) / 1000));
+    const hot = left <= 60 ? "#FF4A3AFF" : left <= 300 ? "#FF9A1AFF" : null;
+    const part = Math.min(1, left * 1000 / SOON_MS);          // one scale for the whole hour
     if (left > 0) {
       els.push(text(p + "m1", "Tip", "small", 36, 0, LIVE, "top_mid"),
-        text(p + "m2", Math.floor(left / 60) + ":" + pad2(left % 60), "small", 36, 7, WHITE, "top_mid"));
+        text(p + "m2", Math.floor(left / 60) + ":" + pad2(left % 60), "small", 36, 7, hot || WHITE, "top_mid"));
     } else {
       els.push(text(p + "m1", "Soon", "small", 36, 4, LIVE, "top_mid"));     // due, and the feed has not started it yet
     }
     els.push(score(p + "sa", 0, 0, "#666666", false), score(p + "sh", 0, 1, "#666666", false));
-    midLine(els, p, Math.max(0.01, 1 - Math.min(1, left * 1000 / SOON_MS)), "#45E06FB0");
+    midLine(els, p, 0);                          // (the faint track)
+    if (left > 0) {
+      const c = left <= 60 ? "r" : left <= 300 ? "o" : "g";
+      els.push({ id: p + "hf" + c, type: "animation", path: "animations/flow_" + c + ".anim", x: LINE_X, y: 15, align: "top_left",
+        loop: true, section: "n" + Math.max(1, Math.min(LINE_HALF, Math.ceil(LINE_HALF * part))), timeout: STILL, z_index: 2,
+        _w: 2 * LINE_HALF });
+    }
     return els;
   }
   if (g.state === "pre") {
@@ -1497,7 +1511,7 @@ async function hoopsPage(p, enter) {
   }
   // the carousel ({ list, k, why: "auto" nothing is on | "start" }), a game a control asked for, since when the
   // game on show has been over, and when the last sign was shown
-  let tour = null, jump = null, finalSince = 0, signAt = 0;
+  let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
   scoresUp = true;
   try {
     while (!stopped) {
@@ -1544,6 +1558,7 @@ async function hoopsPage(p, enter) {
         const next = lift(gameEls(game, pp), pp, z);
         if (how === "open" || how === "close") await shutter(how, next);
         else if (how === "roll") await roll(next, dir);
+      else if (how === "flip") await roll(next, 1, "flip");           // OK: only the two marks turn over
         else await slide(next, dir);
         z = bandOf(pp);                          // a roll puts the strip under the old one: its band is not the asked one
       }
@@ -1558,6 +1573,19 @@ async function hoopsPage(p, enter) {
         const t0 = Date.now();
         if (game) game = shown = games.get(game.id) || game;
         main = games.get(mainId) || null;
+        if (game && soon(game)) {                // the game on show is counting down to its start ...
+          kickId = game.id;
+        } else {                                 // ... and has started: a card comes down and says so
+          const go = game && kickId === game.id && game.state === "in" && !tour;
+          kickId = null;
+          if (go) {
+            await show(lift(gameEls(game, pp), pp, z));      // the game is there when the card has gone
+            await notice("kick", 1800);
+            ctl.turn = 0;
+            ctl.ok = ctl.start = false;
+            continue;
+          }
+        }
         if (pendingSign) {                       // a sign: only over the game the app stays on, and not too often
           const s = pendingSign;
           pendingSign = null;
@@ -1571,19 +1599,13 @@ async function hoopsPage(p, enter) {
             continue;
           }
         }
-        if (ctl.ok) {                            // OK: to the followed team's game
+        if (ctl.ok) {                            // OK: jerseys <-> letters only, at once
           ctl.ok = false;
-          const mine = allGames().filter((g) => isOn(g) && followed(g))[0];
-          if (!mine) {
-            await notice("mine");
-            ctl.turn = 0;
-          } else if (tour || mine.id !== mainId) {
-            if (tour && tour.why !== "auto") tour = null;
-            mainId = mine.id;
-            finalSince = 0;
-            how = "side";
-            break;
-          }
+          teamsAsText = !teamsAsText;
+          redo = true;
+          how = "flip";
+          if (game) jump = game;
+          break;
         }
         if (ctl.start) {                         // Start: the carousel / straight back to the game
           ctl.start = false;

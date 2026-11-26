@@ -35,7 +35,7 @@ The apps are plain JavaScript and use no library: they talk to the bar's HTTP AP
 ## Notes
 
 - The data sources are unofficial public endpoints (ESPN for Gameday and Hoops; Yahoo Finance and CNBC for Stocks). They need no key and can change without notice.
-- Gameday and Hoops carry no league or team logos: teams are drawn as a generic helmet (Gameday) or jersey (Hoops) in the team's colours over its three letters.
+- Gameday shows each team as a small pixel drawing of its mark, made by hand for this app (the branch `no-logos` has the app with a plain helmet in the team's colours instead). Hoops draws a plain jersey in the team's colours over its three letters.
 - Not affiliated with or endorsed by the NFL, the NBA, ESPN, Yahoo, CNBC or Flipper.
 
 ## License

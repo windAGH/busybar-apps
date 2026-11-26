@@ -136,13 +136,45 @@
           "label": "Commanders"
         }
       ],
-      "description": "The app starts on its game. Press the knob to jump to it."
+      "description": "Its game comes first, and stays up while it is being played."
     },
     "effects": {
       "label": "Big play effects",
       "type": "boolean",
       "default": true,
       "description": "Signs for touchdowns, field goals, turnovers and sacks, with the player's number and name when the feed gives them."
+    },
+    "games": {
+      "label": "Show",
+      "type": "enum",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "All games"
+        },
+        {
+          "value": "mine",
+          "label": "My team only"
+        }
+      ],
+      "description": "My team only: the app keeps to my team's games when it has one this week."
+    },
+    "teams": {
+      "label": "Show teams as",
+      "type": "enum",
+      "default": "logos",
+      "description": "Pressing the knob switches it while the app runs.",
+      "options": [
+        {
+          "value": "logos",
+          "label": "Logos"
+        },
+        {
+          "value": "text",
+          "label": "Letters"
+        }
+      ]
     }
   }
 }

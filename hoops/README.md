@@ -17,13 +17,13 @@ While a game is on, the app stays on one game: your team's if it is on, otherwis
 ## Controls
 
 - **Wheel**: the next or the previous game that is on.
-- **OK** (press the wheel): jump to your team's game. If it is not on, a card says so.
-- **Start**: a look around the league: the other games that are on, the finished ones, the ones to come, and back to your game. Start again goes straight back.
+- **OK** (press the wheel): the teams as jerseys over their letters, or as their three letters alone in tall capitals.
+- **Start**: a look around the league: the other games that are on, the finished ones, the ones to come, and back to your game. Start again goes back at once, behind a BACK TO LIVE card.
 - **Back**: exit.
 
 ## Settings
 
-- **My team**: one of the 30 teams. The app starts on its game, and OK jumps to it.
+- **My team**: one of the 30 teams. The app starts on its game.
 - **Show**: all games, or my team only on the days it plays.
 - **Big play signs**: on or off.
 
