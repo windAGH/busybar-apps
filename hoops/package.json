@@ -1,0 +1,22 @@
+{
+  "name": "hoops",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NBA game night on the BUSY Bar: live score strips with timeouts, runs, fouls and tip-off countdowns.",
+  "author": "Dennis Zhang",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "busy-cli build",
+    "app:install": "busy-cli app install",
+    "app:uninstall": "busy-cli app uninstall",
+    "app:run": "busy-cli app run",
+    "app:stop": "busy-cli app stop"
+  },
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "devDependencies": {
+    "@busy-app/cli": "^0.6.0"
+  }
+}

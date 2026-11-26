@@ -1,0 +1,148 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "team": {
+      "label": "My team",
+      "type": "enum",
+      "default": "CHI",
+      "options": [
+        {
+          "value": "ARI",
+          "label": "Cardinals"
+        },
+        {
+          "value": "ATL",
+          "label": "Falcons"
+        },
+        {
+          "value": "BAL",
+          "label": "Ravens"
+        },
+        {
+          "value": "BUF",
+          "label": "Bills"
+        },
+        {
+          "value": "CAR",
+          "label": "Panthers"
+        },
+        {
+          "value": "CHI",
+          "label": "Bears"
+        },
+        {
+          "value": "CIN",
+          "label": "Bengals"
+        },
+        {
+          "value": "CLE",
+          "label": "Browns"
+        },
+        {
+          "value": "DAL",
+          "label": "Cowboys"
+        },
+        {
+          "value": "DEN",
+          "label": "Broncos"
+        },
+        {
+          "value": "DET",
+          "label": "Lions"
+        },
+        {
+          "value": "GB",
+          "label": "Packers"
+        },
+        {
+          "value": "HOU",
+          "label": "Texans"
+        },
+        {
+          "value": "IND",
+          "label": "Colts"
+        },
+        {
+          "value": "JAX",
+          "label": "Jaguars"
+        },
+        {
+          "value": "KC",
+          "label": "Chiefs"
+        },
+        {
+          "value": "LAC",
+          "label": "Chargers"
+        },
+        {
+          "value": "LAR",
+          "label": "Rams"
+        },
+        {
+          "value": "LV",
+          "label": "Raiders"
+        },
+        {
+          "value": "MIA",
+          "label": "Dolphins"
+        },
+        {
+          "value": "MIN",
+          "label": "Vikings"
+        },
+        {
+          "value": "NE",
+          "label": "Patriots"
+        },
+        {
+          "value": "NO",
+          "label": "Saints"
+        },
+        {
+          "value": "NYG",
+          "label": "Giants"
+        },
+        {
+          "value": "NYJ",
+          "label": "Jets"
+        },
+        {
+          "value": "PHI",
+          "label": "Eagles"
+        },
+        {
+          "value": "PIT",
+          "label": "Steelers"
+        },
+        {
+          "value": "SEA",
+          "label": "Seahawks"
+        },
+        {
+          "value": "SF",
+          "label": "49ers"
+        },
+        {
+          "value": "TB",
+          "label": "Buccaneers"
+        },
+        {
+          "value": "TEN",
+          "label": "Titans"
+        },
+        {
+          "value": "WSH",
+          "label": "Commanders"
+        }
+      ],
+      "description": "The app starts on its game. Press the knob to jump to it."
+    },
+    "effects": {
+      "label": "Big play effects",
+      "type": "boolean",
+      "default": true,
+      "description": "Signs for touchdowns, field goals, turnovers and sacks, with the player's number and name when the feed gives them."
+    }
+  }
+}

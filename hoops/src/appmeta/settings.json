@@ -1,0 +1,156 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "team": {
+      "label": "My team",
+      "type": "enum",
+      "default": "NYK",
+      "description": "Its game comes first, and stays up while it is being played.",
+      "options": [
+        {
+          "value": "PHI",
+          "label": "76ers"
+        },
+        {
+          "value": "MIL",
+          "label": "Bucks"
+        },
+        {
+          "value": "CHI",
+          "label": "Bulls"
+        },
+        {
+          "value": "CLE",
+          "label": "Cavaliers"
+        },
+        {
+          "value": "BOS",
+          "label": "Celtics"
+        },
+        {
+          "value": "LAC",
+          "label": "Clippers"
+        },
+        {
+          "value": "MEM",
+          "label": "Grizzlies"
+        },
+        {
+          "value": "ATL",
+          "label": "Hawks"
+        },
+        {
+          "value": "MIA",
+          "label": "Heat"
+        },
+        {
+          "value": "CHA",
+          "label": "Hornets"
+        },
+        {
+          "value": "UTA",
+          "label": "Jazz"
+        },
+        {
+          "value": "SAC",
+          "label": "Kings"
+        },
+        {
+          "value": "NYK",
+          "label": "Knicks"
+        },
+        {
+          "value": "LAL",
+          "label": "Lakers"
+        },
+        {
+          "value": "ORL",
+          "label": "Magic"
+        },
+        {
+          "value": "DAL",
+          "label": "Mavericks"
+        },
+        {
+          "value": "BKN",
+          "label": "Nets"
+        },
+        {
+          "value": "DEN",
+          "label": "Nuggets"
+        },
+        {
+          "value": "IND",
+          "label": "Pacers"
+        },
+        {
+          "value": "NOP",
+          "label": "Pelicans"
+        },
+        {
+          "value": "DET",
+          "label": "Pistons"
+        },
+        {
+          "value": "TOR",
+          "label": "Raptors"
+        },
+        {
+          "value": "HOU",
+          "label": "Rockets"
+        },
+        {
+          "value": "SAS",
+          "label": "Spurs"
+        },
+        {
+          "value": "PHX",
+          "label": "Suns"
+        },
+        {
+          "value": "OKC",
+          "label": "Thunder"
+        },
+        {
+          "value": "MIN",
+          "label": "Timberwolves"
+        },
+        {
+          "value": "POR",
+          "label": "Trail Blazers"
+        },
+        {
+          "value": "GSW",
+          "label": "Warriors"
+        },
+        {
+          "value": "WAS",
+          "label": "Wizards"
+        }
+      ]
+    },
+    "games": {
+      "label": "Show",
+      "type": "enum",
+      "default": "all",
+      "description": "My team only: the app keeps to my team's game on the days it plays.",
+      "options": [
+        {
+          "value": "all",
+          "label": "All games"
+        },
+        {
+          "value": "mine",
+          "label": "My team only"
+        }
+      ]
+    },
+    "effects": {
+      "label": "Big play signs",
+      "type": "boolean",
+      "default": true,
+      "description": "Threes, runs, lead changes, overtime and the final buzzer of the game on show."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "symbols": {
+      "label": "Stocks",
+      "type": "string",
+      "default": "AAPL, TSLA, NVDA, BTC-USD",
+      "min_length": 0,
+      "max_length": 80,
+      "description": "Ticker symbols separated by commas, e.g. AAPL, TSLA, NVDA, BTC-USD"
+    },
+    "pace": {
+      "label": "Time per stock",
+      "type": "enum",
+      "default": "normal",
+      "options": [
+        {
+          "value": "short",
+          "label": "Short"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "long",
+          "label": "Long"
+        }
+      ],
+      "description": "Short 4 s, Normal 6 s, Long 10 s."
+    },
+    "colors": {
+      "label": "Colours",
+      "type": "enum",
+      "default": "green_up",
+      "options": [
+        {
+          "value": "green_up",
+          "label": "Green up"
+        },
+        {
+          "value": "red_up",
+          "label": "Red up"
+        }
+      ],
+      "description": "Green up (the US way): a rise is green, a fall is red - the box and the ticker's name. Red up: the other way round, as in East Asia."
+    }
+  }
+}
