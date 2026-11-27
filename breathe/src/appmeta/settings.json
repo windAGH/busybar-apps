@@ -1,0 +1,37 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "words": {
+      "label": "Words",
+      "type": "boolean",
+      "default": true,
+      "description": "IN, HOLD and OUT appear with the first three breaths of a session."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    },
+    "pattern": {
+      "label": "Start with",
+      "type": "enum",
+      "default": "calm",
+      "options": [
+        {
+          "value": "calm",
+          "label": "Calm (7 breaths a minute, purple)"
+        },
+        {
+          "value": "box",
+          "label": "Box (in 4, hold 4, out 4, hold 4, gold)"
+        },
+        {
+          "value": "sleep",
+          "label": "Sleep (in 4, hold 7, out 8, teal)"
+        }
+      ]
+    }
+  }
+}
