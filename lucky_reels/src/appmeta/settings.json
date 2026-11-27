@@ -1,0 +1,24 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "quick": {
+      "label": "Quick spins",
+      "type": "boolean",
+      "default": false,
+      "description": "The reels stop sooner."
+    },
+    "guide": {
+      "label": "Guide at start",
+      "type": "boolean",
+      "default": true,
+      "description": "Shows the controls at every start until the first press."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Clears everything this app has kept and starts fresh. Cannot be undone. Switch on, then off again."
+    }
+  }
+}
