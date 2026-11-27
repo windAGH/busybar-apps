@@ -6,6 +6,8 @@ Small text files the Flight app fetches once, after it has been installed, and k
 - `g<k>.txt`: the positions of 600 airports, six characters each: (latitude + 90) x 100 and (longitude + 180) x 100, each as three digits in base 36.
 - `a<c>.txt`: 64 airports, one line each: IATA code (3 characters), clock (2: minutes ahead of UTC on the day the set was built, plus 720, divided by 15, in base 36), country (2 letters), city.
 
+- `l<X>.txt`: the airports whose code starts with the letter X, the busiest first: three digits in base 36 each, the airport's place in the table (0 = the first line of `a0.txt`).
+
 The airports are in the order of how many destinations they serve, the busiest first.
 
 ## Sources and licence
