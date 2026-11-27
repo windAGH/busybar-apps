@@ -1,0 +1,56 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "surprises": {
+      "label": "Surprises",
+      "type": "enum",
+      "default": "rare",
+      "description": "How often something that is not luggage comes down the belt.",
+      "options": [
+        {
+          "value": "rare",
+          "label": "Rare (one in eight)"
+        },
+        {
+          "value": "often",
+          "label": "Often (one in three)"
+        },
+        {
+          "value": "only",
+          "label": "Only surprises"
+        }
+      ]
+    },
+    "light": {
+      "label": "Light",
+      "type": "enum",
+      "default": "clock",
+      "description": "The hall's light: by the bar's clock (bright by day, dim and quiet at night), or always the same.",
+      "options": [
+        {
+          "value": "clock",
+          "label": "By the clock"
+        },
+        {
+          "value": "day",
+          "label": "Always day"
+        },
+        {
+          "value": "dusk",
+          "label": "Always evening"
+        },
+        {
+          "value": "night",
+          "label": "Always night"
+        }
+      ]
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}

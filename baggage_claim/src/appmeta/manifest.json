@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "io.github.windagh.baggage_claim",
+  "name": "Baggage Claim",
+  "version": "1.0.0",
+  "api_version": "27.15.0",
+  "author": "Dennis Zhang",
+  "heap_size_kib": 256
+}

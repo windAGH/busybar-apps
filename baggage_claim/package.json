@@ -1,0 +1,22 @@
+{
+  "name": "baggage_claim",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An airport's baggage belts on the BUSY Bar, seen from above: luggage of every kind rides past, and now and then something that is not luggage.",
+  "author": "Dennis Zhang",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "busy-cli build",
+    "app:install": "busy-cli app install",
+    "app:uninstall": "busy-cli app uninstall",
+    "app:run": "busy-cli app run",
+    "app:stop": "busy-cli app stop"
+  },
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "devDependencies": {
+    "@busy-app/cli": "^0.6.0"
+  }
+}
