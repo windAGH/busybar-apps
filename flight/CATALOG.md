@@ -4,35 +4,36 @@ A focus timer dressed as a flight. Choose the airport you are at, how long you w
 
 ## What you see
 
-- **The hall**: the city you are in, LOGBOOK under the top button and CHECK IN under the wheel.
-- **Check-in**, three pages on split-flap tiles: the departure airport, the flight time (15 minutes to 16 hours), and the airports about that long away, worked out from the real distance.
-- **The boarding pass** comes out like paper from a printer; then boarding and the take-off, and the camera closes in on a cabin window until you look out of it.
-- **In the air**, two pages take turns. The window: the wing with its light and the sky as it is where the aircraft is at that moment, with the sun and the moon where they stand, the moon in today's phase, stars at night, and clouds from the real weather there. The board: the route with the aircraft on it, the time and distance left, and the arrival time at the destination's clock.
-- **Landing**: fifteen minutes before, the seat-belt sign comes on with LANDING SOON. Then the window closes, the runway comes up, and a welcome with the local time. Time spent on pause shows as a delay.
+- **The hall**: the city you are in, LOGBOOK under START and CHECK IN under the knob.
+- **Check-in**, three pages on split-flap tiles: the departure airport, the flight time (15 minutes to 16 hours), and the airports about that far away by the real distance.
+- **The boarding pass** comes out like paper from a printer; then boarding, the take-off, and a cabin window to look out of.
+- **In the air**, two pages take turns. The window: the wing with its light and the sky as it is where the aircraft is at that moment: the sun and the moon where they stand, the moon in today's phase, stars at night, clouds from the real weather there. The board: the route, the time and distance left, and the arrival time by the destination's clock.
+- **Landing**: fifteen minutes before, the seat-belt sign comes on with LANDING SOON. Then the window closes, the runway comes up, and a welcome with the local time. A pause shows as a delay.
 - **The logbook** keeps your last 60 flights.
 
 A flight keeps running while the app is closed and is picked up when you open it again.
 
 ## Controls
 
-- **In the hall**: press the wheel to check in, the top button for the logbook, Back to exit.
-- **Check-in pages**: the wheel chooses, a press of the wheel goes on, Back goes one page back. The best-known airports come first.
-- **Find an airport by its letters**: on the departure page, press the top button. Turn the wheel for a letter, press for the next one; after the third the airport is looked up.
-- **Route and boarding pass**: the top button (or a press of the wheel) prints the pass, and then boards.
-- **In the air**: the wheel changes the page, a press keeps the page or lets the two take turns again, the top button pauses and resumes, Back asks whether to end the flight early.
+- **In the hall**: OK (a press of the knob) checks in, START (the big button on top) opens the logbook, BACK exits.
+- **Check-in pages**: turn the knob to choose, OK goes on, BACK goes one page back. The best-known airports come first.
+- **Find an airport by its letters**: on the departure page, press START. Turn the knob for a letter, OK for the next; after the third the airport is looked up.
+- **Route and boarding pass**: START (or OK) prints the pass, then boards.
+- **In the air**: turn the knob for the other page, OK keeps it or lets the two take turns again, START pauses and resumes, BACK asks whether to end the flight early.
 
 ## Settings
 
 - **Distance**: kilometres or miles.
 - **Real weather**: the clouds under the wing follow the weather where the flight is. Off: always a few clouds.
-- **Surprises**: now and then something that has no business up there drifts past the window.
+- **Surprises**: now and then something odd drifts past the window.
 - **True sun and moon**: off, they are in the window whenever they are above the horizon. On, only when they really stand on your side of the aircraft.
+- **Start over**: flip this switch, either way, to clear where you are, the logbook and a flight in the air. Each flip starts over once. The airports' files stay.
 
 ## Airports
 
 - 3,244 airports with scheduled flights. The busiest 512 are part of the app and work at once.
-- The others arrive on the first start: the app fetches 75 small text files (about 80 KB) from this app's repository on GitHub and keeps them in its own storage. This takes under a minute and you can already plan a flight meanwhile. Without a connection the app says so once and goes on with the 512.
-- Clocks use each airport's time zone as it was when the tables were built, so an arrival time can be an hour off after a change to or from summer time.
+- The others arrive on the first start: 75 small text files (about 80 KB), fetched from this app's repository on GitHub and kept in its storage. It takes under a minute; you can plan a flight meanwhile. Without a connection the app says so once and goes on with the 512.
+- Clocks use each airport's time zone as of the day the tables were built: after a change to or from summer time an arrival can be an hour off.
 
 ## Data and privacy
 

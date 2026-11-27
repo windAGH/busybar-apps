@@ -21,6 +21,7 @@ export const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, 
 // (Events as the bar sends them: { key: "encoder", action: "clockwise" | "counterclockwise", delta: 1 | -1 },
 //  { key: "ok" | "start" | "back", action: "press" | "short" | "release" }.)
 export const ctl = { held: false, turn: 0, start: false, ok: false };
+
 export let wake = null;
 
 /** Waits ms, or until a control is used. */

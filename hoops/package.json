@@ -1,7 +1,7 @@
 {
   "name": "hoops",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NBA game night on the BUSY Bar: live score strips with timeouts, runs, fouls and tip-off countdowns.",
   "author": "Dennis Zhang",
   "license": "MIT",

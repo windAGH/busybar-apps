@@ -74,8 +74,13 @@ export function cardEls(q, pp, nod, now) {
   const right = els.length;
   if (!q.has && q.views[0].fails) {              // nothing to show and the sources were asked: say why, quietly, in
     const lost = q.views[0].unknown;             // the empty box - what happened and what to do
-    els.push(still(text(pp + "e", lost ? "not found" : "no data", "small", X0 + 3, 0, D.style.shut.ink, "top_left", z + 5)),
-      still(text(pp + "f", lost ? "see Setup" : "retrying", "small", X0 + 3, 7, D.style.shut.faintInk, "top_left", z + 5)));
+    // Two short lines in the middle of the box, clear of its rim. The box is columns X0 - 71 and rows 0 - 15 with a
+    // rim one pixel wide; the upper line stands on rows 2-6, the lower one on rows 8-12 (a "p" or a "y" reaches down
+    // to row 13), and the widest of them, "see Setup" (33 columns), keeps a dark column either side: 37 - 69.
+    const one = lost ? "not found" : "no data", two = lost ? "see Setup" : "retrying";
+    const mid = (str) => X0 + 1 + ((70 - X0 - smallWidth(str)) >> 1);
+    els.push(still(text(pp + "e", one, "small", mid(one), 0, D.style.shut.ink, "top_left", z + 5)),
+      still(text(pp + "f", two, "small", mid(two), 6, D.style.shut.faintInk, "top_left", z + 5)));
   }
   if (top) {
     els.push(still(text(pp + "c", top, "small", 69 - smallWidth(top), 0, stale ? D.style[kind].faintInk : D.style[kind].ink,

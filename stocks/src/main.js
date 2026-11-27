@@ -25,6 +25,7 @@ import { dwell } from "./ticker.js";
 import { put } from "./card.js";
 import { parseSymbols } from "./format.js";
 import { cfg, quoteOf, quotes, quotesFeed, ui } from "./quotes.js";
+import { splash, splashEnd, splashOff } from "./draw.js";
 import { dataLoop, feeds } from "./net.js";
 import { ctl, loadSettings, report, run, sleep, wake, watchControls } from "./bar.js";
 import { D } from "./tables.js";
@@ -67,9 +68,11 @@ async function settingsFeed(now) {
 async function main() {
   watchControls();
   feeds.push(settingsFeed, quotesFeed);
-  await readSettings();
+  await splash(1);                               // the author's mark: while it plays the settings are read and the
+  await readSettings();                          // first quotes asked for
   settingsDue = Date.now() + 10000;
   dataLoop();
+  await splashEnd();
   let i = 0, shown = null;
   while (!run.stopped) {
     try {
@@ -85,6 +88,7 @@ async function main() {
       ui.onScreen = sym;
       if (shown !== sym) await put(q);
       shown = sym;
+      await splashOff();                         // (the first card lies over the film's last, black picture: it goes unseen)
       await dwell(q, sym);
     } catch (err) {
       report("stocks", err);

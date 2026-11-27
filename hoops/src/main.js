@@ -72,6 +72,7 @@ const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, ms)));
 // (Events as the bar sends them: { key: "encoder", action: "clockwise" | "counterclockwise", delta: 1 | -1 },
 //  { key: "ok" | "start" | "back", action: "press" | "short" | "release" }.)
 const ctl = { held: false, turn: 0, start: false, ok: false };
+let onBack = null;                  // an app may take the Back key itself: a function that returns true = "taken, the app goes on"
 let wake = null;
 
 /** Waits ms, or until a control is used. */
@@ -435,6 +436,40 @@ async function firstShow(els) {
   remember(els);
 }
 
+// ---------- the author's mark at the start ----------
+// The first thing an app draws: one film over the whole screen (animations/splash.anim: the mark fades in, stands
+// and fades out, and the film holds its last picture, which is black). While it plays the app reads its settings
+// and what it has kept, and asks for its first numbers; when its time is over the first page takes its place.
+//   splash(z) with a small z, for an app whose pages are solid and lie above it: the first page is drawn over the
+//   black picture like any page over the one before, and the film is taken away underneath, unseen;
+//   with a large z, for an app that changes its pages under a cover: the first page is put under the film, then
+//   the film is taken away.
+// Back during the film ends the app, as on the first page; whatever else was pressed or turned counts for nothing.
+const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
+let splashUp = 0;                   // when the film was sent; 0: none is on screen
+
+async function splash(z) {
+  await post(['{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":0,"y":0,"align":"top_left",' +
+    '"loop":false,"section":"default","timeout":60,"z_index":' + z + "}"]);
+  splashUp = Date.now();
+}
+
+/** Waits until the film has played (a moment more: the bar starts a film a little after it is asked to) - or until
+ *  Back has ended the app. A control that is used wakes the wait; it only looks at the clock again. */
+async function splashEnd() {
+  const end = splashUp + SPLASH_MS + 100;
+  while (splashUp && !stopped && Date.now() < end) await nap(end - Date.now());
+  ctl.turn = 0;
+  ctl.ok = ctl.start = false;
+}
+
+/** Takes the film away: called when the first page is on screen. */
+async function splashOff() {
+  if (!splashUp) return;
+  splashUp = 0;
+  await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_sp"] }));
+}
+
 // ---------- changing the whole picture: one page to the next, one game to the next ----------
 // The new page is one request, above the old page, drawn column by column in the direction `dir` (see the top of
 // this file): the old page is wiped away sideways at the pace at which the bar works through the request, about a
@@ -595,6 +630,10 @@ const unbind = listen("input", (event) => {
   if (stopped) return;
   if (event.key === "back") {
     if (event.action !== "short") return;
+    if (onBack && onBack()) {       // (Flight: a step back, or "end the flight?")
+      if (wake) wake();
+      return;
+    }
     stopped = true;                 // every loop ends at its next step; then nothing keeps the app alive
     setTimeout(unbind, 10);
   } else if (event.key === "encoder") {
@@ -1727,14 +1766,22 @@ feeds.unshift(async (now) => {
   return false;
 });
 
+/** The first strip is drawn over the last, black picture of the author's mark; then that film goes, unseen. */
+async function firstStrip(els) {
+  await firstShow(els);
+  await splashOff();
+}
+
 async function main() {
-  await syncTime();
+  await splash(1);                               // the author's mark: while it plays the clock and the settings are
+  await syncTime();                              // read and the first games asked for
   await readSettings();
   settingsDue = Date.now() + 10000;
   dataLoop();
+  await splashEnd();
   while (!stopped) {
     try {
-      await hoopsPage("p", (els) => firstShow(els));
+      await hoopsPage("p", firstStrip);
     } catch (err) {
       report("hoops", err);
       await sleep(500);

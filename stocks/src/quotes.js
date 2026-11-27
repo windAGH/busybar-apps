@@ -89,12 +89,15 @@ async function askChart(base, who, q, k) {
   // of "pre" is that session alone; the line of "post" is the day's regular session and, from column `split` on,
   // what has traded since the close. At any other time the line is the regular session's, as it always was.
   let ext = "", n0 = 0;
-  const day = [], late = [], early = [];
+  const day = [], late = [], early = [], old = [], oldAt = [];
   for (let i = 0; i < raw.length; i++) {
     if (typeof raw[i] !== "number") continue;
     const t = Number(stamps[i]) || 0;
     if (k !== 0 || allDay || !stamps.length || (t >= start && t < end)) day.push(raw[i]);
-    else if (t < start) early.push(raw[i]);
+    else if (t < pre0) {                         // older than today's sessions: the session before, still in the answer
+      old.push(raw[i]);
+      oldAt.push(t);
+    } else if (t < start) early.push(raw[i]);
     else late.push(raw[i]);
   }
   let closes = day, last = price, before = Number(m.chartPreviousClose || m.previousClose);
@@ -105,6 +108,11 @@ async function askChart(base, who, q, k) {
     ext = "post";
     closes = day.concat(late);
     n0 = day.length;
+  } else if (k === 0 && !allDay && !day.length && !early.length && !late.length && old.length) {
+    // The market's next day is announced before it has a single bar - the night and the morning before the
+    // opening, a weekend, a holiday: the hours in the answer are the new day's, the bars still the session's before.
+    // That session's regular hours stay in the box, as on the evening it closed: the slate box, its line, its change.
+    closes = sessionBefore(old, oldAt, start, traded);
   }
   if (ext) {                                     // the change of an extended session: against the last regular price
     before = price;
@@ -115,11 +123,23 @@ async function askChart(base, who, q, k) {
   let edge = 0;                                  // the next moment the market's state changes
   const edges = [pre0, start, end, post1];
   for (let i = 0; i < edges.length; i++) if (edges[i] > now && (!edge || edges[i] < edge)) edge = edges[i];
-  return { price: last, prev: before, closes: closes, start: start, ext: ext,
+  return { price: last, prev: before, closes: closes.length ? closes : null, start: start, ext: ext,    // (no bar at all: the line we had stays)
     split: ext && closes.length > 1 ? Math.round(n0 * (COLS - 1) / (closes.length - 1)) : 0,
     edge: allDay ? 0 : edge,
     allDay: allDay, hint: typeof m.priceHint === "number" ? Math.floor(m.priceHint) : 2,
     open: allDay ? now - traded < 1800 : now >= start && now < end && traded >= start - 60 };
+}
+
+/** The regular hours of the session before, out of bars that are older than today's sessions (`at`: when each began).
+ *  They began at the market's opening hour - today's, set back by whole days to the day of the last regular trade -
+ *  and ended with that trade: what came after it was that evening's extended session. */
+function sessionBefore(old, at, start, traded) {
+  const lastAt = at[at.length - 1];
+  const stop = traded >= at[0] && traded < start ? traded : lastAt + 1;
+  const from = start - Math.ceil((start - Math.min(stop, lastAt)) / 86400) * 86400;
+  let out = old.filter((v, i) => at[i] >= from && at[i] < stop);
+  if (!out.length) out = old.filter((v, i) => at[i] < stop);      // (hours that do not fit the guess: all of it up to the close)
+  return out.length ? out : old;
 }
 
 /** The symbol as CNBC writes it: BTC-USD -> BTC.CM=, BRK-B -> BRK.B, ^GSPC -> .SPX, EURUSD=X -> EUR=. */

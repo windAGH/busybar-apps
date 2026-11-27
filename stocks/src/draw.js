@@ -7,7 +7,7 @@
 //  - an element that is no longer sent disappears when its timeout runs out, and a screen with nothing on it turns
 //    into the bar's own "Loading..."  -> old elements are taken away only after the new ones are in place.
 
-import { APP, call, ctl, errs, report } from "./bar.js";
+import { APP, call, ctl, errs, nap, report, run } from "./bar.js";
 import { D } from "./tables.js";
 
 export const T = 20, STILL = 120;   // seconds an element lives without being sent again: moving parts, still parts
@@ -145,4 +145,38 @@ export async function show(els, partial) {
     if (!keep.has(id)) stale.push(id);
   }
   await drop(stale);
+}
+
+// ---------- the author's mark at the start ----------
+// The first thing an app draws: one film over the whole screen (animations/splash.anim: the mark fades in, stands
+// and fades out, and the film holds its last picture, which is black). While it plays the app reads its settings
+// and what it has kept, and asks for its first numbers; when its time is over the first page takes its place.
+//   splash(z) with a small z, for an app whose pages are solid and lie above it: the first page is drawn over the
+//   black picture like any page over the one before, and the film is taken away underneath, unseen;
+//   with a large z, for an app that changes its pages under a cover: the first page is put under the film, then
+//   the film is taken away.
+// Back during the film ends the app, as on the first page; whatever else was pressed or turned counts for nothing.
+const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
+let splashUp = 0;                   // when the film was sent; 0: none is on screen
+
+export async function splash(z) {
+  await post(['{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":0,"y":0,"align":"top_left",' +
+    '"loop":false,"section":"default","timeout":60,"z_index":' + z + "}"]);
+  splashUp = Date.now();
+}
+
+/** Waits until the film has played (a moment more: the bar starts a film a little after it is asked to) - or until
+ *  Back has ended the app. A control that is used wakes the wait; it only looks at the clock again. */
+export async function splashEnd() {
+  const end = splashUp + SPLASH_MS + 100;
+  while (splashUp && !run.stopped && Date.now() < end) await nap(end - Date.now());
+  ctl.turn = 0;
+  ctl.ok = ctl.start = false;
+}
+
+/** Takes the film away: called when the first page is on screen. */
+export async function splashOff() {
+  if (!splashUp) return;
+  splashUp = 0;
+  await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_sp"] }));
 }

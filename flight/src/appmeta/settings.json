@@ -34,6 +34,12 @@
       "type": "boolean",
       "default": false,
       "description": "Off: the sun and the moon are in the window whenever they are above the horizon. On: only when they really stand on your side of the aircraft, where they stand."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept. Each flip starts over once. Cannot be undone."
     }
   }
 }

@@ -313,6 +313,24 @@ async function firstShow(els) {
 await post(inOrder(els, 1).map((el) => wire(el)));
 remember(els);
 }
+const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
+let splashUp = 0;                   // when the film was sent; 0: none is on screen
+async function splash(z) {
+await post(['{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":0,"y":0,"align":"top_left",' +
+'"loop":false,"section":"default","timeout":60,"z_index":' + z + "}"]);
+splashUp = Date.now();
+}
+async function splashEnd() {
+const end = splashUp + SPLASH_MS + 100;
+while (splashUp && !stopped && Date.now() < end) await nap(end - Date.now());
+ctl.turn = 0;
+ctl.ok = ctl.start = false;
+}
+async function splashOff() {
+if (!splashUp) return;
+splashUp = 0;
+await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_sp"] }));
+}
 const timing = [];                  // measuring builds only: how long each step of the last changes took
 async function change(els, dir, light) {
 busy = true;
@@ -461,7 +479,8 @@ if (wake) wake();
 // ===== flight.js =====
 (function () {
 const AMBER = "#FFBE28FF", DIM = "#96681AFF", GREY = "#969CAAFF", INK = "#28221CFF", PAPER = "#F6ECD4FF";
-let N = Math.min(D.n, D.core.length * D.recPer);     // the airports in use: the built-in ones until all of them are in storage
+const BUILT_IN = Math.min(D.n, D.core.length * D.recPer);     // the airports that are in this script
+let N = BUILT_IN;                   // the airports in use: the built-in ones until all of them are in storage
 const RAD = Math.PI / 180;
 const FAST = D.fast || 1;           // test builds: a flight's clock runs this many times as fast
 const STEPS = [15, 20, 25, 30, 40, 45, 50, 60, 75, 90, 105, 120, 150, 180, 210, 240, 300, 360, 420, 480, 540, 600, 720, 840, 960];
@@ -534,6 +553,14 @@ places = {};
 placed = 0;
 return true;
 }
+async function geoOf(list) {
+for (let k = 0; k < list.length; k++) {
+const i = list[k], c = Math.floor(i / D.geoPer);
+if (typeof i !== "number" || i < BUILT_IN || i >= D.n) continue;          // (the built-in ones are there already)
+const s = await readAp("g" + c + ".txt"), at = (i - c * D.geoPer) * 6;
+if (s !== null && s.length >= at + 6) putGeo(i, s.slice(at, at + 6), 1);
+}
+}
 async function loadGeo() {
 const stamp = await readAp("v.txt");
 if (stamp === null || stamp.trim() !== D.stamp || !(await fillGeo())) return false;
@@ -542,6 +569,10 @@ whole = true;
 return true;
 }
 let geoReady = Promise.resolve();
+let fillStart = null;
+function fillNow() {
+if (fillStart) fillStart();
+}
 async function openAirports() {
 const stamp = await readAp("v.txt");
 geoX = numbers(D.n);
@@ -555,13 +586,18 @@ return;
 const builtIn = N;
 N = D.n;
 whole = true;
-geoReady = fillGeo().then((ok) => {
+geoReady = new Promise((done) => {
+fillStart = () => {
+fillStart = null;
+fillGeo().then((ok) => {
 if (ok) return;
-N = builtIn;                                 // a file is missing after all: the built-in airports, and fetch again
+N = builtIn;                             // a file is missing after all: the built-in airports, and fetch again
 whole = false;
 if (st.at >= N) st.at = 0;
 call("DELETE", "storage/remove?path=" + AP + "v.txt");
 fetchAirports();
+}).then(done, done);
+};
 });
 }
 async function fetchAirports() {
@@ -650,6 +686,7 @@ let reachKey = "", reachList = [];
 async function reach(from, min, patient) {
 const key = from + ":" + min;
 if (key === reachKey) return reachList;
+fillNow();
 await geoReady;
 const ok = Math.max(5, min * 0.07), x0 = geoX[from], y0 = geoY[from], z0 = geoZ[from], fit = [], best = [];
 const U2 = UNIT * UNIT, turnOf = (minutes) => Math.max(0, Math.min(Math.PI, (minutes - 12) * 13.6 / 6371));    // the angle flown in that time
@@ -734,6 +771,7 @@ st.at = kept.at;
 st.code = kept.code || "";
 st.log = kept.log && kept.log.length ? kept.log.slice(0, 60) : [];
 st.fly = kept.fly && kept.fly.to < N && kept.fly.from < N ? kept.fly : null;
+if (typeof kept.rs === "number") st.rs = kept.rs;
 }
 } catch (err) {
 }
@@ -742,12 +780,57 @@ function save() {
 if (recs[st.at]) st.code = code(st.at);        // (the table's order can change with a new set of airports: the letters stay)
 return call("POST", "storage/write?path=/ext/data/flight.json", JSON.stringify(st), "application/octet-stream");
 }
+let resetOn = null;                 // the switch "Start over" as last read (null: not read yet)
 async function readSettings() {
 const v = await loadSettings();
 units = v.units === "mi" ? "mi" : "km";
 weatherOn = v.weather !== false && !D.noWeather;
 eggsOn = v.eggs !== false;
 trueSky = v.sky === true;
+if (typeof v.reset === "boolean") resetOn = v.reset;
+}
+let settingsDue = 0;
+feeds.unshift(async (now) => {
+if (now < settingsDue) return false;
+settingsDue = now + 5000;
+await readSettings();
+if (resetWanted() && wake) wake();
+return false;
+});
+function resetWanted() {
+if (resetOn === null) return false;
+if (st.rs === undefined) {
+st.rs = resetOn ? 1 : 0;
+save();
+return false;
+}
+return (st.rs === 1) !== resetOn;
+}
+async function clearAll() {
+st.at = 0;
+st.code = "";
+st.log = [];
+st.fly = null;
+st.rs = resetOn ? 1 : 0;
+mode = "lobby";
+minutes = 60;
+cands = [];
+pick = logPick = late = lockPage = 0;
+locked = finding = findAsk = turned = false;
+findWord = "---";
+findAt = hintAt = eggDue = 0;
+egg = coverWanted = null;
+coverFor = ticketPic = "";
+toast = { word: "", until: 0 };
+logFrom = "lobby";
+for (const k in flaps) delete flaps[k];
+await need([0]);
+await save();
+}
+async function startOver() {
+await clearAll();
+await card("START OVER", "CLEARED", 1500);
+since = Date.now();
 }
 function rect(id, x, y, w, h, colour, z, radius) {
 const el = bar(id, x, y, w, h, colour, z);
@@ -1137,6 +1220,7 @@ if (k.turn || k.ok || k.start || k.back) since = Date.now();
 if (k.back) wentBack = true;
 return k;
 }
+const waiting = () => ctl.turn !== 0 || ctl.ok || ctl.start || backs > 0;
 onBack = () => {                                 // Back ends the app in the hall only; elsewhere it is a step back
 if (mode === "lobby") return false;
 backs++;
@@ -1168,6 +1252,7 @@ return true;
 });
 let onPage = "", wentBack = false;
 async function draw(key, els) {
+if (onPage === "" && splashUp) return firstPage(key, els);
 if (key === onPage || onPage === "") {
 onPage = key;
 return show(els);
@@ -1196,6 +1281,23 @@ ctl.ok = ctl.start = false;                  // a second press while the page wa
 }
 async function wipe(ids) {
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ids }));
+}
+let pre = [];
+async function premake(els) {
+await postAll(els.map((el) => wire(el, OFF, 0)));
+await postAll(els.map((el) => wire(el)));
+pre = els;
+}
+async function firstPage(key, els) {
+const have = {};
+for (let i = 0; i < pre.length; i++) have[pre[i].id] = 1;
+remember(pre);
+pre = [];
+if (els.some((el) => !have[el.id])) await show(els);       // (not quite the page that was made: the rest, still under the film)
+onPage = key;
+await splashOff();
+await show(els);
+fillNow();                                     // (a flight was picked up: now the positions of all the airports)
 }
 const TOP_Z = 2000000000;           // above every page: what covers the screen while a page is exchanged
 function over(id, name, z) {
@@ -1325,7 +1427,7 @@ if (turned) await flip("h", "h_at", shown, xs, 7, 8, findAt === 0 ? " gg" : find
 else flaps.h = shown;
 turned = false;
 await draw("home", findEls(findWord, findAt, blinkOn));
-await nap(open ? 450 : 30000);
+if (!waiting()) await nap(open ? 450 : 30000);       // (a turn that came while the tiles flipped is taken now)
 blinkOn = open ? !blinkOn : true;
 const k = keys();
 const touched = findAt > 0 || !open;
@@ -1334,7 +1436,8 @@ const from = open ? (k.turn > 0 ? -1 : 26) : ABC.indexOf(findWord.charAt(findAt)
 findWord = findWord.slice(0, findAt) + ABC.charAt(mod(from + k.turn, 26)) + findWord.slice(findAt + 1);
 turned = !open;
 blinkOn = true;
-}
+if (k.ok) ctl.ok = true;                   // pressed in the same breath: it counts for the letter turned to,
+}                                            // once that letter is on show (the next step)
 if ((k.back && findAt === 0) || k.start) {   // out of the search: asked first when letters would be lost
 if (touched) {
 findAsk = true;
@@ -1362,7 +1465,7 @@ await flip("h", "h_at", code(st.at), [TX("FROM"), TX("FROM") + 9, TX("FROM") + 1
 const age = Date.now() - hintAt, hinting = age < HINT_MS;       // the hint: in over 0.6 s, there, out over 0.6 s
 const glow = age < 600 ? age / 600 : age > HINT_MS - 600 ? (HINT_MS - age) / 600 : 1;
 await draw("home", airportEls("FROM", st.at, "", "", hinting ? Math.max(0.08, glow) : undefined));
-await nap(hinting ? 90 : 30000);
+if (!waiting()) await nap(hinting ? 90 : 30000);
 const k = keys();
 if (k.turn || k.ok || k.start || k.back) hintAt = 0;            // (touched: the city at once)
 if (k.turn) {
@@ -1421,7 +1524,7 @@ mode = "dest";
 const i = cands[pick];
 await flip("d", "d_at", code(i), [TX("TO"), TX("TO") + 9, TX("TO") + 18], 7, 8);
 await draw("dest", airportEls("TO", i, hm(Math.round(flightMin(km(st.at, i)) / 5) * 5)));
-await nap(30000);
+if (!waiting()) await nap(30000);
 const k = keys();
 if (k.turn) {
 const dir = k.turn > 0 ? 1 : -1;
@@ -1465,6 +1568,7 @@ since = Date.now();
 }
 } else if (mode === "fly") {
 const fl0 = flightNow();
+if (splashUp) await draw("fly0", windowEls(now));
 if (fl0.left <= 0) return arrive();
 if (!st.fly.warned && !st.fly.paused && fl0.left <= Math.min(900000, fl0.total / 4)) {
 st.fly.warned = 1;
@@ -1580,16 +1684,20 @@ async function tr(step) {
 if (D.trace) await call("POST", "storage/write?path=/ext/data/trace.txt&append=1", step + " " + Date.now() + "\n", "application/octet-stream");
 }
 async function main() {
+await splash(TOP_Z + 5);                       // the author's mark: all that follows is got ready while it plays
 await tr("main");
 await syncTime();
 await tr("time");
 await readSettings();
+settingsDue = Date.now() + 5000;
 await tr("settings");
 await openAirports();
 await load();
+const fresh = resetWanted();                   // "Start over" was flipped while the app was closed
+if (fresh) await clearAll();
+if (!st.fly) fillNow();                        // (a flight that is picked up: after its first page)
 await tr("airports");
 await need([st.at].concat(st.fly ? [st.fly.from, st.fly.to] : []));
-if (st.fly) await geoReady;                   // (a flight is picked up: its airports' positions are needed at once)
 const settle = async (i, letters) => {
 if (!letters || code(i) === letters) return i;
 const now = await findCode(letters);
@@ -1601,6 +1709,7 @@ st.at = await settle(st.at, st.code);
 if (st.fly) {
 st.fly.from = await settle(st.fly.from, st.fly.fc);
 st.fly.to = await settle(st.fly.to, st.fly.tc);
+await geoOf([st.fly.from, st.fly.to]);      // (a flight is picked up: its two airports' positions, at once)
 }
 await tr("names");
 if (st.fly) {
@@ -1608,17 +1717,19 @@ mode = "fly";
 cands = [st.fly.to];
 minutes = st.fly.min;
 }
+await premake(fresh ? cardEls("START OVER", "CLEARED") : !whole && !st.fly ? cardEls("MORE AIRPORTS", "LOADING")
+: st.fly ? windowEls(Date.now()) : lobbyEls());
+await splashEnd();                             // the film has played: the first page goes under it (firstPage)
+keys();                                        // (whatever was pressed during it counts for nothing)
+if (stopped) return;                           // (Back, in the hall's way: the app ends)
+if (fresh) await card("START OVER", "CLEARED", 1500);
 if (!whole && !st.fly) await card("MORE AIRPORTS", "LOADING", 1800);   // just installed: the built-in ones now, the rest is on its way
 since = Date.now();
 await tr("loop");
 dataLoop();
-let settingsDue = Date.now() + 10000;
 while (!stopped) {
 try {
-if (Date.now() >= settingsDue) {
-settingsDue = Date.now() + 10000;
-await readSettings();
-}
+if (resetWanted()) await startOver();      // "Start over" was flipped in the settings
 if (wholeReady && !whole) {                // the airports' files have all arrived: from now on, all the airports
 wholeReady = false;
 if (!(await loadGeo())) fetchAirports();

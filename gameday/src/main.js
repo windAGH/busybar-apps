@@ -22,6 +22,7 @@ let busy = false;                   // a change of page or of game is running: n
 let offline = false;                // the last request to the internet failed
 const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, ms)));
 const ctl = { held: false, turn: 0, start: false, ok: false };
+let onBack = null;                  // an app may take the Back key itself: a function that returns true = "taken, the app goes on"
 let wake = null;
 function nap(ms) {
 return new Promise((done) => {
@@ -311,6 +312,24 @@ async function firstShow(els) {
 await post(inOrder(els, 1).map((el) => wire(el)));
 remember(els);
 }
+const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
+let splashUp = 0;                   // when the film was sent; 0: none is on screen
+async function splash(z) {
+await post(['{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":0,"y":0,"align":"top_left",' +
+'"loop":false,"section":"default","timeout":60,"z_index":' + z + "}"]);
+splashUp = Date.now();
+}
+async function splashEnd() {
+const end = splashUp + SPLASH_MS + 100;
+while (splashUp && !stopped && Date.now() < end) await nap(end - Date.now());
+ctl.turn = 0;
+ctl.ok = ctl.start = false;
+}
+async function splashOff() {
+if (!splashUp) return;
+splashUp = 0;
+await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_sp"] }));
+}
 const timing = [];                  // measuring builds only: how long each step of the last changes took
 async function change(els, dir, light) {
 busy = true;
@@ -439,6 +458,10 @@ if (stopped) return;
 if (D.debug) console.log(APP + " input " + JSON.stringify(event));
 if (event.key === "back") {
 if (event.action !== "short") return;
+if (onBack && onBack()) {       // (Flight: a step back, or "end the flight?")
+if (wake) wake();
+return;
+}
 stopped = true;                 // every loop ends at its next step; then nothing keeps the app alive
 setTimeout(unbind, 10);
 } else if (event.key === "encoder") {
@@ -1501,14 +1524,20 @@ await readSettings();
 }
 return false;
 });
+async function firstStrip(els) {
+await firstShow(els);
+await splashOff();
+}
 async function main() {
-await syncTime();
+await splash(1);                               // the author's mark: while it plays the clock and the settings are
+await syncTime();                              // read and the first games asked for
 await readSettings();
 settingsDue = Date.now() + 10000;
 dataLoop();
+await splashEnd();
 while (!stopped) {
 try {
-await scoresPage(Infinity, "p", (els) => firstShow(els), true);
+await scoresPage(Infinity, "p", firstStrip, true);
 } catch (err) {
 report("scores", err);
 await sleep(500);
