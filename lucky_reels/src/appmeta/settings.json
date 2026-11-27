@@ -12,7 +12,7 @@
       "label": "Guide at start",
       "type": "boolean",
       "default": true,
-      "description": "Shows the controls at every start until the first press."
+      "description": "A short guide to the controls at every start: five pages you turn."
     },
     "reset": {
       "label": "Start over",

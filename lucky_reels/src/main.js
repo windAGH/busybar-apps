@@ -9,7 +9,7 @@
 // the settings and "Start over", the game page, the reels and how they stop, a win, the bet, the info pages, the
 // new game), then the start (the author's mark, the reels spinning in, the guide to the controls).
 
-const D = {"app":"io.github.windagh.lucky_reels","names":{"c":"cherry","l":"lemon","v":"clover","b":"bell","d":"diamond","7":"seven"},"rx":[17,30,43],"strips":["bclbclclcvdlbvc7lcdvlc","c7vcdcblclbvlcdclclvbl","bcvclcbc7clcbvldcvlcvl"],"pay":{"7":100,"d":50,"b":25,"v":15,"l":10,"c":5},"pair":2,"spin":800,"win":850,"roll":150,"coins":850,"jackpot":4700,"broke":3700,"splash":1500,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1},"smallGap":1,"bold":{"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"+":6,"-":3,"!":2},"xl":{"A":7,"B":7,"C":7,"D":7,"E":6,"F":6,"G":7,"H":7,"I":4,"J":6,"K":7,"L":6,"M":8,"N":7,"O":7,"P":7,"Q":7,"R":7,"S":7,"T":6,"U":7,"V":8,"W":8,"X":7,"Y":7,"Z":6,"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7,"+":6,"-":3,"!":2},"normal":{"A":5,"B":5,"C":5,"D":5,"E":5,"F":5,"G":5,"H":5,"I":3,"J":4,"K":5,"L":4,"M":7,"N":5,"O":5,"P":5,"Q":5,"R":5,"S":5,"T":5,"U":5,"V":5,"W":7,"X":5,"Y":5,"Z":5,"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5,"+":5,"-":3,"!":1}};
+const D = {"app":"io.github.windagh.lucky_reels","names":{"c":"cherry","l":"lemon","v":"clover","b":"bell","d":"diamond","7":"seven"},"rx":[17,30,43],"strips":["bclbclclcvdlbvc7lcdvlc","c7vcdcblclbvlcdclclvbl","bcvclcbc7clcbvldcvlcvl"],"pay":{"7":100,"d":50,"b":25,"v":15,"l":10,"c":5},"pair":2,"spin":800,"win":850,"roll":150,"coins":850,"jackpot":4700,"broke":3700,"guide":5,"splash":1500,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1},"smallGap":1,"bold":{"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"+":6,"-":3,"!":2},"xl":{"A":7,"B":7,"C":7,"D":7,"E":6,"F":6,"G":7,"H":7,"I":4,"J":6,"K":7,"L":6,"M":8,"N":7,"O":7,"P":7,"Q":7,"R":7,"S":7,"T":6,"U":7,"V":8,"W":8,"X":7,"Y":7,"Z":6,"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7,"+":6,"-":3,"!":2},"normal":{"A":5,"B":5,"C":5,"D":5,"E":5,"F":5,"G":5,"H":5,"I":3,"J":4,"K":5,"L":4,"M":7,"N":5,"O":5,"P":5,"Q":5,"R":5,"S":5,"T":5,"U":5,"V":5,"W":7,"X":5,"Y":5,"Z":5,"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5,"+":5,"-":3,"!":1}};
 const APP = D.app;
 const API = "http://localhost/api/";
 const OFF = 300;                    // where elements wait off-screen
@@ -18,11 +18,11 @@ const WHITE = "#FFFFFFFF";
 let stopped = false;
 let busy = false;                   // a change of page or a film is running
 const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, ms)));
-const ctl = { turn: 0, start: false, ok: false };
+const ctl = { turn: 0, start: false, ok: false, n: 0 };      // n: how many presses of OK or the top button (the guide counts them)
 let onBack = null;                  // a function that returns true = "taken, the app goes on"; otherwise Back ends the app
 let wake = null;
 function nap(ms) {
-if (ctl.turn || ctl.ok || ctl.start || stopped) return sleep(0);
+if (ctl.turn || ctl.ok || ctl.start || stopped || bookBacks) return sleep(0);
 return new Promise((done) => {
 const timer = setTimeout(() => {
 wake = null;
@@ -39,6 +39,7 @@ function report(what, err) {
 console.error(APP + ": " + what + ": " + (err && err.message ? err.message : String(err)));
 }
 async function call(method, path, body, type) {
+if (D.lag) await sleep(80 + Math.random() * 70);     // TEST builds (--lag): every request is held as long as the real bar holds it
 try {
 const init = body === undefined ? { method: method }
 : { method: method, headers: { "Content-Type": type || "application/json" }, body: body };
@@ -207,6 +208,51 @@ const el = film(id, name, 0, 0, z || TOP_Z, false);
 el.timeout = 30;
 return wire(el);
 }
+let bookAt = -1, bookBacks = 0;     // the page on show (-1: no guide); Back presses the guide has taken
+const pageEl = (i, on) => film("k_p" + i, "guide_" + i, on ? 0 : OFF, 0, 20, true);
+function bookEls(at) {
+const els = [];
+for (let i = 0; i < D.guide; i++) els.push(pageEl(i, i === at));
+return els;
+}
+function bookBack() {               // (for onBack) true: the guide has taken the key
+if (bookAt < 0) return false;
+if (bookAt === 0) return false;   // on the first page Back leaves the app
+bookBacks++;
+return true;
+}
+async function book(under) {
+if (!live.get("k_p0")) await put(bookEls(-1));
+bookAt = 0;
+onPage = "book";
+await put([pageEl(0, true)]);
+if (under) await wipe([under]);
+ctl.n = ctl.turn = bookBacks = 0;
+ctl.ok = ctl.start = false;
+let since = Date.now();                          // when the page on show came up
+while (!stopped) {
+await nap(50000);
+const steps = ctl.n + ctl.turn - bookBacks, any = ctl.n || ctl.turn || bookBacks;
+ctl.n = ctl.turn = bookBacks = 0;
+ctl.ok = ctl.start = false;
+if (stopped) break;
+if (!any) {
+await put(bookEls(bookAt));                  // nothing was pressed: the pictures are only kept alive
+continue;
+}
+if (bookAt === D.guide - 1) {                  // the last page: any key or turn, and the app begins - but not
+if (Date.now() - since < 400) continue;      // one that was on its way before the page could be read
+break;
+}
+const to = Math.max(0, Math.min(D.guide - 1, bookAt + steps));
+if (to !== bookAt) {
+await put([pageEl(to, true), pageEl(bookAt, false)]);
+bookAt = to;
+since = Date.now();
+}
+}
+bookAt = -1;
+}
 const unbind = listen("input", (event) => {
 if (stopped) return;
 if (event.key === "back") {
@@ -221,8 +267,10 @@ setTimeout(unbind, 10);
 ctl.turn += event.delta > 0 ? 1 : event.delta < 0 ? -1 : 0;
 } else if (event.action === "short" && event.key === "ok") {
 ctl.ok = true;
+ctl.n++;
 } else if (event.action === "short" && event.key === "start") {
 ctl.start = true;
+ctl.n++;
 } else {
 return;
 }
@@ -239,7 +287,6 @@ let mode = "game", backs = 0, infoAt = 0, quick = false, guideOn = true, resetOn
 let face = ["v", "7", "d"];         // the symbols on show
 let shown = 100;                    // the balance as the screen says it (it counts up to st.coins after a win)
 let rigAt = 0, dirty = false;
-let guide = false;                  // the controls are on show (at every start, until the first press or turn)
 const until = (t) => sleep(t - Date.now());
 function fmt(n) {                   // a number that fits its 16 columns
 return n < 10000 ? String(n) : n < 1000000 ? Math.floor(n / 1000) + "K" : Math.floor(n / 1000000) + "M";
@@ -319,7 +366,6 @@ const els = [rect("g_bg", 0, 0, 72, 16, BLACK, 0)];
 for (let k = 0; k < 3; k++) els.push(plate(k, 0));
 for (let k = 0; k < 3; k++) els.push(sym("a", face[k], k, 0));
 els.push(film("g_coin", "coin", 5, 1, 2), balEl(), labEl(false), valEl(st.bet, false, 0));
-if (guide) els.push(film("g_gd", "guide", 0, 0, 9, true));
 return els;
 }
 function payout(r) {
@@ -487,10 +533,12 @@ function keys() {
 const k = { turn: ctl.turn, ok: ctl.ok, start: ctl.start, back: backs > 0 };
 ctl.turn = 0;
 ctl.ok = ctl.start = false;
+ctl.n = 0;
 backs = 0;
 return k;
 }
 onBack = () => {                    // Back leaves the pay table; everywhere else it leaves the app
+if (bookAt >= 0) return bookBack();              // (in the guide: a page back; on its first page it leaves the app)
 if (mode !== "info") return false;
 backs++;
 return true;
@@ -501,10 +549,6 @@ if (mode === "game") {
 await draw("game", gameEls());
 await nap(dirty ? 1500 : IDLE);                 // (a new bet is kept once the wheel has rested a moment)
 const k = keys();
-if (guide && (k.start || k.turn || k.ok)) {    // the first press or turn takes the guide away - and does its job
-guide = false;
-await wipe(["g_gd"]);
-}
 if (k.start) return spin();
 if (k.turn) await setBet(k.turn);
 else if (k.ok) mode = "info";
@@ -539,12 +583,10 @@ if (k.ok || k.start) await newGame();
 }
 async function opening(under) {
 mode = "game";
-guide = false;
 await draw("game", [rect("g_bg", 0, 0, 72, 16, BLACK, 0), reel(0), reel(1), reel(2), film("g_coin", "coin", 5, 1, 2), balEl(), labEl(false), valEl(st.bet, false, 0)]);
 if (under) await wipe(["zz_sp"]);
 await sleep(700);
 await stopReels(face, ["c", "l", "b"], false, true);
-guide = guideOn && !stopped;
 keys();                                          // what was pressed meanwhile is not a press on the game
 }
 async function main() {
@@ -558,20 +600,28 @@ if (fresh) await startOver();
 if (D.start !== undefined) st.coins = D.start;
 while (BETS.indexOf(st.bet) > 0 && st.bet > st.coins) st.bet = BETS[BETS.indexOf(st.bet) - 1];
 shown = st.coins;
+if (guideOn && !fresh) await put(bookEls(-1));
 await until(t0 + SPLASH_MS);
 if (stopped) return;
+let under = true;                                // the mark is still on the screen
 if (fresh) {                                     // "Start over" was switched on while the app was closed
 await draw("card", cardEls());
 await wipe(["zz_sp"]);
+under = false;
 await sleep(1500);
+}
+if (guideOn) {                                   // the guide: a book of pages, turned by the player (core.js)
+await book(under ? "zz_sp" : "");
+under = false;
+if (stopped) return;
 }
 if (st.coins < 1) {
 mode = "new";
 await draw("new", newEls());
-await wipe(["zz_sp"]);
+if (under) await wipe(["zz_sp"]);
 keys();
 } else {
-await opening(!fresh);
+await opening(under);
 }
 let settingsDue = Date.now() + IDLE;
 const began = Date.now();

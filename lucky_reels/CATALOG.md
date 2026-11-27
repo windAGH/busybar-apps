@@ -18,7 +18,7 @@ A three-reel slot machine for your desk. The coins are play coins only: nothing 
 
 ## Controls
 
-- At every start the controls are shown until your first press: SPIN under the top button, BET and INFO under the wheel, EXIT for Back. That first press already does its job.
+- At every start a short guide shows the controls: five numbered pages, one control on each, the word in large letters under an arrow that points at its control. The top button, a press of the wheel or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the game, and does nothing else.
 - The machine: the top button spins. Turn the wheel to set the bet: 1, 2, 5, 10 or 25 coins, never more than you have. Press the wheel for the info pages. Back leaves the app.
 - While a win is still counting: the top button starts the next spin at once.
 - Info pages: your coins and your best win, the pay table, the number of spins. Turn the wheel to go through them. Press the wheel, the top button or Back to return to the machine.
@@ -27,7 +27,7 @@ A three-reel slot machine for your desk. The coins are play coins only: nothing 
 ## Settings
 
 - Quick spins: the reels stop sooner. Off at first.
-- Guide at start: shows the controls at every start until the first press. On at first.
+- Guide at start: the guide to the controls at every start. On at first.
 - Start over: clears everything the app has kept and starts a new game with 100 coins. Switch it on, then off again. This cannot be undone.
 
 ## Data and privacy
