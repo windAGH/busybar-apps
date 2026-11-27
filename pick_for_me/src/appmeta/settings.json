@@ -1,0 +1,26 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "list": {
+      "label": "My list",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 200,
+      "description": "Your own options, separated by commas (PIZZA, WALK, CALL MUM). Adds the category MY LIST."
+    },
+    "guide": {
+      "label": "Guide at start",
+      "type": "boolean",
+      "default": true,
+      "description": "A short guide to the controls at every start: five pages you turn."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Clears everything this app has kept and starts fresh. Cannot be undone. Switch on, then off again."
+    }
+  }
+}
