@@ -11,7 +11,7 @@ NFL game day on your BUSY Bar. One game at a time as a score strip: both teams, 
 - **The hour before kick-off**: the game already takes its place, with 0 - 0 and a countdown to the kick-off. The line along the bottom shrinks towards the middle; the clock turns orange for the last five minutes and red for the last one.
 - **Earlier**: both teams' records, the day and the kick-off time in your bar's time zone. **Afterwards**: Final (Final/OT after overtime) and the score, the loser dimmed. A game that is postponed or cancelled says so; a game stopped by the weather shows Delay.
 - **When the season is over**: for 30 days after the title game, a gold champions' banner takes turns with that game's score. After that: SEASON IS OVER / OFFSEASON, with the days to the next kick-off.
-- Each team is a small pixel drawing of its mark, made by hand for this app, or its three letters in tall capitals. (The branch `no-logos` has the app with a plain helmet instead.)
+- Each team is a small pixel drawing of its mark, made by hand for this app, or its three letters in tall capitals. (The branch no-logos has the app with a plain helmet instead.)
 
 While a game is on, the app stays on one game: your team's if it is on, otherwise the first one. When no game is on, the finished games and the ones to come take turns, six seconds each.
 

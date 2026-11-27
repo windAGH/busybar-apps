@@ -36,7 +36,7 @@ A flight keeps running while the app is closed and is picked up when you open it
 
 ## Data and privacy
 
-- Airport tables: built from [OurAirports](https://ourairports.com/data/) (public domain) and the [OpenFlights](https://openflights.org/data.php) databases (Open Database License). They are in this repository under `flight/airports`, under the same licence.
+- Airport tables: built from [OurAirports](https://ourairports.com/data/) (public domain) and the [OpenFlights](https://openflights.org/data.php) databases (Open Database License). They are in this repository under flight/airports, under the same licence.
 - Weather: the cloud cover at the aircraft's position from [Open-Meteo](https://open-meteo.com/) (no key, no account). Only a position rounded to 0.01 degree is sent.
 - Nothing else leaves the bar. Sun, moon and flight times (816 km/h plus 12 minutes) are worked out on the bar.
 - This app is not affiliated with any airline, airport or data provider.
