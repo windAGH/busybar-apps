@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "card": {
+      "label": "Controls card at start",
+      "type": "boolean",
+      "default": true,
+      "description": "Before a game, a card says what the wheel and the top button do. It waits for a touch."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Clears everything this app has kept and starts fresh. Cannot be undone. Switch on, then off again."
+    }
+  }
+}
