@@ -2,6 +2,10 @@
 
 NBA game night on your BUSY Bar. One game at a time as a score strip: both teams, the score, the quarter and the clock, the timeouts each side has left, and along the bottom a line that runs out with the quarter.
 
+![Hoops on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
+
+*The pictures are the app's own screens, captured from the BUSY Bar Emulator.*
+
 ## What you see
 
 - **During a game**: the two scores, the quarter over the game clock, seven dots above each score for the timeouts left, and the bottom line: the quarter's time in the two teams' colours, shrinking towards the middle. Now and then the middle shows a run that is on (NYK over 9-0) or the quarter's team fouls (yellow from five).

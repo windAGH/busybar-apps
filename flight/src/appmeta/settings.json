@@ -1,0 +1,39 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "units": {
+      "label": "Distance",
+      "type": "enum",
+      "default": "km",
+      "options": [
+        {
+          "value": "km",
+          "label": "Kilometres"
+        },
+        {
+          "value": "mi",
+          "label": "Miles"
+        }
+      ]
+    },
+    "weather": {
+      "label": "Real weather",
+      "type": "boolean",
+      "default": true,
+      "description": "The clouds under the wing follow the weather where the flight is (Open-Meteo, over Wi-Fi)."
+    },
+    "eggs": {
+      "label": "Surprises",
+      "type": "boolean",
+      "default": true,
+      "description": "Now and then something that has no business up there drifts past the window."
+    },
+    "sky": {
+      "label": "True sun and moon",
+      "type": "boolean",
+      "default": false,
+      "description": "Off: the sun and the moon are in the window whenever they are above the horizon. On: only when they really stand on your side of the aircraft, where they stand."
+    }
+  }
+}

@@ -2,6 +2,10 @@
 
 NFL game day on your BUSY Bar. One game at a time as a score strip: both teams, the score, the quarter and the clock, the timeouts each side has left, and along the bottom the field with the ball on it.
 
+![Gameday on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
+
+*The pictures are the app's own screens, captured from the BUSY Bar Emulator.*
+
 ## What you see
 
 - **During a game**: the two scores, the quarter over the game clock (now and then the down and distance, such as 2&7), three marks above each score for the timeouts left, and the field along the bottom row: an orange dot for the ball and a yellow line for the line to gain.

@@ -2,6 +2,10 @@
 
 Stock, index, crypto and currency prices on your BUSY Bar, one ticker at a time.
 
+![Stocks on the BUSY Bar: 5 screens, each 72 x 16 pixels, shown six times as large](preview.png)
+
+*The pictures are the app's own screens, captured from the BUSY Bar Emulator.*
+
 ## What you see
 
 - On the left, the ticker and its price. On the right, a box in the colour of the day: the change in percent, a small arrow that nods the way the price is going, and the line of the day.
