@@ -8,17 +8,11 @@
       "default": false,
       "description": "The reels stop sooner."
     },
-    "guide": {
-      "label": "Guide at start",
-      "type": "boolean",
-      "default": true,
-      "description": "A short guide to the controls at every start: five pages you turn."
-    },
     "reset": {
       "label": "Start over",
       "type": "boolean",
       "default": false,
-      "description": "Clears everything this app has kept and starts fresh. Cannot be undone. Switch on, then off again."
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
     }
   }
 }

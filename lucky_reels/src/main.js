@@ -1,5 +1,5 @@
 // Lucky Reels: a three-reel slot machine for the BUSY Bar. Play coins only - nothing can be bought, won or cashed
-// out. The top button spins, the wheel sets the bet, a press of the wheel shows coins, best win and the pay table.
+// out. Start spins, turning the knob sets the bet, OK shows coins, best win and the pay table, Back leaves.
 // The reels blur (films the bar plays by itself) and stop one after another with a few hand-timed pictures; a win
 // lights the reels and counts into the balance; three sevens or diamonds bring up the JACKPOT sign.
 //
@@ -18,7 +18,7 @@ const WHITE = "#FFFFFFFF";
 let stopped = false;
 let busy = false;                   // a change of page or a film is running
 const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, ms)));
-const ctl = { turn: 0, start: false, ok: false, n: 0 };      // n: how many presses of OK or the top button (the guide counts them)
+const ctl = { turn: 0, start: false, ok: false, n: 0 };      // n: how many presses of OK or Start (the guide counts them)
 let onBack = null;                  // a function that returns true = "taken, the app goes on"; otherwise Back ends the app
 let wake = null;
 function nap(ms) {
@@ -282,8 +282,8 @@ const BETS = [1, 2, 5, 10, 25];
 const RX = D.rx;                    // the three drums' left columns
 const REST = 1;                     // the row of a symbol's picture at rest
 const FILE = "storage/read?path=/ext/data/slots.json";
-const st = { coins: 100, bet: 5, best: 0, spins: 0, rs: false };
-let mode = "game", backs = 0, infoAt = 0, quick = false, guideOn = true, resetOn = null;
+const st = { coins: 100, bet: 5, best: 0, spins: 0, rs: null, g: false };
+let mode = "game", backs = 0, infoAt = 0, quick = false, resetOn = null;
 let face = ["v", "7", "d"];         // the symbols on show
 let shown = 100;                    // the balance as the screen says it (it counts up to st.coins after a win)
 let rigAt = 0, dirty = false;
@@ -297,7 +297,8 @@ const got = await call("GET", FILE);
 try {
 const kept = got.ok ? JSON.parse(got.text) : null;
 const whole = (v) => typeof v === "number" && v >= 0 && v < 1e9 && Math.floor(v) === v;
-if (kept && kept.rs === true) st.rs = true;
+if (kept && typeof kept.rs === "boolean") st.rs = kept.rs;
+if (kept && kept.g === true) st.g = true;
 if (kept && whole(kept.coins)) {
 st.coins = kept.coins;
 if (BETS.indexOf(kept.bet) >= 0) st.bet = kept.bet;
@@ -314,32 +315,35 @@ return call("POST", "storage/write?path=/ext/data/slots.json", JSON.stringify(st
 async function readSettings() {
 const v = await loadSettings();
 quick = v.quick === true;
-guideOn = v.guide !== false;
 resetOn = typeof v.reset === "boolean" ? v.reset : null;      // (null: not answered - nothing is concluded from that)
 }
 function startOverAsked() {
 if (resetOn === null) return false;
-if (!resetOn) {
-if (st.rs) {
-st.rs = false;
+if (st.rs === null) {
+st.rs = resetOn;
 save();
-}
 return false;
 }
-return !st.rs;
+return resetOn !== st.rs;
 }
 async function startOver() {
 st.coins = 100;
 st.bet = 5;
 st.best = 0;
 st.spins = 0;
-st.rs = true;
+st.g = false;
+st.rs = resetOn;
 await save();
-call("PUT", "apps/settings?app_id=" + APP, JSON.stringify({ version: 1, values: { quick: quick, guide: guideOn, reset: false } }));
 shown = 100;
 face = ["v", "7", "d"];
 infoAt = 0;
 rigAt = 0;
+}
+async function guide(under) {
+await book(under);
+if (stopped) return;
+st.g = true;
+await save();
 }
 function cardEls() {                // the card that says so, for a moment
 return [rect("c_bg", 0, 0, 72, 16, BLACK, 0), film("c_coin", "coin_big", 6, 2, 1),
@@ -547,7 +551,7 @@ const IDLE = 5000;                  // a page at rest looks at the settings agai
 async function step() {
 if (mode === "game") {
 await draw("game", gameEls());
-await nap(dirty ? 1500 : IDLE);                 // (a new bet is kept once the wheel has rested a moment)
+await nap(dirty ? 1500 : IDLE);                 // (a new bet is kept once the knob has rested a moment)
 const k = keys();
 if (k.start) return spin();
 if (k.turn) await setBet(k.turn);
@@ -600,18 +604,19 @@ if (fresh) await startOver();
 if (D.start !== undefined) st.coins = D.start;
 while (BETS.indexOf(st.bet) > 0 && st.bet > st.coins) st.bet = BETS[BETS.indexOf(st.bet) - 1];
 shown = st.coins;
-if (guideOn && !fresh) await put(bookEls(-1));
+if (!st.g && !fresh) await put(bookEls(-1));      // (first use: the guide's pages are made now, off-screen)
 await until(t0 + SPLASH_MS);
 if (stopped) return;
 let under = true;                                // the mark is still on the screen
-if (fresh) {                                     // "Start over" was switched on while the app was closed
+if (fresh) {                                     // "Start over" was flipped while the app was closed
 await draw("card", cardEls());
 await wipe(["zz_sp"]);
 under = false;
+await put(bookEls(-1));                        // (the guide's pages are made while the card is read)
 await sleep(1500);
 }
-if (guideOn) {                                   // the guide: a book of pages, turned by the player (core.js)
-await book(under ? "zz_sp" : "");
+if (!st.g) {                                     // first use (or after "Start over"): the guide, a book of pages
+await guide(under ? "zz_sp" : "");
 under = false;
 if (stopped) return;
 }
@@ -630,10 +635,12 @@ try {
 if (Date.now() >= settingsDue) {
 settingsDue = Date.now() + IDLE;
 await readSettings();
-if (startOverAsked()) {                    // "Start over", switched on while the app runs: the card, a new game
-await startOver();
+if (startOverAsked()) {                    // "Start over", flipped while the app runs: the card, the guide,
+await startOver();                       // a new game
 await draw("card", cardEls());
+await put(bookEls(-1));                  // (the guide's pages are made while the card is read)
 await sleep(1500);
+if (!stopped) await guide("");
 if (!stopped) await opening(false);
 continue;
 }

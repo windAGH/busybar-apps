@@ -12,7 +12,7 @@ A three-reel slot machine for your desk. The coins are play coins only: nothing 
 - A spin: the reels blur, then stop one after another from left to right, each with a small clunk.
 - A win: the reels that won light up, coins fly into your balance and the number counts up.
 - Jackpot: three sevens or three diamonds bring up the JACKPOT sign over the whole screen.
-- Out of coins: a short scene with an empty coin bag, then NEW GAME? and you have 100 coins again.
+- Out of coins: a short scene with an empty coin bag, then NEW GAME? PRESS OK, and you have 100 coins again.
 
 ## What pays
 
@@ -22,17 +22,17 @@ A three-reel slot machine for your desk. The coins are play coins only: nothing 
 
 ## Controls
 
-- At every start a short guide shows the controls: five numbered pages, one control on each, the word in large letters under an arrow that points at its control. The top button, a press of the wheel or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the game, and does nothing else.
-- The machine: the top button spins. Turn the wheel to set the bet: 1, 2, 5, 10 or 25 coins, never more than you have. Press the wheel for the info pages. Back leaves the app.
-- While a win is still counting: the top button starts the next spin at once.
-- Info pages: your coins and your best win, the pay table, the number of spins. Turn the wheel to go through them. Press the wheel, the top button or Back to return to the machine.
-- New game page: press the wheel or the top button for a new game with 100 coins. Back leaves the app.
+- The controls by their names: Start is the big button on top, OK is a press of the knob, Turn is turning the knob, Back is the Back button.
+- The first time you open the app, a short guide shows them: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the game, and does nothing else. The guide does not come again by itself; Start over in the settings brings it back.
+- The machine: Start spins. Turn the knob to set the bet: 1, 2, 5, 10 or 25 coins, never more than you have. OK opens the info pages. Back leaves the app.
+- While a win is still counting: Start begins the next spin at once.
+- Info pages: your coins and your best win, the pay table, the number of spins. Turn the knob to go through them. OK, Start or Back returns to the machine.
+- New game page: OK or Start gives a new game with 100 coins. Back leaves the app.
 
 ## Settings
 
 - Quick spins: the reels stop sooner. Off at first.
-- Guide at start: the guide to the controls at every start. On at first.
-- Start over: clears everything the app has kept and starts a new game with 100 coins. Switch it on, then off again. This cannot be undone.
+- Start over: flip this switch to clear everything the app has kept and see the guide again: a new game with 100 coins. Each flip starts over once. This cannot be undone.
 
 ## Data and privacy
 
