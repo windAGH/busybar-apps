@@ -1,12 +1,12 @@
 // Pick For Me: a reel that decides. Eight lists - what to eat, drink, wear, how to move, what to watch, where to
-// go, yes or no, and a list of your own from the setting "My list". The wheel chooses the list, the top button (or a
-// press of the wheel) spins: the reel blurs (a film the bar plays by itself), slows in three clicks, and the third
+// go, yes or no, and a list of your own from the setting "My list". Turning the knob chooses the list, Start (or
+// OK) spins: the reel blurs (a film the bar plays by itself), slows in three clicks, and the third
 // word is the answer, in the largest letters that fit.
 //
 // This file is generated from the author's working sources (one file, so that the bar has one script to read):
 // D = generated data (the lists, widths of the bar's letters, lengths of the films), then the bar (its API,
 // controls, elements, drawing, the blind between two pages), then the app (the lists and "My list", what is kept,
-// "Start over", the page, the reel and how it lands, the wheel), then the start (the author's mark, the reel
+// "Start over", the page, the reel and how it lands, the knob), then the start (the author's mark, the reel
 // spinning in, the guide to the controls).
 
 const D = {"app":"io.github.windagh.pick_for_me","cats":[{"id":"EAT","top":"WHAT TO","name":"EAT","accent":"#FFA02EFF","words":["PIZZA","SUSHI","TACOS","RAMEN","BURGER","SALAD","CURRY","PASTA","PHO","BBQ","DUMPLINGS","SANDWICH","NOODLES","STEAK"]},{"id":"DRINK","top":"WHAT TO","name":"DRINK","accent":"#2EE0D0FF","words":["COFFEE","TEA","WATER","JUICE","SODA","SMOOTHIE","BOBA","BEER","WINE","COCOA","MATCHA","LEMONADE"]},{"id":"WEAR","top":"WHAT TO","name":"WEAR","accent":"#96BAFFFF","words":["BLACK","WHITE","NAVY","GREY","RED","GREEN","BEIGE","DENIM","PINK","YELLOW","PURPLE","BROWN","ORANGE"]},{"id":"MOVE","top":"HOW TO","name":"MOVE","accent":"#96EC3CFF","words":["WALK","RUN","YOGA","STRETCH","BIKE","SWIM","GYM","DANCE","HIKE","REST DAY"]},{"id":"WATCH","top":"WHAT TO","name":"WATCH","accent":"#FF5454FF","words":["COMEDY","DRAMA","ACTION","SCI-FI","HORROR","DOC FILM","ANIME","ROMANCE","THRILLER","MYSTERY","REWATCH"]},{"id":"GO","top":"WHERE TO","name":"GO","accent":"#FF60AAFF","words":["PARK","CAFE","MUSEUM","BEACH","BOOKSHOP","CINEMA","MARKET","LIBRARY","GALLERY","STAY HOME"]},{"id":"YESNO","top":"ASK ME","name":"YES / NO","accent":"#EEE4FFFF","words":["YES","NO","ASK AGAIN"]},{"id":"MINE","top":"FROM","name":"MY LIST","accent":"#FFD23CFF","words":[]}],"room":52,"wear":["BEIGE","BLACK","BROWN","DENIM","GREEN","GREY","NAVY","ORANGE","PINK","PURPLE","RED","WHITE","YELLOW"],"roll":150,"lit":600,"splash":1500,"guide":5,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1},"smallGap":1,"bold":{"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"+":6,"-":3,"!":2},"xl":{"A":7,"B":7,"C":7,"D":7,"E":6,"F":6,"G":7,"H":7,"I":4,"J":6,"K":7,"L":6,"M":8,"N":7,"O":7,"P":7,"Q":7,"R":7,"S":7,"T":6,"U":7,"V":8,"W":8,"X":7,"Y":7,"Z":6,"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7,"+":6,"-":3,"!":2},"normal":{"A":5,"B":5,"C":5,"D":5,"E":5,"F":5,"G":5,"H":5,"I":3,"J":4,"K":5,"L":4,"M":7,"N":5,"O":5,"P":5,"Q":5,"R":5,"S":5,"T":5,"U":5,"V":5,"W":7,"X":5,"Y":5,"Z":5,"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5,"+":5,"-":3,"!":1}};
@@ -18,7 +18,7 @@ const WHITE = "#FFFFFFFF";
 let stopped = false;
 let busy = false;                   // a change of page or a film is running
 const sleep = (ms) => new Promise((done) => setTimeout(done, Math.max(0, ms)));
-const ctl = { turn: 0, start: false, ok: false, n: 0 };      // n: how many presses of OK or the top button (the guide counts them)
+const ctl = { turn: 0, start: false, ok: false, n: 0 };      // n: how many presses of OK or Start (the guide counts them)
 let onBack = null;                  // a function that returns true = "taken, the app goes on"; otherwise Back ends the app
 let wake = null;
 function nap(ms) {
@@ -283,8 +283,9 @@ const FILE = "/ext/data/pick.json";
 const UPDOWN = "! XPM2\n5 6 2 1\n. c none\na c #5E6274\n..a..\n.aaa.\n.....\n.....\n.aaa.\n..a..";
 let cats = [], at = 0, res = null;  // the lists in use, the one on show, its answer (null: its title)
 let last = {}, kept = "", mine = "", backs = 0, rigAt = 0, dirty = false;
-let guideOn = true, resetOn = null; // the settings "Guide at start" and "Start over" (null: not answered)
-let seen = false;                   // kept: "Start over" was on when last seen - it clears once each time it is switched on
+let resetOn = null;                 // the setting "Start over" as it stands (null: not answered)
+let seen = null;                    // kept: how that switch stood when last seen (null: never) - any change starts over once
+let read = false;                   // kept: the guide has been read to its end
 const until = (t) => sleep(t - Date.now());
 const rnd = (n) => Math.floor(Math.random() * n);
 function ownWords(s) {
@@ -311,7 +312,6 @@ if (cats[at].id !== was) res = null;
 }
 async function readSettings() {
 const v = await loadSettings();
-guideOn = v.guide !== false;
 resetOn = typeof v.reset === "boolean" ? v.reset : null;
 const now = typeof v.list === "string" && v.list ? v.list : (D.list || "");
 if (now === mine && cats.length) return;
@@ -324,7 +324,8 @@ const got = await call("GET", "storage/read?path=" + FILE);
 try {
 const k = got.ok ? JSON.parse(got.text) : null;
 if (k && typeof k.cat === "string") kept = k.cat;
-if (k && k.rs === true) seen = true;
+if (k && typeof k.rs === "boolean") seen = k.rs;
+if (k && k.g === true) read = true;
 if (k && k.last && typeof k.last === "object") {
 for (const id in k.last) if (typeof k.last[id] === "string") last[id] = k.last[id];
 }
@@ -333,27 +334,31 @@ for (const id in k.last) if (typeof k.last[id] === "string") last[id] = k.last[i
 }
 function save() {
 dirty = false;
-return call("POST", "storage/write?path=" + FILE, JSON.stringify({ cat: cats[at].id, last: last, rs: seen }), "application/octet-stream");
+return call("POST", "storage/write?path=" + FILE, JSON.stringify({ cat: cats[at].id, last: last, rs: seen, g: read }), "application/octet-stream");
 }
 function startOverAsked() {
 if (resetOn === null) return false;
-if (!resetOn) {
-if (seen) {
-seen = false;
+if (seen === null) {
+seen = resetOn;
 save();
-}
 return false;
 }
-return !seen;
+return resetOn !== seen;
 }
 async function startOver() {
 last = {};
 at = 0;
 res = null;
-seen = true;
+read = false;
+seen = resetOn;
 rigAt = 0;
 await save();
-call("PUT", "apps/settings?app_id=" + APP, JSON.stringify({ version: 1, values: { list: mine, guide: guideOn, reset: false } }));
+}
+async function guide(under) {
+await book(under);
+if (stopped) return;
+read = true;
+await save();
 }
 function cardEls() {                // the card that says so, for a moment: on the reel, like a title
 return [rect("p_bg", 0, 0, 72, 16, BLACK, 0), drum(0), film("p_ic", "i_mine", 1, 1, 2),
@@ -491,7 +496,7 @@ return k;
 }
 async function step() {
 await draw("page", pageEls());
-await nap(dirty ? 1500 : IDLE);                  // (the list on show is kept once the wheel has rested a moment)
+await nap(dirty ? 1500 : IDLE);                  // (the list on show is kept once the knob has rested a moment)
 const k = keys();
 if (k.turn) return turnTo(k.turn > 0 ? 1 : -1);
 if (k.start || k.ok) return spin();
@@ -522,7 +527,7 @@ await load();
 await readSettings();
 const fresh = startOverAsked();
 if (fresh) await startOver();
-if (guideOn && !fresh) await put(bookEls(-1));
+if (!read && !fresh) await put(bookEls(-1));      // (first use: the guide's pages are made now, off-screen)
 await until(t0 + SPLASH_MS);
 if (stopped) return;
 let under = true;                                // the mark is still on the screen
@@ -530,10 +535,11 @@ if (fresh) {                                     // "Start over" was switched on
 await draw("card", cardEls());
 await wipe(["zz_sp"]);
 under = false;
+await put(bookEls(-1));                        // (the guide's pages are made while the card is read)
 await sleep(1500);
 }
-if (guideOn) {                                   // the guide: a book of pages, turned by the player (core.js)
-await book(under ? "zz_sp" : "");
+if (!read) {                                     // first use (or after "Start over"): the guide, a book of pages
+await guide(under ? "zz_sp" : "");
 under = false;
 if (stopped) return;
 }
@@ -548,7 +554,9 @@ await readSettings();
 if (startOverAsked()) {                    // "Start over", switched on while the app runs: the card, the first page
 await startOver();
 await draw("card", cardEls());
+await put(bookEls(-1));                  // (the guide's pages are made while the card is read)
 await sleep(1500);
+if (!stopped) await guide("");
 if (!stopped) await opening(false);
 continue;
 }

@@ -24,16 +24,16 @@ Cannot decide? A reel picks for you. Choose a list, spin, and the reel slows dow
 
 ## Controls
 
-- At every start a short guide shows the controls: five numbered pages, one control on each, the word in large letters under an arrow that points at its control. The top button, a press of the wheel or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the app, and does nothing else. One page says that My list is filled in the settings.
-- Turn the wheel: the next or the previous list.
-- The top button, or a press of the wheel: spin. Press again for another answer.
+- The controls by their names: Start is the big button on top, OK is a press of the knob, Turn is turning the knob, Back is the Back button.
+- The first time you open the app, a short guide shows them: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the app, and does nothing else. One page says that My list is filled in the settings. The guide does not come again by itself; Start over in the settings brings it back.
+- Turn the knob: the next or the previous list.
+- Start or OK: spin. Press again for another answer.
 - Back: leave the app.
 
 ## Settings
 
 - My list: your own options, separated by commas, for example PIZZA, WALK, CALL MUM. Up to 16 options. Capital letters, digits, spaces and the signs plus, minus and exclamation mark are shown. Long options get smaller letters and are cut if they still do not fit. While the setting is empty there is no My list.
-- Guide at start: the guide to the controls at every start. On at first.
-- Start over: forgets the list you were on and the last answer of every list. My list stays. Switch it on, then off again. This cannot be undone.
+- Start over: flip this switch to forget the list you were on and the last answer of every list, and to see the guide again. My list stays. Each flip starts over once. This cannot be undone.
 
 ## Data and privacy
 
