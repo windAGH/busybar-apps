@@ -1,0 +1,16 @@
+# Airport tables
+
+Small text files the Flight app fetches once, after it has been installed, and keeps in its own storage on the bar. One folder per set; an app asks for the set it was built with, so older versions keep working.
+
+- `v.txt`: the name of the set.
+- `g<k>.txt`: the positions of 600 airports, six characters each: (latitude + 90) x 100 and (longitude + 180) x 100, each as three digits in base 36.
+- `a<c>.txt`: 64 airports, one line each: IATA code (3 characters), clock (2: minutes ahead of UTC on the day the set was built, plus 720, divided by 15, in base 36), country (2 letters), city.
+
+The airports are in the order of how many destinations they serve, the busiest first.
+
+## Sources and licence
+
+- [OurAirports](https://ourairports.com/data/) (public domain): codes, positions, kind of airport, countries.
+- [OpenFlights](https://openflights.org/data.php) airports and routes databases, made available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/) (ODbL): the served city's name, the time zone, the number of destinations.
+
+The files in this folder are a database derived from those two, and are made available under the Open Database License (ODbL) v1.0. The rest of this repository is under the MIT licence.
