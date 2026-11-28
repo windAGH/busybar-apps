@@ -8,7 +8,7 @@
 // the rules (a field from a number, the ember's flight, what breaks and what falls: whole numbers only), then the
 // app (the title, the guide, aiming, the flight, the pages between, the settings), then the start.
 
-const D = {"app":"io.github.windagh.ember","name":"Ember","snap":233,"load":300,"fx":{"ice":500,"stone":550,"crack":300,"pop":550,"fizz":450,"thud":250,"skip":300},"wipe":200,"clear":550,"open":400,"frost":500,"thaw":300,"title":1500,"ice":"! XPM2\n4 3 7 1\n. c none\na c #38A4F0\nb c #78D4FC\nc c #C0F0FF\nd c #F4FFFF\ne c #1868CC\nf c #0C348C\nabcd\neabc\nfeab","stone":"! XPM2\n4 3 6 1\n. c none\na c #605C7C\nb c #8080A0\nc c #A4A0C0\nd c #403C58\ne c #24203C\nabcc\ndbab\nedaa","crack":"! XPM2\n4 3 10 1\n. c none\na c #605C7C\nb c #8080A0\nc c #FF982C\nd c #A4A0C0\ne c #403C58\nf c #FFC054\ng c #FFE8A0\nh c #24203C\ni c #FF8424\nabcd\nefgb\nhiaa","to":"! XPM2\n4 5 2 1\n. c none\n# c #8088A0\n#...\n##..\n###.\n##..\n#...","next":"! XPM2\n4 5 2 1\n. c none\n# c #D6DCE8\n#...\n##..\n###.\n##..\n#...","back":"! XPM2\n5 7 2 1\n. c none\n# c #FFFFFF\n...##\n..##.\n.##..\n##...\n.##..\n..##.\n...##","spare":[[10,6,2],11,-6],"sl":[9,2],"fxs":{"ice":[8,8],"stone":[8,8],"crack":[6,5],"pop":[13,10],"fizz":[5,8],"thud":[8,4],"skip":[5,5]},"titleX":17,"titleFork":7,"sim":{"gx":42,"lx":22.5,"ly":7.5,"g":26,"fast":1536,"rest":239,"hop":154,"shots":[[[0,0],[663,-165],[765,-191],[866,-216],[968,-241],[1070,-267],[1172,-292],[1274,-318],[1376,-343],[1478,-368],[1580,-394],[1682,-419],[1783,-445],[1885,-470],[1987,-495]],[[0,0],[388,-431],[413,-459],[438,-486],[462,-514],[486,-540],[511,-568],[536,-595],[561,-623],[585,-650],[610,-677],[634,-705],[659,-732],[683,-759],[708,-786]]],"dots":[[[0,0,0,0,0,0,0,0,0,0],[25,7,28,7,30,7,33,8,36,9],[26,6,29,6,32,7,35,8,38,9],[26,6,30,6,33,7,36,7,40,8],[27,6,31,6,34,6,38,7,42,8],[27,6,31,6,36,6,40,6,44,7],[28,6,32,6,37,6,41,6,46,7],[28,6,33,5,38,5,43,6,48,6],[29,6,34,5,39,5,45,5,50,6],[29,6,35,5,41,5,47,5,52,5],[30,5,36,5,42,4,48,4,54,5],[30,5,37,4,43,4,50,4,56,4],[31,5,38,4,45,4,52,3,59,4],[31,5,39,4,46,3,53,3,61,3],[32,5,39,4,47,3,55,3,63,3]],[[0,0,0,0,0,0,0,0,0,0],[24,5,25,4,27,4,28,4,30,4],[24,5,26,4,27,3,29,3,30,3],[24,5,26,4,28,3,29,3,31,3],[24,5,26,4,28,3,30,2,31,2],[24,5,26,3,28,2,30,2,32,2],[24,5,26,3,28,2,30,1,32,1],[25,4,27,3,29,2,31,1,33,1],[25,4,27,3,29,1,31,1,34,0],[25,4,27,2,29,1,32,0,34,0],[25,4,27,2,30,1,32,0,35,-1],[25,4,28,2,30,0,33,-1,35,-2],[25,4,28,2,30,0,33,-1,36,-2],[25,4,28,1,31,0,33,-2,36,-3],[25,4,28,1,31,-1,34,-2,37,-3]]],"levels":14,"count":8192,"band":"c8cb6d0c4a22e3e2232c3353c31e7a390508b0ca221b21c301593187a9e9c24aece6313d870e63b1e3d86d60b3ec5380932602530d180bc33383b1e7532e759a9219b960dd2a1b81a5d188a33db6a7b35e671dc3ab3d393963619e1e0733e9b7389e677ba731581b2b72109d0378db04e3cbed919143c35e7e2005d5195abcee02a3d6b11a5570b5bd803595571ead529670cb735b3cb9659907d5c10d683a6da9ac05966dc648b98b73aadaed93963cad5451b0bd4630c591431d84e2d0182d806dd995472e2505ee037889b317143333a553956a162cd9e116ed048e70b57b36d84707c8c1153998d367036ddaab99d5373e265390e38b12dd663939bae985c055990868a5489cde9b7bc9ec93dd22195c018b91104a2a734c70b6941abec1cbcad552dd0bc29ddb384ad6c495d64149638dc57d048a26a4c189db69e4482ae79d0d957b693c287814e8da6aec9000e7dbe40ae401131913ac26cddc736beb7c434de776452c078663a431d5ba41575a616d7b1a1d990a1510c1977a7ecb079c6e3e8d9c0860ec7cec5c901878ec4d7621503dd45336775e8082ceb25128041d93c8e05ca7283973c267e2d43c807ccb07614b304940d554b227704bc9a9e9b7b1e8674b261a42e7d69294e1e303133b0b8a3a29c66b9ce1496cad99eced81975316882ea53608ece948148a9082ee2626cce6a320e9b81b54da041013de6269514e2354ce856a88b513925d618376374a4bdbee8558c4d7d917d5916512d7c7698adec0694e71656182bacc7cb6e4b94d2827a139de12b82de54b9b85d50bb78a2248dd2b4b48e3ea04213ab7d81d569d163052dd388b7a3bd444577510717b61a9ca096134a34114083744db0305ca6a593d0ce96c54e9218aea1286a4935753c7a8a69870d0aa101a80451aaa5edabccdca0b308a36e081727337b8e1d7d6ae267c01dd693e8a7caa10e85bc8571cad31e34170149a4453d4dde79e509a72cd351b652b95175cca0667a44c5230b556aececa57d457ccda6963700a64dd99e4a0de7c2e69bcaab8a5026744d2868474c8a643c62275e45eae0551e0ee471b1b8b8d79c24d47847ad44d1ae605b1b5601c51e1b82eedb885ed70bb0e8216361894565b14dd20d1812deda155370e14d1c6b8ae843b17ea744cd5cd22b158abd99be8a268a7176c9822be3a8ac6ce71a63546d6baeca02d3ce2bab5a31c4483b09d060d1922a0c9dcdad718764cce511821d0345eb9e9818ad992b92c1055b56c3c87a5479e499b074ab163874e9e690de109a9d344bdd34d9a4a1436949ee715d0a64d5c34195601e03a585d659069ed3d935da8c4589d98ea169a980d8010d0bc4c71505900ec1cac011750d1a2c98e510a400ae8d1e721a47b99588d53dab4b1ab2760209b34eb02db82349d1a9c9aa389100069d58db991adad788a86326da5243b04456be1ad25b3e4728389b287d4ab763d12c009d901ceb416eebe690b3e0ba0da3b1d2bd6d24c845d5dcdb91abe55a0a877092d61086a9655b6956165527bbc177c6934d0357589daa510a4d2c99c534bb129d2db4d95068beb12ecc579d71514ac3d8a3b41bd53a9ab447ca2958bb7a366e83be846175493986cb607bc2475600315d1024c0164bd4669b41c42b2d578185dd8080bb0d6a71b3b0a38799744b7678613599e6d73a544b669143b383ae2087b46599c076ac4e2b9e2bca8d7a980658ad14d28c6c5d404dac08cd60550b5d4e2ed11553248b7843ea2631246b9c1cd92cd342282ac178b651cee80d14b8c67d3d368787055e987264ae2851b7269069b065b32cbd523168dedb03c4d31a98811479d9606b0ce2d1652382188e7016eb0715baec8cb73ebd698b594c2a76093c495a2cc08cc6c2ca7c5913c079e87694a1d31ea5687b0cca2079ad4a90c1b207bee20449222783dc7b99c73d97e8282594b9344a8e862ad71c58c179271e0025b2c3bb9bae0ac0b76a52ea83029bc194c84ae00ba37021c1d64003b5c063ce7cb2ee767ee63db0c568722a8004d3823e02096dd02809780085859c92cd62d4495750b7ca5c21be2c8605cb47b138348b8194cc025728dbb2a1ebcc3c8d6150582e47109576332a9e9b43981a8bba28b0289725e527bd39981a4ab4b52a5935b2e75d3ba5d3b469ba042caae0dc1051c52d7b5ae979b72782b9cd8044e1061690b5b396853ad642c9e9254e34b5674a00127363785a0882a2333e0d72b4433b06278e4e7b3cd6cac7461ca53872248a8b8c400ab15dda6a9ac1650d365b84eb155a6a262d8e5049162881639c0027d287387c51c4546e2197d40e5349e4b8e5cbb561be1d4879e808b62d4b9ab3a653d523ba5a42c0e46a09197322b15d7a8d4251c1a8b94967e25885ba83205121b25c9274e90b48c90ca54b5212418559183ac00d8b5088582c02ad14b82114c0042d166a342cee505de216473e7e457ce81c733b90d46b6685e4529601e853b043ba154a933280232832d3319dcbe9a06497637e7c74b760442cb528d13d090e062874671954e10dc5c92655d5d072161535724a42a0c867a14a5b220b23528349433a5b135c549d989b676b6301d9b12e359680e5da3adce1104c10e372087607ae8032414a811b7c385b94cc4ad2d34a265c83b48c25dc3325874bd05a15532eb44a9847c653351c0a1433a69aae163677211153b5131c8ccd35886a96a5ba285c726102ad1cea30c7653942d3955e3baecd0ed630433d6e0d4c11eb82bcd0455c415cae5d4e8c9897e237e91058be6c6172b3873855ccb3c82d0ec37e0752a01408e4bbe098d506e4ab5035058392e35db0353e9dcd5bd5e084a80e7da2980c6c14506024d63a36c355abb352ea4cda24b207eeb73956a596e3dbd97765c8e0ad5477a2879505730ae1820486e08495e27d54937976adc51b449c07a87e340e6e5736cb34545bbee00e638886ddecb6533323063e4252c68a9db07ea17d82db0222a58d2c5178aa8c339cb5d4d32ab382b72c72819522a7ce5da4e3d718e8932034c37d4e9cb9c74e8477ec5104ae093b28e873a3584807709ac986450b68dc778d7e52c5064be236ee37dadde7c5381d2aedbd414384674a90a7a9e7c1a584d487c7e87c553ce85a1951c7059ad302a660324515e7e5eb4a70e4a912eb72a5e484503ece06b9ceb6613de0754de1d8b454a1624b4e7a417bc4b782038c044597a5cb8a69527e75e5922c2ed3a5c78b6b61ee1a58359c15b8256dde9a17271ad91de25d5e57cb44c8de39a61d80ddba128bda4b05b6c31e906184bc6ca2328d20ecc2cd62a3e0221ad4d1051b1b660276dd5b9c06bbde5d101977423412b724c48734ab164b01472d179283161c59ae66d03a6b7e7645cd3a3e0489d59ec68be3628092c82bba702b39aab9e0c188bec4a1463820eeed9d46cc0a4ea03d8e298e8805aa0c7c57dd7ca3e32e53d320205c842db08eab4ec38966732d7ebde21235ba6bd80ee912b829ea48a404c4a20b26a85bbe85da6d0dda1344439e3ca5e9a44d86221aaa517db57be5c057da8163a4023cc1b9ba886edd7ed238c73a8bd6e974d60c2b6206e97257d2e1c8c870de9312b2307cdd6b7567309a76ab6406348deadbe63a294e8d0526c380d6c1c4a9ae6e3403e26cd8e5de1aa4022a82b1ac3d3a98cd6e4427e4122513d31beda6b32889809ec56734583886603c49d565aa74761045710dc8ac5cc3ac706d0d08dda245782122e46a427c67bae823433a16a303e6870488c9157a8e2e07b7949880dee6e612483dc1332be060e8ab1ce809cdb0d71617d982a947b2eab5629c6373c8918ac30743702d8e5a19470e73ee544a121d73a44c32a88490bb8c1ecd1053de329443ae46104d92dde957dd2a0bb2e112b482cecb3ee0c906824104e690762a038cd26d9eaecc1d77ee42b7c0623c907c1e604d671a2a7268791ebb71cca17bd6b9198129572a4b4e07794d8b5042308d4a2ca8e899aa1d47597304c4c6b922b76aa2348d25c9033862d6c24538075a64c3c8722a3d81676849eabd8b8993d28c1d514ee9663a8adc8027b20685cbb247d2cee815b949a8ea167b60248ec0cd25660d903704521714402e41152ac0682b4ae8d16836c13205186764808b25c2912628616bc1e51b5241c272b71b149664a4423e45614ba24768c6143a3236ac698e23e78496d8666659ea10aa5202a79083bd0e877a6a9689442128bb000dac254ab9c0c40e4ac1e546211aeec9e63d0c5562592c90233c2b38a2c6b176be93cc944d5cd7b9a941b8b350c934ae4751d569439c55d9d99d79c563458b64cd8c6891669c10b9b3434d9a371ea381e6706be767387aec6cdae1a039a316971115ea7d6d97b661cb0046b8d99d026ce4ade4905a6d9c81a3771b0d6270a3cc8bd614a5a91ec48501b9324b866b8e392150c25885870dee40165baea22c41793d8bc0a279c56aa18a714b3e6c20c6ec009ae567eb58c0ec540571d77d0a3531323c110e12c5369a1aeaa0aaac50299232c94d6787178361db2b6c2eb280c707bcc6acc88e199c2808b21eab9b69d998b157c51788824c6a2c84d069996bccccce85458d77d26170c43714333cb127c37e7804e8719c9e871ec3d82e77b9dd2e9ae1242e11614d24a9ae76bb6c8221163c1783e60d5b89cba9396d3189239126b7a4a712867be1392b6240413aa40ea4926447bbe1164329967be84a6be44341145dda55577e545deeb972a0777b2aa9c0521bc78b9654eb835de070432374087008799b7db6c820c381aba5619753779e889114c193e3abcd8a380962815007c064a2ab8e27d9dac73bc009c56246ec0615becbccb9beb20b245668ba9ed8230eda20b8ab5c45990882e3403cc8861177e31795ec02b8c109e8ae64d70c12c054155a86d676b85e788b871b92693d73b6b4146e08ce2e563138374917657d0b9da7046a35437593664dd1ec3d5801c371e0d04cb58898863bc316582a4be55499cae69aab9e2204b8316c92bd16da7da215ddc6725ce208eed2396ea7d8b3503d19757582136e352b136d49c0676ddc01d07671b63eb2b691a602428e5c2206c3a04c234cc1bebd7a5c35774e1012d061728d2ae1a629c71088be707c92d086bbcc8e5de2884c9a294a6ca5b2937845a4566c46695774e0272d9940997ba64a0560e4a4de864ae7743d785ab5974e8901156155890e5344dc4a4a6193234bc1c537165692bee762e9da8e3556cb24d773cc482adb0dda11489974472295706d4c7cbc2db6e16abe0d64716d2192a9965b4d0eaaa1de2dd33ce203e391d1d50e85a278157d32eaa67a59031263eb874cc9edc6d9303b8b919c01c9a7d3e82651e0255472c2ea27b88a9dc4d39ec9cd93ba4a70c63564977dc2d39dc3878e2e9a00c4bbe3ce175e1492e02c80a5c011b543879b70422cae3eae078c0c828b151ed6a09bd34cb11dd231879b2476c315abe9b8054e5293bd3aad6597bd3b2ae99767480019b55c354100c6b516bc6071b9708da616b3675b2a18a3a9610d09deb106bb4a7617bad9beb51ed9d54a168a7013e431bb5a16d0c9cb3c1926cd43a3a644e319bc5a77a7d43e2c16ace206dce7e775ebe99a00962d520333bbe043590b6b7c4776360b264c7c43d79d01e67496e69414b649597403939aad9a95a1eba56c3520bcae8d9ebe6c6d7d591bbd51033960624795d71799d4be03b5d42a29dccadd8db00c82ccb1865a55e9153e9bb957267d2adc8971561164c97ab6b973e3a20e8be65170603e01aec"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"+":6,"-":3,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.ember","name":"Ember","snap":233,"load":300,"fx":{"ice":500,"stone":550,"crack":300,"pop":550,"fizz":450,"thud":250,"skip":300},"wipe":200,"clear":550,"open":400,"frost":500,"thaw":300,"title":1500,"ice":"! XPM2\n4 3 7 1\n. c none\na c #38A4F0\nb c #78D4FC\nc c #C0F0FF\nd c #F4FFFF\ne c #1868CC\nf c #0C348C\nabcd\neabc\nfeab","stone":"! XPM2\n4 3 6 1\n. c none\na c #605C7C\nb c #8080A0\nc c #A4A0C0\nd c #403C58\ne c #24203C\nabcc\ndbab\nedaa","crack":"! XPM2\n4 3 10 1\n. c none\na c #605C7C\nb c #8080A0\nc c #FF982C\nd c #A4A0C0\ne c #403C58\nf c #FFC054\ng c #FFE8A0\nh c #24203C\ni c #FF8424\nabcd\nefgb\nhiaa","to":"! XPM2\n4 5 2 1\n. c none\n# c #8088A0\n#...\n##..\n###.\n##..\n#...","next":"! XPM2\n4 5 2 1\n. c none\n# c #D6DCE8\n#...\n##..\n###.\n##..\n#...","back":"! XPM2\n5 7 2 1\n. c none\n# c #FFFFFF\n...##\n..##.\n.##..\n##...\n.##..\n..##.\n...##","up":"! XPM2\n5 3 2 1\n. c none\n# c #68A5CC\n..#..\n.###.\n#####","guide":[45,67,"#68A5CCFF"],"spare":[[10,6,2],11,-6],"sl":[9,2],"fxs":{"ice":[8,8],"stone":[8,8],"crack":[6,5],"pop":[13,10],"fizz":[5,8],"thud":[8,4],"skip":[5,5]},"titleX":17,"titleFork":7,"sim":{"gx":42,"lx":22.5,"ly":7.5,"g":26,"fast":1536,"rest":239,"hop":154,"shots":[[[0,0],[663,-165],[765,-191],[866,-216],[968,-241],[1070,-267],[1172,-292],[1274,-318],[1376,-343],[1478,-368],[1580,-394],[1682,-419],[1783,-445],[1885,-470],[1987,-495]],[[0,0],[388,-431],[413,-459],[438,-486],[462,-514],[486,-540],[511,-568],[536,-595],[561,-623],[585,-650],[610,-677],[634,-705],[659,-732],[683,-759],[708,-786]]],"dots":[[[0,0,0,0,0,0,0,0,0,0],[25,7,28,7,30,7,33,8,36,9],[26,6,29,6,32,7,35,8,38,9],[26,6,30,6,33,7,36,7,40,8],[27,6,31,6,34,6,38,7,42,8],[27,6,31,6,36,6,40,6,44,7],[28,6,32,6,37,6,41,6,46,7],[28,6,33,5,38,5,43,6,48,6],[29,6,34,5,39,5,45,5,50,6],[29,6,35,5,41,5,47,5,52,5],[30,5,36,5,42,4,48,4,54,5],[30,5,37,4,43,4,50,4,56,4],[31,5,38,4,45,4,52,3,59,4],[31,5,39,4,46,3,53,3,61,3],[32,5,39,4,47,3,55,3,63,3]],[[0,0,0,0,0,0,0,0,0,0],[24,5,25,4,27,4,28,4,30,4],[24,5,26,4,27,3,29,3,30,3],[24,5,26,4,28,3,29,3,31,3],[24,5,26,4,28,3,30,2,31,2],[24,5,26,3,28,2,30,2,32,2],[24,5,26,3,28,2,30,1,32,1],[25,4,27,3,29,2,31,1,33,1],[25,4,27,3,29,1,31,1,34,0],[25,4,27,2,29,1,32,0,34,0],[25,4,27,2,30,1,32,0,35,-1],[25,4,28,2,30,0,33,-1,35,-2],[25,4,28,2,30,0,33,-1,36,-2],[25,4,28,1,31,0,33,-2,36,-3],[25,4,28,1,31,-1,34,-2,37,-3]]],"levels":14,"count":8192,"band":"c8cb6d0c4a22e3e2232c3353c31e7a390508b0ca221b21c301593187a9e9c24aece6313d870e63b1e3d86d60b3ec5380932602530d180bc33383b1e7532e759a9219b960dd2a1b81a5d188a33db6a7b35e671dc3ab3d393963619e1e0733e9b7389e677ba731581b2b72109d0378db04e3cbed919143c35e7e2005d5195abcee02a3d6b11a5570b5bd803595571ead529670cb735b3cb9659907d5c10d683a6da9ac05966dc648b98b73aadaed93963cad5451b0bd4630c591431d84e2d0182d806dd995472e2505ee037889b317143333a553956a162cd9e116ed048e70b57b36d84707c8c1153998d367036ddaab99d5373e265390e38b12dd663939bae985c055990868a5489cde9b7bc9ec93dd22195c018b91104a2a734c70b6941abec1cbcad552dd0bc29ddb384ad6c495d64149638dc57d048a26a4c189db69e4482ae79d0d957b693c287814e8da6aec9000e7dbe40ae401131913ac26cddc736beb7c434de776452c078663a431d5ba41575a616d7b1a1d990a1510c1977a7ecb079c6e3e8d9c0860ec7cec5c901878ec4d7621503dd45336775e8082ceb25128041d93c8e05ca7283973c267e2d43c807ccb07614b304940d554b227704bc9a9e9b7b1e8674b261a42e7d69294e1e303133b0b8a3a29c66b9ce1496cad99eced81975316882ea53608ece948148a9082ee2626cce6a320e9b81b54da041013de6269514e2354ce856a88b513925d618376374a4bdbee8558c4d7d917d5916512d7c7698adec0694e71656182bacc7cb6e4b94d2827a139de12b82de54b9b85d50bb78a2248dd2b4b48e3ea04213ab7d81d569d163052dd388b7a3bd444577510717b61a9ca096134a34114083744db0305ca6a593d0ce96c54e9218aea1286a4935753c7a8a69870d0aa101a80451aaa5edabccdca0b308a36e081727337b8e1d7d6ae267c01dd693e8a7caa10e85bc8571cad31e34170149a4453d4dde79e509a72cd351b652b95175cca0667a44c5230b556aececa57d457ccda6963700a64dd99e4a0de7c2e69bcaab8a5026744d2868474c8a643c62275e45eae0551e0ee471b1b8b8d79c24d47847ad44d1ae605b1b5601c51e1b82eedb885ed70bb0e8216361894565b14dd20d1812deda155370e14d1c6b8ae843b17ea744cd5cd22b158abd99be8a268a7176c9822be3a8ac6ce71a63546d6baeca02d3ce2bab5a31c4483b09d060d1922a0c9dcdad718764cce511821d0345eb9e9818ad992b92c1055b56c3c87a5479e499b074ab163874e9e690de109a9d344bdd34d9a4a1436949ee715d0a64d5c34195601e03a585d659069ed3d935da8c4589d98ea169a980d8010d0bc4c71505900ec1cac011750d1a2c98e510a400ae8d1e721a47b99588d53dab4b1ab2760209b34eb02db82349d1a9c9aa389100069d58db991adad788a86326da5243b04456be1ad25b3e4728389b287d4ab763d12c009d901ceb416eebe690b3e0ba0da3b1d2bd6d24c845d5dcdb91abe55a0a877092d61086a9655b6956165527bbc177c6934d0357589daa510a4d2c99c534bb129d2db4d95068beb12ecc579d71514ac3d8a3b41bd53a9ab447ca2958bb7a366e83be846175493986cb607bc2475600315d1024c0164bd4669b41c42b2d578185dd8080bb0d6a71b3b0a38799744b7678613599e6d73a544b669143b383ae2087b46599c076ac4e2b9e2bca8d7a980658ad14d28c6c5d404dac08cd60550b5d4e2ed11553248b7843ea2631246b9c1cd92cd342282ac178b651cee80d14b8c67d3d368787055e987264ae2851b7269069b065b32cbd523168dedb03c4d31a98811479d9606b0ce2d1652382188e7016eb0715baec8cb73ebd698b594c2a76093c495a2cc08cc6c2ca7c5913c079e87694a1d31ea5687b0cca2079ad4a90c1b207bee20449222783dc7b99c73d97e8282594b9344a8e862ad71c58c179271e0025b2c3bb9bae0ac0b76a52ea83029bc194c84ae00ba37021c1d64003b5c063ce7cb2ee767ee63db0c568722a8004d3823e02096dd02809780085859c92cd62d4495750b7ca5c21be2c8605cb47b138348b8194cc025728dbb2a1ebcc3c8d6150582e47109576332a9e9b43981a8bba28b0289725e527bd39981a4ab4b52a5935b2e75d3ba5d3b469ba042caae0dc1051c52d7b5ae979b72782b9cd8044e1061690b5b396853ad642c9e9254e34b5674a00127363785a0882a2333e0d72b4433b06278e4e7b3cd6cac7461ca53872248a8b8c400ab15dda6a9ac1650d365b84eb155a6a262d8e5049162881639c0027d287387c51c4546e2197d40e5349e4b8e5cbb561be1d4879e808b62d4b9ab3a653d523ba5a42c0e46a09197322b15d7a8d4251c1a8b94967e25885ba83205121b25c9274e90b48c90ca54b5212418559183ac00d8b5088582c02ad14b82114c0042d166a342cee505de216473e7e457ce81c733b90d46b6685e4529601e853b043ba154a933280232832d3319dcbe9a06497637e7c74b760442cb528d13d090e062874671954e10dc5c92655d5d072161535724a42a0c867a14a5b220b23528349433a5b135c549d989b676b6301d9b12e359680e5da3adce1104c10e372087607ae8032414a811b7c385b94cc4ad2d34a265c83b48c25dc3325874bd05a15532eb44a9847c653351c0a1433a69aae163677211153b5131c8ccd35886a96a5ba285c726102ad1cea30c7653942d3955e3baecd0ed630433d6e0d4c11eb82bcd0455c415cae5d4e8c9897e237e91058be6c6172b3873855ccb3c82d0ec37e0752a01408e4bbe098d506e4ab5035058392e35db0353e9dcd5bd5e084a80e7da2980c6c14506024d63a36c355abb352ea4cda24b207eeb73956a596e3dbd97765c8e0ad5477a2879505730ae1820486e08495e27d54937976adc51b449c07a87e340e6e5736cb34545bbee00e638886ddecb6533323063e4252c68a9db07ea17d82db0222a58d2c5178aa8c339cb5d4d32ab382b72c72819522a7ce5da4e3d718e8932034c37d4e9cb9c74e8477ec5104ae093b28e873a3584807709ac986450b68dc778d7e52c5064be236ee37dadde7c5381d2aedbd414384674a90a7a9e7c1a584d487c7e87c553ce85a1951c7059ad302a660324515e7e5eb4a70e4a912eb72a5e484503ece06b9ceb6613de0754de1d8b454a1624b4e7a417bc4b782038c044597a5cb8a69527e75e5922c2ed3a5c78b6b61ee1a58359c15b8256dde9a17271ad91de25d5e57cb44c8de39a61d80ddba128bda4b05b6c31e906184bc6ca2328d20ecc2cd62a3e0221ad4d1051b1b660276dd5b9c06bbde5d101977423412b724c48734ab164b01472d179283161c59ae66d03a6b7e7645cd3a3e0489d59ec68be3628092c82bba702b39aab9e0c188bec4a1463820eeed9d46cc0a4ea03d8e298e8805aa0c7c57dd7ca3e32e53d320205c842db08eab4ec38966732d7ebde21235ba6bd80ee912b829ea48a404c4a20b26a85bbe85da6d0dda1344439e3ca5e9a44d86221aaa517db57be5c057da8163a4023cc1b9ba886edd7ed238c73a8bd6e974d60c2b6206e97257d2e1c8c870de9312b2307cdd6b7567309a76ab6406348deadbe63a294e8d0526c380d6c1c4a9ae6e3403e26cd8e5de1aa4022a82b1ac3d3a98cd6e4427e4122513d31beda6b32889809ec56734583886603c49d565aa74761045710dc8ac5cc3ac706d0d08dda245782122e46a427c67bae823433a16a303e6870488c9157a8e2e07b7949880dee6e612483dc1332be060e8ab1ce809cdb0d71617d982a947b2eab5629c6373c8918ac30743702d8e5a19470e73ee544a121d73a44c32a88490bb8c1ecd1053de329443ae46104d92dde957dd2a0bb2e112b482cecb3ee0c906824104e690762a038cd26d9eaecc1d77ee42b7c0623c907c1e604d671a2a7268791ebb71cca17bd6b9198129572a4b4e07794d8b5042308d4a2ca8e899aa1d47597304c4c6b922b76aa2348d25c9033862d6c24538075a64c3c8722a3d81676849eabd8b8993d28c1d514ee9663a8adc8027b20685cbb247d2cee815b949a8ea167b60248ec0cd25660d903704521714402e41152ac0682b4ae8d16836c13205186764808b25c2912628616bc1e51b5241c272b71b149664a4423e45614ba24768c6143a3236ac698e23e78496d8666659ea10aa5202a79083bd0e877a6a9689442128bb000dac254ab9c0c40e4ac1e546211aeec9e63d0c5562592c90233c2b38a2c6b176be93cc944d5cd7b9a941b8b350c934ae4751d569439c55d9d99d79c563458b64cd8c6891669c10b9b3434d9a371ea381e6706be767387aec6cdae1a039a316971115ea7d6d97b661cb0046b8d99d026ce4ade4905a6d9c81a3771b0d6270a3cc8bd614a5a91ec48501b9324b866b8e392150c25885870dee40165baea22c41793d8bc0a279c56aa18a714b3e6c20c6ec009ae567eb58c0ec540571d77d0a3531323c110e12c5369a1aeaa0aaac50299232c94d6787178361db2b6c2eb280c707bcc6acc88e199c2808b21eab9b69d998b157c51788824c6a2c84d069996bccccce85458d77d26170c43714333cb127c37e7804e8719c9e871ec3d82e77b9dd2e9ae1242e11614d24a9ae76bb6c8221163c1783e60d5b89cba9396d3189239126b7a4a712867be1392b6240413aa40ea4926447bbe1164329967be84a6be44341145dda55577e545deeb972a0777b2aa9c0521bc78b9654eb835de070432374087008799b7db6c820c381aba5619753779e889114c193e3abcd8a380962815007c064a2ab8e27d9dac73bc009c56246ec0615becbccb9beb20b245668ba9ed8230eda20b8ab5c45990882e3403cc8861177e31795ec02b8c109e8ae64d70c12c054155a86d676b85e788b871b92693d73b6b4146e08ce2e563138374917657d0b9da7046a35437593664dd1ec3d5801c371e0d04cb58898863bc316582a4be55499cae69aab9e2204b8316c92bd16da7da215ddc6725ce208eed2396ea7d8b3503d19757582136e352b136d49c0676ddc01d07671b63eb2b691a602428e5c2206c3a04c234cc1bebd7a5c35774e1012d061728d2ae1a629c71088be707c92d086bbcc8e5de2884c9a294a6ca5b2937845a4566c46695774e0272d9940997ba64a0560e4a4de864ae7743d785ab5974e8901156155890e5344dc4a4a6193234bc1c537165692bee762e9da8e3556cb24d773cc482adb0dda11489974472295706d4c7cbc2db6e16abe0d64716d2192a9965b4d0eaaa1de2dd33ce203e391d1d50e85a278157d32eaa67a59031263eb874cc9edc6d9303b8b919c01c9a7d3e82651e0255472c2ea27b88a9dc4d39ec9cd93ba4a70c63564977dc2d39dc3878e2e9a00c4bbe3ce175e1492e02c80a5c011b543879b70422cae3eae078c0c828b151ed6a09bd34cb11dd231879b2476c315abe9b8054e5293bd3aad6597bd3b2ae99767480019b55c354100c6b516bc6071b9708da616b3675b2a18a3a9610d09deb106bb4a7617bad9beb51ed9d54a168a7013e431bb5a16d0c9cb3c1926cd43a3a644e319bc5a77a7d43e2c16ace206dce7e775ebe99a00962d520333bbe043590b6b7c4776360b264c7c43d79d01e67496e69414b649597403939aad9a95a1eba56c3520bcae8d9ebe6c6d7d591bbd51033960624795d71799d4be03b5d42a29dccadd8db00c82ccb1865a55e9153e9bb957267d2adc8971561164c97ab6b973e3a20e8be65170603e01aec"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"+":6,"-":3,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -878,8 +878,8 @@ ctl.ok = ctl.start = false;
 backs = 0;
 }
 onBack = () => {                    // Back ends the app on the title only; elsewhere the page has its own use for it
-if (bookAt > 0) {                  // (the guide: a page back - on its first page Back leaves, as on the title)
-backs++;
+if (reading || Date.now() < bookShut) {        // (the guide: a page back - on its first page Back closes the book;
+backs++;                                       // one Back too many, pressed as it closes, does not leave the app)
 return true;
 }
 if (mode === "title") return D.stay === 1;     // (TEST builds --stay: the app cannot be left, for the ride of random keys)
@@ -936,7 +936,9 @@ function titleEls(held, card) {
 const els = [tt(rect("bg", 0, 0, 72, 16, "#000000FF", 0), 0)];
 if (!held) return els;
 els.push(tt(film("hold", "title_hold", 0, 0, 0), 1), tt(film("em", "ember", D.titleFork - 4, 3, 0), 2),
-tt(film("ok", "ok", 33, 0, 0), 3));          // the arrow under the top button: press here
+tt(film("ok", "ok", 33, 0, 0), 3),           // the mark under Start: play
+tt(words("gd", "GUIDE", "small", D.guide[0], -2, D.guide[2], "top_left", 0), 7),     // at the knob: press it for the guide
+tt(bitmap("ga", D.up, D.guide[1], 0, 0), 7));
 if (card) els.push(tt(rect("bk", 14, 3, 43, 13, "#000000FF", 0), 4));
 if (card === 1) {                  // what Back does here: BACK, a mark, EXIT - 43 columns from 14 on
 els.push(tt(words("c1", "BACK", "small", 14, 5, GREY, "top_left", 0), 5), tt(bitmap("ca", D.to, 36, 7, 0), 5),
@@ -955,30 +957,36 @@ if (!splashUp) return;
 splashUp = false;
 await wipe(["zz_sp"]);
 }
-async function endBook() {
-if (!bookUp) return;
-bookUp = false;
-await wipe(BOOK_IDS);
-}
 async function openTitle() {
 mode = "title";
 newBand();
 await page("title", titleEls(false));
 await post([wire(tt(film("fm", "title", 0, 0, 0, false), 6))]);   // the film itself, seen from its first frame
 await endSplash();
-await endBook();
+await bookHide();                                // (the title is in place under the guide's page: the page goes)
 const end = Date.now() + D.title + 80;
 while (!stopped && Date.now() < end && !ctl.ok && !ctl.start) await nap(end - Date.now());
 await put(titleEls(true, false));
 await wipe(["t_fm"]);
+await bookMake();                                // the guide lies ready outside the screen: OK only moves a page in
 titleAt = Date.now();
 }
 async function titleStep() {
 const k = keys();
-if (k.ok || k.start) {
+if (k.start) {
 await newGame();
 return;
 }
+if (k.ok) {                        // the guide, over the main screen; closed, it leaves the main screen as it was
+await bookShow();
+await bookRead(() => show(titleEls(true, 0)));
+if (stopped) return;
+await show(titleEls(true, 0));               // (a card that stood there is gone before the book is)
+await bookHide();
+titleAt = Date.now();
+return;
+}
+if (Date.now() - bookSent > 45000) await bookMake(true);         // (what waits outside the screen runs out as well)
 if (await startedOver()) return;
 const age = (Date.now() - titleAt) % 9000, card = age < 4200 ? 0 : age < 6400 ? 1 : best > 0 ? 2 : 0;
 await show(titleEls(true, card));
@@ -1112,6 +1120,7 @@ newRound();
 mode = "aim";
 newBand();
 await page("game" + games, fieldEls("aim").concat(dotEls(false), hintEls(false)));
+await bookDrop();
 await buildIn();
 ctl.turn = 0;                                    // a press while the towers came down was not a shot (Back is kept)
 ctl.ok = ctl.start = false;
@@ -1131,40 +1140,72 @@ startOn = v;
 startN = v ? startN + 1 : 0;
 } });
 const BOOK_Z = TOP_Z - 2000, BOOK_IDS = ["b_p0", "b_p1", "b_p2", "b_p3", "b_p4"];
-let bookUp = false;                 // the book's pictures exist
+let bookUp = false;                 // the book's pictures exist (outside the screen, but for the page on show)
+let bookOn = -1, bookSent = 0;      // the page on show (-1: none); when the waiting pictures were last sent
+let reading = false;                // the book is open and has the controls
+let bookShut = 0;                   // until then (a moment after the book has closed) Back is still the book's
 function bookPage(n, on) {
 return wire(film(BOOK_IDS[n], "gp" + (n + 1), 0, 0, BOOK_Z + (on ? 1 : 0)), on ? 0 : OFF, 0);
 }
-async function bookOpen() {
+async function bookMake(again) {
+if (bookUp && !again) return;
 bookUp = true;
+bookSent = Date.now();
 await post([bookPage(1, false), bookPage(2, false), bookPage(3, false), bookPage(4, false), bookPage(0, false)]);
+}
+async function bookShow() {
+await bookMake();
+bookOn = 0;
 await post([bookPage(0, true)]);
 }
-async function bookRead() {
+async function bookOpen() {
+await bookShow();
+}
+async function bookHide() {
+if (bookOn < 0) return;
+const was = bookOn;
+bookOn = -1;
+bookSent = Date.now();
+await post([bookPage(was, false)]);
+bookShut = Date.now() + 500;
+}
+async function bookDrop() {
+if (!bookUp) return;
+bookUp = false;
+bookOn = -1;
+await wipe(BOOK_IDS);
+}
+async function bookRead(keep) {
 let at = 0, sent = Date.now();
 bookAt = 0;
 forget();
+reading = true;
 while (!stopped) {
 if (!touched()) await nap(20000);            // (a press that came while the last turn was on its way is taken at once)
 if (stopped) break;
-const go = ctl.turn + okN + startN - backs, k = keys(), last = BOOK_IDS.length - 1;       // pages forward (back, if less than 0)
-if (!k.turn && !k.ok && !k.start && !k.back) {                 // nothing pressed: the page is kept alive, no more
-if (Date.now() - sent > 45000) {
-await post([bookPage(at, true)]);
+if (Date.now() - sent > 45000) {             // the page (and what waits) is kept alive
 sent = Date.now();
+await post([bookPage(at, true)]);
+const others = [];
+for (let n = 0; n < BOOK_IDS.length; n++) if (n !== at) others.push(bookPage(n, false));
+await post(others);
+if (keep) await keep();
 }
-continue;
-}
-if (at === last) break;                                        // any control: into the app
+const b = backs, go = ctl.turn + okN + startN - b, k = keys(), last = BOOK_IDS.length - 1;   // pages forward (back, if less than 0)
+if (!k.turn && !k.ok && !k.start && !k.back) continue;
+if (at === last) break;                                        // any control: the book is closed
+if (b > 0 && at + go < 0) break;                               // Back on the first page: closed as well
 const to = Math.max(0, Math.min(last, at + go));
 if (to === at) continue;
 await post([bookPage(to, true), bookPage(at, false)]);         // ONE request: the new page in (above), the old one out
-at = bookAt = to;
+at = bookAt = bookOn = to;
 sent = Date.now();
 }
+bookShut = Date.now() + 1500;
+reading = false;
 bookAt = 0;
 forget();
-if (!stopped) {
+if (!stopped && !seen) {
 seen = true;
 save();
 }

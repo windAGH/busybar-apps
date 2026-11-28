@@ -14,11 +14,11 @@ A slingshot game for the BUSY Bar. Sling a glowing ember at towers of ice and st
 
 ## Controls
 
-- Guide: the first time you open the app, five short pages show the controls. Start, OK or a turn of the knob forward goes to the next page; a turn backward or Back goes one page back. On the last page any control goes on to the title. The guide does not come again by itself.
-- Title: Start (or OK) starts a game. Back leaves the app.
+- Main screen: the app opens here every time. Start starts a game. Pressing the knob (OK) opens the guide. Back leaves the app.
+- Guide: five short pages show the controls. It opens by itself the first time you open the app, and later whenever you press the knob (OK) on the main screen. Start, OK or a turn of the knob forward goes to the next page; a turn backward or Back goes one page back. Any control on the last page, or Back on the first, closes the guide and leads to the main screen.
 - Aiming: turn the knob to draw the sling back, further for a harder shot. OK changes between a flat, fast shot and a high lob. Start lets go. Back opens the pause card.
 - Pause card: turn the knob to choose RESUME, NEW or EXIT, Start (or OK) takes it, Back resumes.
-- Game over: Start (or OK) plays again, Back goes to the title.
+- Game over: Start (or OK) plays again, Back goes to the main screen.
 
 ## Scoring
 
