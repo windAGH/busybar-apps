@@ -29,7 +29,7 @@ A small tank of pet fish on your desk. Feed them, but not too often, light the t
 - **Guide**: the first time, five pages show the controls. Start, OK or a forward turn of the knob goes to the next page; a backward turn or Back goes to the page before. On the last page any control starts the app. It does not come again by itself.
 - **Tank**: Start feeds. Turn the knob for the lamp, brighter or darker. OK opens the menu. Back leaves the app.
 - **Menu**: two pages side by side, the fish shop and the status; turn the knob to go from one to the other. Back returns to the tank.
-- **Fish shop**: OK or Start opens a capsule.
+- **Fish shop**: OK or Start opens a capsule. When none is left for the day, the page says COME BACK TOMORROW.
 - **Questions** (TANK IS FULL, and KEEP or RELEASE): turn the knob to choose, OK or Start to confirm. Back returns to the shop from the first question, and keeps the fish at the second.
 
 ## Settings

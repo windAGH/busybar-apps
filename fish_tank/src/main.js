@@ -8,7 +8,7 @@
 // (its API, clock, controls, drawing), then the app (what is kept, the rules, the tank and its fish, the pages of
 // writing, the shop), then the start. Everything that moves smoothly is an animation file in animations/.
 
-const D = {"app":"io.github.windagh.fish_tank","name":"Fish Tank","fish":[{"n":"GUPPY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.4,"d":[0.05,0.5]},{"n":"GOLDFISH","r":0,"w":9,"h":6,"bw":21,"bh":14,"sp":2.4,"d":[0.35,0.95]},{"n":"TETRA","r":0,"w":7,"h":4,"bw":17,"bh":10,"sp":4.0,"d":[0.15,0.7]},{"n":"MOLLY","r":0,"w":8,"h":6,"bw":19,"bh":14,"sp":2.8,"d":[0.25,0.85]},{"n":"DANIO","r":0,"w":8,"h":4,"bw":20,"bh":10,"sp":4.2,"d":[0.0,0.45]},{"n":"PLATY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.0,"d":[0.4,0.95]},{"n":"ANGELFISH","r":1,"w":8,"h":9,"bw":13,"bh":14,"sp":2.0,"d":[0.1,0.75]},{"n":"BETTA","r":1,"w":11,"h":7,"bw":22,"bh":14,"sp":1.9,"d":[0.05,0.6]},{"n":"PUFFER","r":1,"w":7,"h":6,"bw":17,"bh":14,"sp":1.7,"d":[0.5,1.0]},{"n":"BLUE TANG","r":1,"w":9,"h":6,"bw":21,"bh":14,"sp":3.3,"d":[0.2,0.9]},{"n":"SEAHORSE","r":2,"w":6,"h":9,"bw":10,"bh":14,"sp":1.0,"d":[0.45,1.0]},{"n":"GOLDEN KOI","r":2,"w":12,"h":5,"bw":23,"bh":10,"sp":2.5,"d":[0.3,0.95]}],"shade":{"a":[189,138,89,43,0],"b":[117,79,48,23,0],"ink":"#000614"},"ms":{"turn":833,"die":1000,"gone":1000,"stroke":83.33333333333333,"strokes":12,"tank":12000,"bubble":2350,"wash":350,"capsule":2700,"reveal":[2250,2750,4050]},"plant":[57,3],"fishAt":[12.0,8.0],"page":["#072846FF","#010712FF"],"arrow":["! XPM2\n6 3 3 1\n. c none\na c #173942\nb c #6E8F97\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #2D6A74\nb c #83BCC5\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #439BA5\nb c #98EAF3\n..ab..\n.aabb.\naaabbb"],"left":"! XPM2\n3 6 3 1\n. c none\na c #98EAF3\nb c #439BA5\n..a\n.aa\naaa\nbbb\n.bb\n..b","more":"! XPM2\n3 5 2 1\n. c none\na c #3A8996\na..\naa.\naaa\naa.\na..","turn":["! XPM2\n9 5 3 1\n. c none\na c #183E47\nb c #63868F\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #30727C\nb c #7AB7C0\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b.."],"press":"! XPM2\n5 5 3 1\n. c none\na c #90E8F2\nb c #48A6B1\naaaaa\n.aaa.\n..a..\n.....\nbbbbb","turn2":"! XPM2\n6 3 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n.a..b.\naa..bb\n.a..b.","small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.fish_tank","name":"Fish Tank","fish":[{"n":"GUPPY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.4,"d":[0.05,0.5]},{"n":"GOLDFISH","r":0,"w":9,"h":6,"bw":21,"bh":14,"sp":2.4,"d":[0.35,0.95]},{"n":"TETRA","r":0,"w":7,"h":4,"bw":17,"bh":10,"sp":4.0,"d":[0.15,0.7]},{"n":"MOLLY","r":0,"w":8,"h":6,"bw":19,"bh":14,"sp":2.8,"d":[0.25,0.85]},{"n":"DANIO","r":0,"w":8,"h":4,"bw":20,"bh":10,"sp":4.2,"d":[0.0,0.45]},{"n":"PLATY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.0,"d":[0.4,0.95]},{"n":"ANGELFISH","r":1,"w":8,"h":9,"bw":13,"bh":14,"sp":2.0,"d":[0.1,0.75]},{"n":"BETTA","r":1,"w":11,"h":7,"bw":22,"bh":14,"sp":1.9,"d":[0.05,0.6]},{"n":"PUFFER","r":1,"w":7,"h":6,"bw":17,"bh":14,"sp":1.7,"d":[0.5,1.0]},{"n":"BLUE TANG","r":1,"w":9,"h":6,"bw":21,"bh":14,"sp":3.3,"d":[0.2,0.9]},{"n":"SEAHORSE","r":2,"w":6,"h":9,"bw":10,"bh":14,"sp":1.0,"d":[0.45,1.0]},{"n":"GOLDEN KOI","r":2,"w":12,"h":5,"bw":23,"bh":10,"sp":2.5,"d":[0.3,0.95]}],"shade":{"a":[189,138,89,43,0],"b":[117,79,48,23,0],"ink":"#000614"},"ms":{"turn":833,"die":1000,"gone":1000,"stroke":83.33333333333333,"strokes":12,"tank":12000,"bubble":2350,"wash":350,"capsule":2700,"reveal":[2250,2750,4050]},"plant":[57,3],"fishAt":[12.0,8.0],"page":["#072846FF","#010712FF"],"arrow":["! XPM2\n6 3 3 1\n. c none\na c #173942\nb c #6E8F97\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #2D6A74\nb c #83BCC5\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #439BA5\nb c #98EAF3\n..ab..\n.aabb.\naaabbb"],"left":"! XPM2\n3 6 3 1\n. c none\na c #98EAF3\nb c #439BA5\n..a\n.aa\naaa\nbbb\n.bb\n..b","more":"! XPM2\n3 5 2 1\n. c none\na c #8C9098\na..\naa.\naaa\naa.\na..","turn":["! XPM2\n9 5 3 1\n. c none\na c #183E47\nb c #63868F\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #30727C\nb c #7AB7C0\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b.."],"press":"! XPM2\n5 5 3 1\n. c none\na c #90E8F2\nb c #48A6B1\naaaaa\n.aaa.\n..a..\n.....\nbbbbb","turn2":"! XPM2\n6 3 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n.a..b.\naa..bb\n.a..b.","small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -488,6 +488,7 @@ const FILE = "/ext/data/" + (D.test ? "tank_test.json" : "tank.json");
 const TICK = 200;                   // ms between two looks at the tank: at most five requests a second
 const FLOOR = 13;                   // the row where the sand begins: fish stay above it
 const AQUA = "#60DEECFF", GREY = "#8CA4BEFF", AMBER = "#FFC23CFF", RED = "#FF6E5AFF";
+const QUIET = "#8C9098FF";          // the guide's page number and its mark "there is more": grey, so that they are not taken for a control
 const RARE = ["#96C4E0FF", "#9684FFFF", "#FFCE40FF"], RARE_WORD = ["COMMON", "RARE", "EPIC"];
 const TOP_Z = 2000000000;
 if (D.lag) {                        // TEST build: every request is held for 80-150 ms, as on a slow bar
@@ -1146,15 +1147,24 @@ const h = ms / HOUR;
 return h < 1 ? Math.floor(ms / 60000) + "M" : h < 48 ? Math.floor(h) + "H" : Math.floor(h / 24) + "D";
 }
 const MENU = 2;
-let menuPage = 0, menuFade = 0, menuAt = 0, menuBar = 1;
+let menuPage = 0, menuFade = 0, menuAt = 0, menuBar = 1, menuSold = 0, soldAt = 0, menuStir = 0;
 function menuEls() {
 const at = clock(), left = drawsLeft(at), n = st.fish.length, x0 = menuPage === 0 ? 0 : OFF, x1 = menuPage === 1 ? 0 : OFF;
 const hint = Math.max(0, 3 - menuFade), open = left > 0 ? Math.max(0, menuFade - 3) : 0;
+const count = left > 0 ? 3 : Math.max(0, 3 - menuSold), words = left > 0 ? 0 : Math.max(0, menuSold - 3);      // 3 ... 0 and 0 ... 4
+let breath = 1;
+if (words === 4 && !menuStir && menuPage === 0) {                     // a very slow wave: 1 ... 0.62 ... 1 in six seconds, from full
+const w = tri((Date.now() - soldAt) / 6000 + 0.5);
+breath = 0.81 + 0.19 * w * (1.5 - 0.5 * w * w);
+}
 let dots = "";
 for (let k = 0; k < MENU; k++) dots += (k ? ".." : "") + (k === menuPage ? "aa" : "bb");
 const els = [deep(), bitmap("dots", "! XPM2\n" + dots.length + " 1 3 1\n. c none\na c #60DEEC\nb c #2C4C68\n" + dots, 36 - (dots.length >> 1), 15, 4)];
 els.push(film("eg", "egg", left > 0 ? x0 : OFF, 1, 1), film("eo", "egg_off", left > 0 ? OFF : x0, 1, 1, false),
-small("t1", "FISH SHOP", 17 + x0, 0, WHITE), small("t2", left + " LEFT", 17 + x0, 7, left > 0 ? AQUA : GREY),
+small("t1", "FISH SHOP", 17 + (count ? x0 : OFF), 0, faded(WHITE, Math.max(1, count) / 3)),
+small("t2", left + " LEFT", 17 + (count ? x0 : OFF), 7, faded(left > 0 ? AQUA : GREY, Math.max(1, count) / 3)),
+small("s1", "COME BACK", 17 + menuStir + (words ? x0 : OFF), 0, faded(GREY, Math.max(1, words) / 4 * breath)),
+small("s2", "TOMORROW", 17 + menuStir + (words ? x0 : OFF), 7, faded(AQUA, Math.max(1, words) / 4 * breath)),
 small("ok", "OK", mid("OK", 61.5) + (open ? x0 : OFF), 0, faded(AQUA, Math.max(1, open) / 3)),
 small("go", "OPEN", mid("OPEN", 61.5) + (open ? x0 : OFF), 7, faded(WHITE, Math.max(1, open) / 3)),
 bitmap("hl", D.turn[Math.max(1, hint) - 1], 57 + (hint ? x0 : OFF), 3, 4),
@@ -1189,19 +1199,26 @@ if (onPage !== "menu") {
 menuPage = 0;
 menuFade = 0;
 menuBar = 1;
+menuSold = 0;
+menuStir = 0;
 await draw("menu", menuEls());
 menuAt = Date.now();
 } else {
 await sync(menuEls());
 }
-const fading = menuFade < 6 && (menuFade > 0 || Date.now() - menuAt >= 2200);
-await nap(fading ? 110 : menuFade === 0 ? Math.max(40, 2200 - (Date.now() - menuAt)) : FAST > 1 ? 1000 : 5000);
+const sold = menuPage === 0 && drawsLeft(clock()) < 1;                 // nothing to open today
+const selling = sold && menuSold < 7 && (menuSold > 0 || Date.now() - menuAt >= 900);
+const fading = !sold && menuFade < 6 && (menuFade > 0 || Date.now() - menuAt >= 2200);
+await nap(selling || fading ? 110 : sold ? (menuSold === 0 ? Math.max(40, 900 - (Date.now() - menuAt)) : 350)
+: menuFade === 0 ? Math.max(40, 2200 - (Date.now() - menuAt)) : FAST > 1 ? 1000 : 5000);
 const k = keys();
 if (k.back) {
 wentBack = true;
 mode = "tank";
 } else if (k.turn) {                                // the other page; the hint has done its work
 menuFade = 6;
+if (menuSold < 7) soldAt = Date.now();
+menuSold = 7;                                     // (and if nothing is left, the words are simply there on coming back)
 menuPage = (menuPage + (k.turn > 0 ? 1 : MENU - 1)) % MENU;
 if (menuPage === 1) {                             // the status: its tube fills up
 menuBar = 0;
@@ -1212,12 +1229,23 @@ await sleep(n === 1 ? 0 : 45);
 }
 }
 } else if ((k.ok || k.start) && menuPage === 0) {
-if (drawsLeft(clock()) < 1) await card("COME BACK", "TOMORROW", GREY, 1500);
-else if (st.fish.length >= MOST) await card("TANK IS FULL", "NO ROOM", AMBER, 2000);
+if (drawsLeft(clock()) < 1) {                     // nothing to open: the page says so already - its words stir
+menuFade = 6;
+menuSold = 7;
+menuStir = 1;
+await sync(menuEls());
+await sleep(90);
+menuStir = 0;
+soldAt = Date.now();                            // (the next look puts them back, at full brightness)
+} else if (st.fish.length >= MOST) await card("TANK IS FULL", "NO ROOM", AMBER, 2000);
 else if (st.fish.length >= ROOM) {
 pick = 0;
 mode = "full";
 } else await openCapsule();
+} else if (selling) {                               // the count goes, and the hint with it; then the words come
+menuSold++;
+menuFade = menuSold < 3 ? menuSold : 6;
+if (menuSold === 7) soldAt = Date.now();
 } else if (fading) {
 menuFade++;
 }
@@ -1244,7 +1272,7 @@ const PAGES = 5;
 function guideEls(page) {
 const at = (n) => (n === page ? 0 : OFF), mids = (word, font) => mid(word, 35.5, font), right = (word) => 65 - smallWidth(word);
 const big = (id, word, x, y, colour) => still(text(id, word, "bold", x, y, colour, "top_left", 4));
-const els = [film("bg", "guide", 0, 0, 0, false), small("n", (page + 1) + "/" + PAGES, 2, -1, "#46A8BCFF"), bitmap("nx", D.more, 67, 10, 4)];
+const els = [film("bg", "guide", 0, 0, 0, false), small("n", (page + 1) + "/" + PAGES, 2, -1, QUIET), bitmap("nx", D.more, 67, 10, 4)];
 els.push(bitmap("1a", D.arrow[2], 33 + at(0), 0, 4), big("1w", "FEED", mids("FEED", "bold") + at(0), 4, WHITE));
 els.push(bitmap("2a", D.arrow[2], 59 + at(1), 0, 4),
 bitmap("2t", D.turn2, right("LIGHT") - 9 + at(1), 5, 4), small("2x", "LIGHT", right("LIGHT") + at(1), 2, WHITE),
