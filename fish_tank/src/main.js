@@ -8,7 +8,7 @@
 // (its API, clock, controls, drawing), then the app (what is kept, the rules, the tank and its fish, the pages of
 // writing, the shop), then the start. Everything that moves smoothly is an animation file in animations/.
 
-const D = {"app":"io.github.windagh.fish_tank","name":"Fish Tank","fish":[{"n":"GUPPY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.4,"d":[0.05,0.5]},{"n":"GOLDFISH","r":0,"w":9,"h":6,"bw":21,"bh":14,"sp":2.4,"d":[0.35,0.95]},{"n":"TETRA","r":0,"w":7,"h":4,"bw":17,"bh":10,"sp":4.0,"d":[0.15,0.7]},{"n":"MOLLY","r":0,"w":8,"h":6,"bw":19,"bh":14,"sp":2.8,"d":[0.25,0.85]},{"n":"DANIO","r":0,"w":8,"h":4,"bw":20,"bh":10,"sp":4.2,"d":[0.0,0.45]},{"n":"PLATY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.0,"d":[0.4,0.95]},{"n":"ANGELFISH","r":1,"w":8,"h":9,"bw":13,"bh":14,"sp":2.0,"d":[0.1,0.75]},{"n":"BETTA","r":1,"w":11,"h":7,"bw":22,"bh":14,"sp":1.9,"d":[0.05,0.6]},{"n":"PUFFER","r":1,"w":7,"h":6,"bw":17,"bh":14,"sp":1.7,"d":[0.5,1.0]},{"n":"BLUE TANG","r":1,"w":9,"h":6,"bw":21,"bh":14,"sp":3.3,"d":[0.2,0.9]},{"n":"SEAHORSE","r":2,"w":6,"h":9,"bw":10,"bh":14,"sp":1.0,"d":[0.45,1.0]},{"n":"GOLDEN KOI","r":2,"w":12,"h":5,"bw":23,"bh":10,"sp":2.5,"d":[0.3,0.95]}],"shade":{"a":[189,138,89,43,0],"b":[117,79,48,23,0],"ink":"#000614"},"ms":{"turn":833,"die":1000,"gone":1000,"stroke":83.33333333333333,"strokes":12,"tank":12000,"bubble":2350,"wash":350,"capsule":2700,"reveal":[2250,2750,4050]},"plant":[57,3],"fishAt":[12.0,8.0],"page":["#072846FF","#010712FF"],"arrow":["! XPM2\n6 3 3 1\n. c none\na c #173942\nb c #6E8F97\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #2D6A74\nb c #83BCC5\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #439BA5\nb c #98EAF3\n..ab..\n.aabb.\naaabbb"],"left":"! XPM2\n3 6 3 1\n. c none\na c #98EAF3\nb c #439BA5\n..a\n.aa\naaa\nbbb\n.bb\n..b","more":"! XPM2\n3 5 2 1\n. c none\na c #8C9098\na..\naa.\naaa\naa.\na..","turn":["! XPM2\n9 5 3 1\n. c none\na c #183E47\nb c #63868F\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #30727C\nb c #7AB7C0\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b.."],"press":"! XPM2\n5 5 3 1\n. c none\na c #90E8F2\nb c #48A6B1\naaaaa\n.aaa.\n..a..\n.....\nbbbbb","turn2":"! XPM2\n6 3 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n.a..b.\naa..bb\n.a..b.","small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.fish_tank","name":"Fish Tank","fish":[{"n":"GUPPY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.4,"d":[0.05,0.5]},{"n":"GOLDFISH","r":0,"w":9,"h":6,"bw":21,"bh":14,"sp":2.4,"d":[0.35,0.95]},{"n":"TETRA","r":0,"w":7,"h":4,"bw":17,"bh":10,"sp":4.0,"d":[0.15,0.7]},{"n":"MOLLY","r":0,"w":8,"h":6,"bw":19,"bh":14,"sp":2.8,"d":[0.25,0.85]},{"n":"DANIO","r":0,"w":8,"h":4,"bw":20,"bh":10,"sp":4.2,"d":[0.0,0.45]},{"n":"PLATY","r":0,"w":7,"h":5,"bw":17,"bh":12,"sp":3.0,"d":[0.4,0.95]},{"n":"ANGELFISH","r":1,"w":8,"h":9,"bw":13,"bh":14,"sp":2.0,"d":[0.1,0.75]},{"n":"BETTA","r":1,"w":11,"h":7,"bw":22,"bh":14,"sp":1.9,"d":[0.05,0.6]},{"n":"PUFFER","r":1,"w":7,"h":6,"bw":17,"bh":14,"sp":1.7,"d":[0.5,1.0]},{"n":"BLUE TANG","r":1,"w":9,"h":6,"bw":21,"bh":14,"sp":3.3,"d":[0.2,0.9]},{"n":"SEAHORSE","r":2,"w":6,"h":9,"bw":10,"bh":14,"sp":1.0,"d":[0.45,1.0]},{"n":"GOLDEN KOI","r":2,"w":12,"h":5,"bw":23,"bh":10,"sp":2.5,"d":[0.3,0.95]}],"shade":{"a":[189,138,89,43,0],"b":[117,79,48,23,0],"ink":"#000614"},"ms":{"turn":833,"die":1000,"gone":1000,"stroke":83.33333333333333,"strokes":12,"tank":12000,"bubble":2350,"wash":350,"capsule":2700,"reveal":[2250,2750,4050]},"plant":[57,3],"fishAt":[12.0,8.0],"page":["#072846FF","#010712FF"],"arrow":["! XPM2\n6 3 3 1\n. c none\na c #173942\nb c #6E8F97\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #2D6A74\nb c #83BCC5\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #439BA5\nb c #98EAF3\n..ab..\n.aabb.\naaabbb"],"left":"! XPM2\n3 6 3 1\n. c none\na c #98EAF3\nb c #439BA5\n..a\n.aa\naaa\nbbb\n.bb\n..b","more":"! XPM2\n3 5 2 1\n. c none\na c #8C9098\na..\naa.\naaa\naa.\na..","knob":["! XPM2\n6 3 3 1\n. c none\na c #2A3038\nb c #80868D\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #53585F\nb c #A6ABB2\n..ab..\n.aabb.\naaabbb","! XPM2\n6 3 3 1\n. c none\na c #7B7F86\nb c #CCD0D6\n..ab..\n.aabb.\naaabbb"],"turn":["! XPM2\n9 5 3 1\n. c none\na c #183E47\nb c #63868F\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #30727C\nb c #7AB7C0\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b..","! XPM2\n9 5 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n..a...b..\n.aa...bb.\naaa...bbb\n.aa...bb.\n..a...b.."],"press":"! XPM2\n5 5 3 1\n. c none\na c #90E8F2\nb c #48A6B1\naaaaa\n.aaa.\n..a..\n.....\nbbbbb","turn2":"! XPM2\n6 3 3 1\n. c none\na c #48A6B1\nb c #90E8F2\n.a..b.\naa..bb\n.a..b.","small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6,"!":2},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -489,6 +489,8 @@ const TICK = 200;                   // ms between two looks at the tank: at most
 const FLOOR = 13;                   // the row where the sand begins: fish stay above it
 const AQUA = "#60DEECFF", GREY = "#8CA4BEFF", AMBER = "#FFC23CFF", RED = "#FF6E5AFF";
 const QUIET = "#8C9098FF";          // the guide's page number and its mark "there is more": grey, so that they are not taken for a control
+const KNOB = "#B0B6C0FF";           // the main screen's cue at the knob (GUIDE): a light grey - the aqua marks are the app's own controls
+const TITLE_MS = 4000;              // how long the main screen stands before the tank is entered by itself
 const RARE = ["#96C4E0FF", "#9684FFFF", "#FFCE40FF"], RARE_WORD = ["COMMON", "RARE", "EPIC"];
 const TOP_Z = 2000000000;
 if (D.lag) {                        // TEST build: every request is held for 80-150 ms, as on a slow bar
@@ -547,6 +549,8 @@ if (typeof kept.pend === "number" && D.fish[kept.pend] && fish.length < MOST) st
 st.rs = typeof kept.rs === "boolean" ? kept.rs : null;
 st.guide = kept.guide === true;
 st.light = Math.round(num(kept.light, 0, LIGHTS - 1, LIGHT0));
+const c = kept.card;        // (fish died while the app was closed, and it was left again before that was said)
+if (c && c.length === 2 && typeof c[0] === "string" && typeof c[1] === "string" && c[0].length <= 16 && c[1].length <= 16) st.card = [c[0], c[1]];
 }
 } catch (err) {
 }
@@ -602,7 +606,9 @@ async function startOver() {
 clearAll();
 await save();
 await card("STARTING OVER", "NEW TANK", AQUA, 1500);
-await guide();                    // (like new: the guide again)
+await guide();                    // (like new: the guide again, and after it the main screen)
+afterTitle = null;
+title.on = true;
 mode = "tank";
 }
 const fullness = (f, at) => Math.max(0, Math.min(1, f.f - (at - f.t) / EMPTY));
@@ -923,6 +929,7 @@ live.set(el.id, { s: s, t: Date.now(), el: el });
 const note = { word: "", colour: AMBER, from: 0, until: 0, level: 0, shown: "" };
 function say(word, colour, ms, wait) {
 if (hint.level) wait = (wait || 0) + 700;       // (the sign of an empty tank gives way first: it fades, then the words come)
+if (title.on) wait = (wait || 0) + Math.max(0, title.until - Date.now()) + 900;      // (and so does the main screen)
 note.word = word;
 note.colour = colour || AMBER;
 note.from = Date.now() + (wait || 0);
@@ -949,7 +956,7 @@ put(parts, small("t_nt", note.word, mid(note.word, 35.5), 7, faded(note.colour, 
 const hint = { level: 0 };
 const HINT_IDS = ["t_h0", "t_h3", "t_h4", "t_h5"];
 function hintParts(now, parts, gone) {
-const lasting = st.fish.length === 0 && sw.length === 0;
+const lasting = !title.on && st.fish.length === 0 && sw.length === 0;
 const want = lasting && !(note.word && now < note.until + 300) ? 3 : 0;     // (it makes room while other words are on)
 const was = hint.level, level = was < want ? was + 1 : was > want ? was - 1 : was;     // it fades: a step at a time
 if (level === was) return;
@@ -963,6 +970,41 @@ put(parts, grad("t_h0", 0, 0, 72, 10, shade, shade, 40));
 put(parts, grad("t_h5", 0, 10, 72, 4, shade, "#00081400", 40));
 put(parts, bitmap("t_h3", D.arrow[level - 1], 59, 1, 41));
 put(parts, small("t_h4", "OK: SHOP", 71 - smallWidth("OK: SHOP"), 3, faded(WHITE, level / 3), "top_left", 41));
+}
+const title = { on: false, level: 0, until: 0 };
+const TITLE_IDS = ["t_m0", "t_m1", "t_m2", "t_m3", "t_m4", "t_m5"];
+let afterTitle = null;
+function titleEls(level) {          // level 3 = all of it ... 1 = nearly gone
+const part = level / 3, shade = "#000814" + hex2(118 * part);
+return [grad("t_m0", 0, 0, 72, 16, shade, shade, 43),
+still(text("t_m1", "FISH", "bold", 2, -1, faded(WHITE, part), "top_left", 44)),
+still(text("t_m2", "TANK", "bold", 2, 7, faded(AQUA, part), "top_left", 44)),
+bitmap("t_m3", D.arrow[level - 1], 33, 0, 44), bitmap("t_m4", D.knob[level - 1], 59, 0, 44),
+small("t_m5", "GUIDE", 65 - smallWidth("GUIDE"), 2, faded(KNOB, part), "top_left", 44)];
+}
+function titleParts(now, parts, gone) {              // true: it has just gone
+if (!title.on || now < title.until) return false;
+title.level--;
+if (title.level > 0) {
+const els = titleEls(title.level);
+for (let i = 0; i < els.length; i++) put(parts, els[i]);
+return false;
+}
+for (let i = 0; i < TITLE_IDS.length; i++) if (live.has(TITLE_IDS[i])) gone.push(TITLE_IDS[i]);
+title.on = false;
+return true;
+}
+async function closeTitle() {       // START: at once
+const ids = [];
+for (let i = 0; i < TITLE_IDS.length; i++) if (live.has(TITLE_IDS[i])) ids.push(TITLE_IDS[i]);
+title.on = false;
+title.level = 0;
+await drop(ids);
+}
+async function entered() {          // the main screen has gone: what was due at this start
+const due = afterTitle;
+afterTitle = null;
+if (due) await due();
 }
 function tankEls(now) {
 const els = [film("t_bg", "tank", 0, 0, 0), film("t_pl", "plant", D.plant[0], D.plant[1], 30)];
@@ -990,9 +1032,13 @@ o.sy = at[1];
 o.sk = o.kind;
 }
 for (let i = sw.length - 1; i >= 0; i--) if (sw[i].state === "out") sw.splice(i, 1);
-await draw("tank", tankEls(now));
+await draw("tank", title.on ? tankEls(now).concat(titleEls(3)) : tankEls(now));
 if (stopped) return;
 now = Date.now();
+if (title.on) {                                   // the main screen: it stands from now
+title.level = 3;
+title.until = now + TITLE_MS;
+}
 food.length = 0;                                  // (food that was in the water when the page was left is gone)
 for (let i = 0; i < sw.length; i++) if (sw[i].food !== -1) sw[i].food = -2;
 note.level = hint.level = 0;
@@ -1004,6 +1050,7 @@ bubbleAt = now + 2500 + rnd(4000);
 }
 const dt = Math.min(0.5, (now - lastAt) / 1000), parts = [], gone = [];
 lastAt = now;
+const inNow = titleParts(now, parts, gone);
 noteParts(now, parts, gone);
 hintParts(now, parts, gone);
 for (let i = food.length - 1; i >= 0; i--) {
@@ -1075,6 +1122,10 @@ live.set(els[i].id, { s: s, t: now, el: els[i] });
 }
 if (parts.length) await postAll(parts, 8);        // (one request; two when words come on at the same moment as much else)
 if (gone.length) await drop(gone);
+if (inNow) {                                        // the main screen has gone by itself
+await entered();
+return;
+}
 if (now >= checkAt) {                               // has a fish starved, has midnight passed?
 checkAt = now + (FAST > 1 ? 1000 : 5000);
 const at = clock(), dead = settle(at);
@@ -1099,6 +1150,15 @@ st.seen = clock();
 await save();
 stopped = true;
 setTimeout(unbind, 10);
+return;
+}
+if (title.on) {                                     // the main screen: START = in at once, OK = the guide, TURN = nothing
+if (k.start) {
+await closeTitle();
+await entered();
+} else if (k.ok) {
+await guide();                                  // (when it is closed, the tank is drawn again with the main screen: title.on stays)
+}
 return;
 }
 if (k.start) feed();
@@ -1283,7 +1343,7 @@ els.push(big("5w", "ENJOY!", mids("ENJOY!", "bold") + at(4), 0, AQUA), small("5x
 return raise(tag(els, "g"));
 }
 async function guide() {
-let page = 0, sentAt = Date.now();
+let page = 0, sentAt = Date.now(), byBack = false;
 await draw("guide", guideEls(0));                   // (at a start: under the author's mark)
 if (stopped) return;
 ctl.turn = 0;
@@ -1304,12 +1364,11 @@ await parkWash();
 }
 continue;
 }
-if (page === PAGES - 1) break;                    // the last page: any control enters the app - and does nothing else
-if (back > fwd && page === 0) {                   // Back on the first page leaves the app
+if (page === PAGES - 1) break;                    // the last page: any control closes the book - and does nothing else
+if (back > fwd && page === 0) {                   // Back on the first page closes it (a turn backward does nothing there)
 if (backs0) {
-stopped = true;
-setTimeout(unbind, 10);
-return;
+byBack = true;
+break;
 }
 continue;
 }
@@ -1319,8 +1378,8 @@ page = to;
 await sync(guideEls(page));
 }
 }
-wentBack = false;
-if (!stopped) {                                     // it has been seen: never again by itself
+wentBack = byBack;
+if (!stopped && !st.guide) {                        // it has been seen: never again by itself
 st.guide = true;
 await save();
 }
@@ -1563,21 +1622,31 @@ seenAt = Date.now();
 save();
 dataLoop();
 };
-if (!st.guide) await guide();                     // the first time (and after "Start over"): the book of the controls
-if (stopped) return;
-if (dead.length) {
+if (dead.length) {                                // (kept with the tank until it has been said: see afterTitle)
 let starved = 0;
 for (let i = 0; i < dead.length; i++) if (dead[i].why === "starve") starved++;
-const n = dead.length, word = starved === n ? n + " FISH STARVED" : starved === 0 ? n + " LOST: CROWDED" : n + " FISH DIED";
-await card(awayLine(away) || "WHILE AWAY", word, RED, 3200);
+const n = dead.length;
+st.card = [awayLine(away) || "WHILE AWAY", starved === n ? n + " FISH STARVED" : starved === 0 ? n + " LOST: CROWDED" : n + " FISH DIED"];
+}
+if (!st.guide) await guide();                     // the first time (and after "Start over"): the book of the controls
+if (stopped) return;
+afterTitle = async () => {                        // after the main screen: what happened while the app was closed
+if (st.card) {
+const c = st.card;
+delete st.card;
+save();
+await card(c[0], c[1], RED, 3200);
 } else if (hungryNow) {
 await card(awayLine(away) || "YOUR FISH ARE", "HUNGRY!", AMBER, 2600);
 }
-if (typeof st.pend === "number") {              // a fish from a capsule was still waiting for its answer
+if (typeof st.pend === "number") {            // a fish from a capsule was still waiting for its answer
 got = st.pend;
 pick = 0;
 mode = "keep";
 }
+};
+title.on = !(D.test && !D.guide);                 // every start arrives on the main screen (test builds: only when asked for the guide)
+if (!title.on) await entered();
 while (!stopped) {
 try {
 await step();

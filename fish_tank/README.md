@@ -4,7 +4,7 @@ A small tank of pet fish on your desk. Feed them, but not too often, light the t
 
 ![Fish Tank on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
 
-*The pictures are the app's own screens, captured from the BUSY Bar Emulator.*
+*The pictures are the app's own screens from the BUSY Bar Emulator; the main screen is rendered offline from the app's own drawing.*
 
 ## What you see
 
@@ -13,7 +13,7 @@ A small tank of pet fish on your desk. Feed them, but not too often, light the t
 - **Feeding**: pellets sink from under the Start button, and the fish come for them.
 - **The fish shop**: a capsule sinks in, rocks and opens in a bloom of light. There are twelve kinds of fish: six common (guppy, goldfish, tetra, molly, danio, platy), four rare (angelfish, betta, puffer, blue tang) and two epic (seahorse, golden koi). The chances are about 70, 25 and 5 in 100.
 - **Status**: how many fish there are, when they were last fed, the tank's age in days and how full the fish are.
-- **After time away**: when you open the app again, a card first says what happened.
+- **After time away**: when you open the app again, a card says what happened before you are back in the tank.
 
 ## How the fish live
 
@@ -26,7 +26,8 @@ A small tank of pet fish on your desk. Feed them, but not too often, light the t
 
 ## Controls
 
-- **Guide**: the first time, five pages show the controls. Start, OK or a forward turn of the knob goes to the next page; a backward turn or Back goes to the page before. On the last page any control starts the app. It does not come again by itself.
+- **Main screen**: the app opens on its name over the live tank. Start enters at once, pressing the knob (OK) opens the guide, Back leaves the app. After about four seconds the tank is entered by itself.
+- **Guide**: five pages show the controls. It opens by itself the first time; later, press the knob (OK) on the main screen. Start, OK or a forward turn of the knob goes to the next page; a backward turn or Back goes to the page before. Any control on the last page, or Back on the first, closes it and returns to the main screen.
 - **Tank**: Start feeds. Turn the knob for the lamp, brighter or darker. OK opens the menu. Back leaves the app.
 - **Menu**: two pages side by side, the fish shop and the status; turn the knob to go from one to the other. Back returns to the tank.
 - **Fish shop**: OK or Start opens a capsule. When none is left for the day, the page says COME BACK TOMORROW.
