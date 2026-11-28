@@ -1,14 +1,14 @@
-// Chop Chop: a small game of skill on the BUSY Bar. A loaf, a fish, a cucumber lies on the board; the wheel moves
-// the knife, a press of the wheel or the top button cuts, and the pieces have to come out the same length before
-// the round's time has run out. The more even the cut, the higher the score; a bad cut ends the game. The five
+// Chop Chop: a small game of skill on the BUSY Bar. A loaf, a fish, a cucumber lies on the board; turning the knob
+// moves the knife, Start or OK cuts, and the pieces have to come out the same length before the round's time has
+// run out. The more even the cut, the higher the score; a bad cut ends the game. The five
 // best games are kept on the bar.
 //
 // This file is generated from the author's working sources (one file, so that the bar has one script to read):
 // D = generated data (the ten foods as rows of letters with their colours, widths of the bar's letters, lengths of
 // the animations), then the bar (its API, clock, controls, drawing), then the app (what is kept, the settings, the
-// pages, a round, the judging, the end of a game, the five best), then the start.
+// guide, the pages, a round, the judging, the end of a game, the five best), then the start.
 
-const D = {"app":"io.github.windagh.chop_chop","name":"Chop Chop","foods":[{"n":"LOAF","h":8,"k":27,"pal":"a c #FBE9BC\nb c #F9E4B4\nc c #F8E0AE\nd c #F5DCA7\ne c #F3D9A0\nf c #F4CA91\ng c #ECA860\nh c #F29034\ni c #E28A39\nj c #DB7829\nk c #CE6F24\nl c #B3753D\nm c #BC6420\nn c #B06424\no c #B7601E\np c #AC5C1E\nq c #9D531A\nr c #845322\ns c #8E4B18\nt c #7A5325\nu c #844515\nv c #7A4014\nw c #723C12\nx c #6A3912\ny c #5C310F\nz c #4B280C","v":[{"L":35,"rows":["...xtttttttttttttttttttttttttttt...","..hiifgiiihhhfghhhhhhfghhhhhhffhh..",".ijjfgkkkkkifgjkjjjifgjjjjjifgjjhh.","zmoggooooolfgmmmmmkfgmmmmkjfgkkkkjz","vpllqqqqqpllqqqqqpllpppppnilopoomks","ssruuuuuussuussssssssssssqqsqqqqqpp","vxxxxxxxxxwwwwwwwwwwwwvvvvvvvvvvvuq","zzzzzzzzyyyyyyyyyyyyyyyyyyyyyyyyyzz"]},{"L":47,"rows":["...ytttttttttttttttttttttttttttttttttttttttx...","..hiifgiiiiihfghhhhhhfghhhhhhfghhhhhhffhhhhhh..",".ikjfgkkkkkjfgkkkkkifgjjjjjifgjjjjjifgjjjjjhgf.","zmoggppppolfgoooookfgmmmmmkfgmmmmmjfgkkkkkjfefz","vqllqqqqqqllqqqqqpllpqqpppllpppppnilpppponiglkl","ssruuuuuuusuuuuuussssssssssssssssqqsssqqqqqqqpn","vxxxxxxxxxxxxxwwwwwwwwwwwwwwwvvvvvvvvvvvvvvvuuq","zzzzzzzzzzyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyzz"]}],"face":["","c","ae","ace","nbdn","nacdn","nabcen","nabcden","naabcden"],"plain":1,"tint":["#FFC460FF","#B06424FF"]},{"n":"BAGUETTE","h":6,"k":27,"pal":"a c #FCEDC3\nb c #FAE7B9\nc c #F7E0AE\nd c #F6C276\ne c #EEAA50\nf c #F3A23B\ng c #DF9F4C\nh c #E78D2A\ni c #D68A30\nj c #CF7E25\nk c #C47828\nl c #BE7A2E\nm c #BB7223\nn c #B36D20\no c #A7661F\np c #995D1C\nq c #7E6536\nr c #7F5F2B\ns c #865C24\nt c #8F5619\nu c #885218\nv c #764714\nw c #64451B\nx c #673E12\ny c #633C11\nz c #482D0E","v":[{"L":59,"rows":[".......zwrrrrqqrrrrrrrqqrrrrrrrqqrrrrrrrqqrrrrrrrqwz.......","...wgefffffecdffffffecdffffffecdffffffecdffffffecdfffegw...",".lijjjkkkjgdgjjjjjjedgjjjjjiedgjjjiiiedghhhhhhedghhhhhhffi.","ztpppooonggnoooooldgnonnnnldgmnnnnnldglmmmmmldglmmmmmmmmnny","..zxvvvussuuuuuuussuuuuuutpptttttttppttttttpopppppppttuvz..",".....zzzyyyyyyyyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxxxxxxxyzz....."]},{"L":41,"rows":[".......zwrrrrqqrrrrrrrqqrrrrrrrqwz.......","...wgefffffecdffffffecdffffffecdfffegw...",".liijjjjjjedgjjjjjiedgjjiiihedghhhhhhffi.","ztpppooonggnooonnldgmnnnnnldglmmmmmmmmnny","..zxvvvussuuuuuutpptttttttpptttpptttuvz..",".....zzzyyyyyyyyyyyxxxxxxxxxxxxxxyzz....."]}],"face":["","b","ac","abc","kack","kabck","kabbck"],"plain":0,"tint":["#FFD678FF","#C47828FF"]},{"n":"CUCUMBER","h":5,"k":26,"pal":"a c #F0FFD0\nb c #C4EEA0\nc c #8AD49A\nd c #89D099\ne c #88CE97\nf c #88CA96\ng c #5EAC5F\nh c #5EA95E\ni c #5DA85D\nj c #5DA55C\nk c #2C9642\nl c #1D9039\nm c #1B8A37\nn c #1A8435\no c #1A7E33\np c #1C7231\nq c #146B29\nr c #136729\ns c #166128\nt c #116027\nu c #0F5121\nv c #0E4C1E\nw c #0E4A1D\nx c #0D471D\ny c #0C431A","v":[{"L":47,"rows":[".sjjjjjjjjjjjjiiiiiiiiihhhhhhhhhgggggggggggggp.","pfffffffffffffffffffeefeeeeeddddddddddcccccccep","pppoooooooooooonnonnnnonnmnommmmnmmllnllllmlllo","wttttttttttttttrrtrrrrtrrrrtqqqqrqqqqrqqqqqqqqu",".yxyyyyxyyyyxyxxxwxxxxvwwwwvwwwvvvvvvuvvvvuuvy."]},{"L":55,"rows":[".sjjjjjjjjjjjjjjjiiiiiiiiiihhhhhhhhhhhgggggggggggggggp.","pfffffffffffffffffffffffeeeeeeeeedddddddddddcccdcccccep","pppoooopooooooooooonnnonnnnonmmmnmmmmnmmmlnmlllnllllmlo","wttttttttttttttttttrrrtrrrrtrrrrrqqqqrqqqqrqqqqrqqqqqqu",".yxyyyyxyyyyxyyyxxxxxxvwxxwvwwwwvwwwwvvvvvvvvvvuvvvuuy."]}],"face":["","a","bb","bab","kaak","kbabk"],"plain":1,"tint":["#78E26EFF","#22963EFF"]},{"n":"AUBERGINE","h":8,"k":26,"pal":"a c #F5F1C6\nb c #F2EEC2\nc c #EFEBBD\nd c #EBE7B8\ne c #E8E4B4\nf c #D3B5E8\ng c #C59CE1\nh c #B68BD3\ni c #639B69\nj c #B177D8\nk c #9E65C5\nl c #725F83\nm c #2B5930\nn c #823CB4\no c #7A3FA2\np c #7435A0\nq c #6A3390\nr c #632A8A\ns c #542D71\nt c #532374\nu c #502270\nv c #451D60\nw c #3F1B57\nx c #301B3F\ny c #230F31","v":[{"L":39,"rows":[".....................xvqnkjjjjjjjjjjo..","...............xskjjhggffffffffffffffg.","....mmmmsokjhggffffffgghhhjjjjjjjjjjhgl","...iiiiihgghhhkkknoooppppppppppppppppok","..ymmsrqqqrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","mmmmmmvuuuuuuuuuuuuuuuuuuutttttttttttux","yyymmmmmxwwwwwwwwwwwwwwvvvvvvvvvvvvvvw.","............yyyyyyyyyyyxxxxxxxxxxxxxy.."]},{"L":29,"rows":["................wqnjjjjjjjo..","...........wqjjggffffffffffg.","...mmmqkjhgffffgghhjjjjjjjhgl","..iiiihghhkknooopppppppppppok","..mmsqqqrrrrrrrrrrrrrrrrrrrrr","mmmmvuuuuuuuuuuuuuuttttttttux","yymmmmxwwwwwwwwwwvvvvvvvvvvw.",".........yyyyyyyyxxxxxxxxxy.."]}],"face":["","c","ae","ace","nbdn","nbcen","nacden","nabcden","nabcdeen"],"plain":0,"tint":["#C482F0FF","#7A34AAFF"]},{"n":"FISH","h":7,"k":27,"pal":"a c #EDF5FA\nb c #ECF4FA\nc c #EBF4FA\nd c #E6EEF5\ne c #E2EAF0\nf c #FFAA88\ng c #CCDDEC\nh c #BCD2E8\ni c #B6CFE7\nj c #A1CFF2\nk c #A4C5E3\nl c #A1ABB4\nm c #83C4F1\nn c #58A4DF\no c #FF7A5C\np c #5F93C7\nq c #548CC8\nr c #748897\ns c #4F8DC9\nt c #4B88C5\nu c #4784C2\nv c #467EB3\nw c #4E7292\nx c #456077\ny c #304557\nz c #1F2F3E","v":[{"L":55,"rows":["........zyyvvvvvvvvxyyzz.............................yw","...yqsstttuuuuuuuuuuuuttssssqpwwyyz.............zwmmmmm",".stuuqyxqptquuqpqqpptqpttqtuqtuttuututssvwyzzynnnnnnnw.","kiiihhrlhiihlkhhihhiihhihhihhiihiihiiiikkikkkkjjjjjjr..",".ebbabbaabaaigabbabbaabaabbaabaabbabbbddhlryyxnnnnnnnw.","...xgedbbbbbhgbbbbbbbbbbbdddeellxxy.............zwmmmmm","........yxxllllllllrxxyz.............................yw"]},{"L":41,"rows":["......zywvvvvvxyzz.....................zw","..yqsstuuvuuuuuuttsssqvwyz..........xmmmm","zttuwzqtpvtppqqpqtqquttuutuusswyzzunnnnw.","kiiikxihhpkhhihhihhiihiihhiiikkikkjjjjr..","zcbbabbableacbabbaabaabbabbbddlryylnnnnw.","..xedbbbbkebbbbbbbbdeeilxy..........xmmmm","......yxrlllllrxyz.....................zw"]}],"face":["","f","oo","ofo","qffe","qofoe","qoffoe","qoofooe"],"plain":0,"tint":["#96D6FFFF","#3C7CBEFF"]},{"n":"CARROT","h":6,"k":27,"pal":"a c #FFD678\nb c #FF9E32\nc c #FF9523\nd c #FD8F20\ne c #90B53E\nf c #F88519\ng c #F17A14\nh c #DE7617\ni c #DB6F12\nj c #E26810\nk c #D46A10\nl c #CF630D\nm c #C55E0D\nn c #BA590C\no c #B1550B\np c #A2510C\nq c #9C4B0A\nr c #954709\ns c #8E4409\nt c #83490F\nu c #803F09\nv c #7A3A08\nw c #723808\nx c #6E3507\ny c #673207\nz c #492909","v":[{"L":47,"rows":["....z..........................................","..zdfddcchotzz.................................","eekikiijhgggfffdddfkttz........................","eeloonnnnmmmllkkijjjgggfgfddfkttzz.............","..qssssrrqqqqppppoooonnnmmlllkjjjggggfffmmmruy.","..xyyyyyywxxxxxxwvwwvvvvsuuusussssrrqqqqvvvyzz."]},{"L":39,"rows":[".......................................","...dfdccktyz...........................","eekikijgggfffdccktyz...................","eelnonnmmmllkkjjggggffddmtwz...........","..qsssrrrqqpppooonnnmmllljjgggfffkmmuy.","..xyyyyyywxxxwwwwuvvvuuussssrrrqquvvzz."]}],"face":["","a","bb","bab","jaaj","jbaaj","jbaabj"],"plain":0,"tint":["#FFBE54FF","#F67C16FF"]},{"n":"SAUSAGE","h":5,"k":26,"pal":"a c #FFB7A3\nb c #FFB39F\nc c #FFAF9B\nd c #FFA995\ne c #F2A493\nf c #E6A091\ng c #E19E90\nh c #DC9D8F\ni c #BF6E55\nj c #BC6D54\nk c #BA6C53\nl c #B0654F\nm c #BE462E\nn c #AE4631\no c #B2432D\np c #AB412B\nq c #A33E29\nr c #903624\ns c #843120\nt c #7A3222\nu c #792C1E\nv c #622518\nw c #5E2317\nx c #5A2216\ny c #531F14","v":[{"L":29,"rows":["..tkkkkkkkkjjjjjjiiiiiiiiit..",".lhhhhhghhggggffhgffffffgfel.","uqqqqqqqqqqppppqppooooppommmu",".yuuuuuusssssssssssssssrrrrv.","..yyyxxxxxxxxwwwwwwwvvvvvvy.."]},{"L":41,"rows":["..tkkkkkkkkkkkkkjjjjjjjjiiiiiiiiiiiiiit..",".lhhhhhhhhhggggghhggfffghffffffgffffeeel.","uqqqqqqqqqqqqqqqqpppppqqpooooopooooomoonu",".yuuuuuuuuutssusssssssssssssssrrrrrrrrrv.","..yyyyyyxxxxxxxxxxxxwwwwwwwwvvvvvvvvvvy.."]}],"face":["","c","ad","acd","mbdm","macdm"],"plain":1,"tint":["#FF9668FF","#CC4C32FF"]},{"n":"ROLL CAKE","h":7,"k":26,"pal":"a c #FFFAEC\nb c #F3D190\nc c #F3C467\nd c #F5C057\ne c #EDB95D\nf c #F4B84C\ng c #E9B555\nh c #E3B051\ni c #D9A94B\nj c #D1A14D\nk c #C39844\nl c #B88E40\nm c #BF8649\nn c #AC863B\no c #A37F3A\np c #C17230\nq c #A07634\nr c #917235\ns c #8B6C30\nt c #B2692D\nu c #B0682C\nv c #7F632C\nw c #715827\nx c #695224\ny c #5E4921","v":[{"L":39,"rows":[".uuubmuumbtttbtttmmjmppmbpppampphbpppb.","yhhhcghgecgggcgeeedcdddccdddccddccccccy","rjjjjiiiiiiiiihhhhhhhgggggggddddddddddr","olllllllllkkkkkkkkkkkkkjjjjjjjjjiiiiiin","mqqqqqqqqoooooooooonnnnnnnnnnnnlllllllj","rvvvvvvvvvvvvvvvsssssssssssssrrrrrrrrrn","yyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxwwwwwwwv"]},{"L":35,"rows":[".uuubmuumbtttbttpmmjmppmbpppamppeb.","yhhhcghgecgggceeeddccddccdddbcccccy","rjjjjiiiiiiihhhhhhhggggggdddddddddr","ollllllllkkkkkkkkkkkkjjjjjjjjiiiiin","mqqqqqqqooooooooonnnnnnnnnnnllllllk","rvvvvvvvvvvvvvssssssssssssrrrrrrrrn","yyyyyyyyyyyyxxxxxxxxxxxxxxxxwwwwwwv"]}],"face":["","u","uf","uff","ufaf","ufaff","ufafaf","ufafaff"],"plain":1,"tint":["#FFE496FF","#B0682CFF"]},{"n":"TOFU","h":6,"k":27,"pal":"a c #FFFFFA\nb c #FEFEF7\nc c #FCFCF4\nd c #FBFAF1\ne c #FAF8EE\nf c #F8F6EA\ng c #F3F4E4\nh c #E6DDBD\ni c #E4DBBC\nj c #E1D9B9\nk c #DCD3B3\nl c #B7DAA5\nm c #D2C9AA\nn c #CEC5A6\no c #C7BD9E\np c #BFB596\nq c #BAB091\nr c #B6AC8D\ns c #B1A78A\nt c #ABA183\nu c #A69B7C\nv c #A09577\nw c #9C9173\nx c #978C6D\ny c #8F8365\nz c #847A5E","v":[{"L":29,"rows":[".gailaaaaaallaaaaaaaaaxiaaaa.","zjjjjjjjjjjjjjiiiiiiiiihhhhhy","tnnnnnnnnnnnnmmmmmmmmmmmmmmms","osrrrrrrqqqqqqpppppppppooooom","uwwwwwvvvvvuuuuutttttttsssssp","zzzzzzzzzzyyyyyyyxxxxxxwwwvvu"]},{"L":39,"rows":[".gailaaaaaallaaaaaaaaaxiaaaaaaaaalgaaa.","zjjjjjjjjjjjjjjjjjiiiiiiiiiiiihhhhhhhhy","tnnnnnnnnnnnnnnnnmmmmmmmmmmmmmmmmmmmmks","osrrrrrrrrqqqqqqqqqppppppppppppooooooom","uwwwwwwwvvvvvvuuuuuuuuttttttttsssssssrp","zzzzzzzzzzzzzzyyyyyyyyyxxxxxxxwwwwwvvvu"]}],"face":["","e","cf","beg","bdfg","bcefg","bcdefg"],"plain":1,"tint":["#FFFFF6FF","#B0A88CFF"]},{"n":"SUSHI ROLL","h":6,"k":27,"pal":"a c #FFFFF8\nb c #BDD9CB\nc c #B9AF9C\nd c #619E8A\ne c #8A9986\nf c #659285\ng c #4C947C\nh c #FF8442\ni c #B27746\nj c #608474\nk c #41866F\nl c #1A6854\nm c #1A5949\nn c #185445\no c #175042\np c #164D3F\nq c #11483A\nr c #0F4336\ns c #0F4134\nt c #0E3D31\nu c #0D382D\nv c #0C362C\nw c #0B3229\nx c #0A2C24\ny c #092A22\nz c #092820","v":[{"L":41,"rows":[".bkggkgkgkkgkgkggkgkggkgkgkggkgkggkdkggb.","cbjfjffjdjffjdjdjffjdjffjdjdffdjdjfdjdjbc","hippqoppopopoopnpnoonpnonnomonnnmomnnmnih","hitttttsttstsssssrsrrsrsrrrrrqrqqrqrqqqih","eewwwwwwvwvvvvvvvvvvvvuuuuuuuuuuuuuututee",".ezyzyzzyzxzyyzxzxyyxzxyxxyxyxxxxxxxxxxe."]},{"L":59,"rows":[".bkggkgkgkkgkgkggkgkggkgkgkkgkgkggkgkggkgkgkggkgkggkgkgggb.","cbjfjffjdjffjdjfjffjdjffjdjffjdjdjffjdjffjdjdffdjdjffjdjdbc","hippqpppppoppppopoppopnpoopnpnoonpnonnomonnomomnnmomnmmnmih","hittttttttststsststsssssrssrsrsrrrrsrrrrrqrrqrqrqqrqrqqqqih","eewwwwwwwwwwwvwvvvvvvvvvvvvvvvvvuuuuuuuuuuuuuuuuuuuuututtee",".ezyzyzzyzyzyyzxzyzzxzxzyyzxzxyyxyxyxxyxyxxxxyxxxxxxxxxxwe."]}],"face":["","h","aa","aha","lhhl","lahal","lahhal"],"plain":1,"tint":["#60BE96FF","#165C4AFF"]}],"times":[5,6,7,8,9,10,12],"chopIn":150,"chopOut":225,"ruined":1900,"ruinedOut":600,"flash":367,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6," ":4},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.chop_chop","name":"Chop Chop","foods":[{"n":"LOAF","h":8,"k":27,"pal":"a c #FBE9BC\nb c #F9E4B4\nc c #F8E0AE\nd c #F5DCA7\ne c #F3D9A0\nf c #F4CA91\ng c #ECA860\nh c #F29034\ni c #E28A39\nj c #DB7829\nk c #CE6F24\nl c #B3753D\nm c #BC6420\nn c #B06424\no c #B7601E\np c #AC5C1E\nq c #9D531A\nr c #845322\ns c #8E4B18\nt c #7A5325\nu c #844515\nv c #7A4014\nw c #723C12\nx c #6A3912\ny c #5C310F\nz c #4B280C","v":[{"L":35,"rows":["...xtttttttttttttttttttttttttttt...","..hiifgiiihhhfghhhhhhfghhhhhhffhh..",".ijjfgkkkkkifgjkjjjifgjjjjjifgjjhh.","zmoggooooolfgmmmmmkfgmmmmkjfgkkkkjz","vpllqqqqqpllqqqqqpllpppppnilopoomks","ssruuuuuussuussssssssssssqqsqqqqqpp","vxxxxxxxxxwwwwwwwwwwwwvvvvvvvvvvvuq","zzzzzzzzyyyyyyyyyyyyyyyyyyyyyyyyyzz"]},{"L":47,"rows":["...ytttttttttttttttttttttttttttttttttttttttx...","..hiifgiiiiihfghhhhhhfghhhhhhfghhhhhhffhhhhhh..",".ikjfgkkkkkjfgkkkkkifgjjjjjifgjjjjjifgjjjjjhgf.","zmoggppppolfgoooookfgmmmmmkfgmmmmmjfgkkkkkjfefz","vqllqqqqqqllqqqqqpllpqqpppllpppppnilpppponiglkl","ssruuuuuuusuuuuuussssssssssssssssqqsssqqqqqqqpn","vxxxxxxxxxxxxxwwwwwwwwwwwwwwwvvvvvvvvvvvvvvvuuq","zzzzzzzzzzyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyzz"]}],"face":["","c","ae","ace","nbdn","nacdn","nabcen","nabcden","naabcden"],"plain":1,"tint":["#FFC460FF","#B06424FF"],"cr":"#FFECBE"},{"n":"BAGUETTE","h":6,"k":27,"pal":"a c #FCEDC3\nb c #FAE7B9\nc c #F7E0AE\nd c #F6C276\ne c #EEAA50\nf c #F3A23B\ng c #DF9F4C\nh c #E78D2A\ni c #D68A30\nj c #CF7E25\nk c #C47828\nl c #BE7A2E\nm c #BB7223\nn c #B36D20\no c #A7661F\np c #995D1C\nq c #7E6536\nr c #7F5F2B\ns c #865C24\nt c #8F5619\nu c #885218\nv c #764714\nw c #64451B\nx c #673E12\ny c #633C11\nz c #482D0E","v":[{"L":59,"rows":[".......zwrrrrqqrrrrrrrqqrrrrrrrqqrrrrrrrqqrrrrrrrqwz.......","...wgefffffecdffffffecdffffffecdffffffecdffffffecdfffegw...",".lijjjkkkjgdgjjjjjjedgjjjjjiedgjjjiiiedghhhhhhedghhhhhhffi.","ztpppooonggnoooooldgnonnnnldgmnnnnnldglmmmmmldglmmmmmmmmnny","..zxvvvussuuuuuuussuuuuuutpptttttttppttttttpopppppppttuvz..",".....zzzyyyyyyyyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxxxxxxxyzz....."]},{"L":41,"rows":[".......zwrrrrqqrrrrrrrqqrrrrrrrqwz.......","...wgefffffecdffffffecdffffffecdfffegw...",".liijjjjjjedgjjjjjiedgjjiiihedghhhhhhffi.","ztpppooonggnooonnldgmnnnnnldglmmmmmmmmnny","..zxvvvussuuuuuutpptttttttpptttpptttuvz..",".....zzzyyyyyyyyyyyxxxxxxxxxxxxxxyzz....."]}],"face":["","b","ac","abc","kack","kabck","kabbck"],"plain":0,"tint":["#FFD678FF","#C47828FF"],"cr":"#FFECBE"},{"n":"CUCUMBER","h":5,"k":26,"pal":"a c #F0FFD0\nb c #C4EEA0\nc c #8AD49A\nd c #89D099\ne c #88CE97\nf c #88CA96\ng c #5EAC5F\nh c #5EA95E\ni c #5DA85D\nj c #5DA55C\nk c #2C9642\nl c #1D9039\nm c #1B8A37\nn c #1A8435\no c #1A7E33\np c #1C7231\nq c #146B29\nr c #136729\ns c #166128\nt c #116027\nu c #0F5121\nv c #0E4C1E\nw c #0E4A1D\nx c #0D471D\ny c #0C431A","v":[{"L":47,"rows":[".sjjjjjjjjjjjjiiiiiiiiihhhhhhhhhgggggggggggggp.","pfffffffffffffffffffeefeeeeeddddddddddcccccccep","pppoooooooooooonnonnnnonnmnommmmnmmllnllllmlllo","wttttttttttttttrrtrrrrtrrrrtqqqqrqqqqrqqqqqqqqu",".yxyyyyxyyyyxyxxxwxxxxvwwwwvwwwvvvvvvuvvvvuuvy."]},{"L":55,"rows":[".sjjjjjjjjjjjjjjjiiiiiiiiiihhhhhhhhhhhgggggggggggggggp.","pfffffffffffffffffffffffeeeeeeeeedddddddddddcccdcccccep","pppoooopooooooooooonnnonnnnonmmmnmmmmnmmmlnmlllnllllmlo","wttttttttttttttttttrrrtrrrrtrrrrrqqqqrqqqqrqqqqrqqqqqqu",".yxyyyyxyyyyxyyyxxxxxxvwxxwvwwwwvwwwwvvvvvvvvvvuvvvuuy."]}],"face":["","a","bb","bab","kaak","kbabk"],"plain":1,"tint":["#78E26EFF","#22963EFF"],"cr":"#C4EEA0"},{"n":"AUBERGINE","h":8,"k":26,"pal":"a c #F5F1C6\nb c #F2EEC2\nc c #EFEBBD\nd c #EBE7B8\ne c #E8E4B4\nf c #D3B5E8\ng c #C59CE1\nh c #B68BD3\ni c #639B69\nj c #B177D8\nk c #9E65C5\nl c #725F83\nm c #2B5930\nn c #823CB4\no c #7A3FA2\np c #7435A0\nq c #6A3390\nr c #632A8A\ns c #542D71\nt c #532374\nu c #502270\nv c #451D60\nw c #3F1B57\nx c #301B3F\ny c #230F31","v":[{"L":39,"rows":[".....................xvqnkjjjjjjjjjjo..","...............xskjjhggffffffffffffffg.","....mmmmsokjhggffffffgghhhjjjjjjjjjjhgl","...iiiiihgghhhkkknoooppppppppppppppppok","..ymmsrqqqrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","mmmmmmvuuuuuuuuuuuuuuuuuuutttttttttttux","yyymmmmmxwwwwwwwwwwwwwwvvvvvvvvvvvvvvw.","............yyyyyyyyyyyxxxxxxxxxxxxxy.."]},{"L":29,"rows":["................wqnjjjjjjjo..","...........wqjjggffffffffffg.","...mmmqkjhgffffgghhjjjjjjjhgl","..iiiihghhkknooopppppppppppok","..mmsqqqrrrrrrrrrrrrrrrrrrrrr","mmmmvuuuuuuuuuuuuuuttttttttux","yymmmmxwwwwwwwwwwvvvvvvvvvvw.",".........yyyyyyyyxxxxxxxxxy.."]}],"face":["","c","ae","ace","nbdn","nbcen","nacden","nabcden","nabcdeen"],"plain":0,"tint":["#C482F0FF","#7A34AAFF"],"cr":"#F0ECC4"},{"n":"FISH","h":7,"k":27,"pal":"a c #EDF5FA\nb c #ECF4FA\nc c #EBF4FA\nd c #E6EEF5\ne c #E2EAF0\nf c #FFAA88\ng c #CCDDEC\nh c #BCD2E8\ni c #B6CFE7\nj c #A1CFF2\nk c #A4C5E3\nl c #A1ABB4\nm c #83C4F1\nn c #58A4DF\no c #FF7A5C\np c #5F93C7\nq c #548CC8\nr c #748897\ns c #4F8DC9\nt c #4B88C5\nu c #4784C2\nv c #467EB3\nw c #4E7292\nx c #456077\ny c #304557\nz c #1F2F3E","v":[{"L":55,"rows":["........zyyvvvvvvvvxyyzz.............................yw","...yqsstttuuuuuuuuuuuuttssssqpwwyyz.............zwmmmmm",".stuuqyxqptquuqpqqpptqpttqtuqtuttuututssvwyzzynnnnnnnw.","kiiihhrlhiihlkhhihhiihhihhihhiihiihiiiikkikkkkjjjjjjr..",".ebbabbaabaaigabbabbaabaabbaabaabbabbbddhlryyxnnnnnnnw.","...xgedbbbbbhgbbbbbbbbbbbdddeellxxy.............zwmmmmm","........yxxllllllllrxxyz.............................yw"]},{"L":41,"rows":["......zywvvvvvxyzz.....................zw","..yqsstuuvuuuuuuttsssqvwyz..........xmmmm","zttuwzqtpvtppqqpqtqquttuutuusswyzzunnnnw.","kiiikxihhpkhhihhihhiihiihhiiikkikkjjjjr..","zcbbabbableacbabbaabaabbabbbddlryylnnnnw.","..xedbbbbkebbbbbbbbdeeilxy..........xmmmm","......yxrlllllrxyz.....................zw"]}],"face":["","f","oo","ofo","qffe","qofoe","qoffoe","qoofooe"],"plain":0,"tint":["#96D6FFFF","#3C7CBEFF"],"cr":"#FF9678"},{"n":"CARROT","h":6,"k":27,"pal":"a c #FFD678\nb c #FF9E32\nc c #FF9523\nd c #FD8F20\ne c #90B53E\nf c #F88519\ng c #F17A14\nh c #DE7617\ni c #DB6F12\nj c #E26810\nk c #D46A10\nl c #CF630D\nm c #C55E0D\nn c #BA590C\no c #B1550B\np c #A2510C\nq c #9C4B0A\nr c #954709\ns c #8E4409\nt c #83490F\nu c #803F09\nv c #7A3A08\nw c #723808\nx c #6E3507\ny c #673207\nz c #492909","v":[{"L":47,"rows":["....z..........................................","..zdfddcchotzz.................................","eekikiijhgggfffdddfkttz........................","eeloonnnnmmmllkkijjjgggfgfddfkttzz.............","..qssssrrqqqqppppoooonnnmmlllkjjjggggfffmmmruy.","..xyyyyyywxxxxxxwvwwvvvvsuuusussssrrqqqqvvvyzz."]},{"L":39,"rows":[".......................................","...dfdccktyz...........................","eekikijgggfffdccktyz...................","eelnonnmmmllkkjjggggffddmtwz...........","..qsssrrrqqpppooonnnmmllljjgggfffkmmuy.","..xyyyyyywxxxwwwwuvvvuuussssrrrqquvvzz."]}],"face":["","a","bb","bab","jaaj","jbaaj","jbaabj"],"plain":0,"tint":["#FFBE54FF","#F67C16FF"],"cr":"#FFAA46"},{"n":"SAUSAGE","h":5,"k":26,"pal":"a c #FFB7A3\nb c #FFB39F\nc c #FFAF9B\nd c #FFA995\ne c #F2A493\nf c #E6A091\ng c #E19E90\nh c #DC9D8F\ni c #BF6E55\nj c #BC6D54\nk c #BA6C53\nl c #B0654F\nm c #BE462E\nn c #AE4631\no c #B2432D\np c #AB412B\nq c #A33E29\nr c #903624\ns c #843120\nt c #7A3222\nu c #792C1E\nv c #622518\nw c #5E2317\nx c #5A2216\ny c #531F14","v":[{"L":29,"rows":["..tkkkkkkkkjjjjjjiiiiiiiiit..",".lhhhhhghhggggffhgffffffgfel.","uqqqqqqqqqqppppqppooooppommmu",".yuuuuuusssssssssssssssrrrrv.","..yyyxxxxxxxxwwwwwwwvvvvvvy.."]},{"L":41,"rows":["..tkkkkkkkkkkkkkjjjjjjjjiiiiiiiiiiiiiit..",".lhhhhhhhhhggggghhggfffghffffffgffffeeel.","uqqqqqqqqqqqqqqqqpppppqqpooooopooooomoonu",".yuuuuuuuuutssusssssssssssssssrrrrrrrrrv.","..yyyyyyxxxxxxxxxxxxwwwwwwwwvvvvvvvvvvy.."]}],"face":["","c","ad","acd","mbdm","macdm"],"plain":1,"tint":["#FF9668FF","#CC4C32FF"],"cr":"#FFB4A0"},{"n":"ROLL CAKE","h":7,"k":26,"pal":"a c #FFFAEC\nb c #F3D190\nc c #F3C467\nd c #F5C057\ne c #EDB95D\nf c #F4B84C\ng c #E9B555\nh c #E3B051\ni c #D9A94B\nj c #D1A14D\nk c #C39844\nl c #B88E40\nm c #BF8649\nn c #AC863B\no c #A37F3A\np c #C17230\nq c #A07634\nr c #917235\ns c #8B6C30\nt c #B2692D\nu c #B0682C\nv c #7F632C\nw c #715827\nx c #695224\ny c #5E4921","v":[{"L":39,"rows":[".uuubmuumbtttbtttmmjmppmbpppampphbpppb.","yhhhcghgecgggcgeeedcdddccdddccddccccccy","rjjjjiiiiiiiiihhhhhhhgggggggddddddddddr","olllllllllkkkkkkkkkkkkkjjjjjjjjjiiiiiin","mqqqqqqqqoooooooooonnnnnnnnnnnnlllllllj","rvvvvvvvvvvvvvvvsssssssssssssrrrrrrrrrn","yyyyyyyyyyyyyxxxxxxxxxxxxxxxxxxwwwwwwwv"]},{"L":35,"rows":[".uuubmuumbtttbttpmmjmppmbpppamppeb.","yhhhcghgecgggceeeddccddccdddbcccccy","rjjjjiiiiiiihhhhhhhggggggdddddddddr","ollllllllkkkkkkkkkkkkjjjjjjjjiiiiin","mqqqqqqqooooooooonnnnnnnnnnnllllllk","rvvvvvvvvvvvvvssssssssssssrrrrrrrrn","yyyyyyyyyyyyxxxxxxxxxxxxxxxxwwwwwwv"]}],"face":["","u","uf","uff","ufaf","ufaff","ufafaf","ufafaff"],"plain":1,"tint":["#FFE496FF","#B0682CFF"],"cr":"#FFF0C8"},{"n":"TOFU","h":6,"k":27,"pal":"a c #FFFFFA\nb c #FEFEF7\nc c #FCFCF4\nd c #FBFAF1\ne c #FAF8EE\nf c #F8F6EA\ng c #F3F4E4\nh c #E6DDBD\ni c #E4DBBC\nj c #E1D9B9\nk c #DCD3B3\nl c #B7DAA5\nm c #D2C9AA\nn c #CEC5A6\no c #C7BD9E\np c #BFB596\nq c #BAB091\nr c #B6AC8D\ns c #B1A78A\nt c #ABA183\nu c #A69B7C\nv c #A09577\nw c #9C9173\nx c #978C6D\ny c #8F8365\nz c #847A5E","v":[{"L":29,"rows":[".gailaaaaaallaaaaaaaaaxiaaaa.","zjjjjjjjjjjjjjiiiiiiiiihhhhhy","tnnnnnnnnnnnnmmmmmmmmmmmmmmms","osrrrrrrqqqqqqpppppppppooooom","uwwwwwvvvvvuuuuutttttttsssssp","zzzzzzzzzzyyyyyyyxxxxxxwwwvvu"]},{"L":39,"rows":[".gailaaaaaallaaaaaaaaaxiaaaaaaaaalgaaa.","zjjjjjjjjjjjjjjjjjiiiiiiiiiiiihhhhhhhhy","tnnnnnnnnnnnnnnnnmmmmmmmmmmmmmmmmmmmmks","osrrrrrrrrqqqqqqqqqppppppppppppooooooom","uwwwwwwwvvvvvvuuuuuuuuttttttttsssssssrp","zzzzzzzzzzzzzzyyyyyyyyyxxxxxxxwwwwwvvvu"]}],"face":["","e","cf","beg","bdfg","bcefg","bcdefg"],"plain":1,"tint":["#FFFFF6FF","#B0A88CFF"],"cr":"#FFFFF6"},{"n":"SUSHI ROLL","h":6,"k":27,"pal":"a c #FFFFF8\nb c #BDD9CB\nc c #B9AF9C\nd c #619E8A\ne c #8A9986\nf c #659285\ng c #4C947C\nh c #FF8442\ni c #B27746\nj c #608474\nk c #41866F\nl c #1A6854\nm c #1A5949\nn c #185445\no c #175042\np c #164D3F\nq c #11483A\nr c #0F4336\ns c #0F4134\nt c #0E3D31\nu c #0D382D\nv c #0C362C\nw c #0B3229\nx c #0A2C24\ny c #092A22\nz c #092820","v":[{"L":41,"rows":[".bkggkgkgkkgkgkggkgkggkgkgkggkgkggkdkggb.","cbjfjffjdjffjdjdjffjdjffjdjdffdjdjfdjdjbc","hippqoppopopoopnpnoonpnonnomonnnmomnnmnih","hitttttsttstsssssrsrrsrsrrrrrqrqqrqrqqqih","eewwwwwwvwvvvvvvvvvvvvuuuuuuuuuuuuuututee",".ezyzyzzyzxzyyzxzxyyxzxyxxyxyxxxxxxxxxxe."]},{"L":59,"rows":[".bkggkgkgkkgkgkggkgkggkgkgkkgkgkggkgkggkgkgkggkgkggkgkgggb.","cbjfjffjdjffjdjfjffjdjffjdjffjdjdjffjdjffjdjdffdjdjffjdjdbc","hippqpppppoppppopoppopnpoopnpnoonpnonnomonnomomnnmomnmmnmih","hittttttttststsststsssssrssrsrsrrrrsrrrrrqrrqrqrqqrqrqqqqih","eewwwwwwwwwwwvwvvvvvvvvvvvvvvvvvuuuuuuuuuuuuuuuuuuuuututtee",".ezyzyzzyzyzyyzxzyzzxzxzyyzxzxyyxyxyxxyxyxxxxyxxxxxxxxxxwe."]}],"face":["","h","aa","aha","lhhl","lahal","lahhal"],"plain":1,"tint":["#60BE96FF","#165C4AFF"],"cr":"#FFFFF8"}],"times":[5,6,7,8,9,10,12],"chopOut":225,"ruined":1900,"ruinedOut":600,"flash":367,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6,"A":6,"B":6,"C":6,"D":6,"E":5,"F":5,"G":6,"H":6,"I":4,"J":5,"K":6,"L":5,"M":9,"N":7,"O":6,"P":6,"Q":6,"R":6,"S":6,"T":6,"U":6,"V":7,"W":10,"X":6,"Y":6,"Z":6," ":4},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -312,6 +312,24 @@ async function firstShow(els) {
 await post(inOrder(els, 1).map((el) => wire(el)));
 remember(els);
 }
+const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
+let splashUp = 0;                   // when the film was sent; 0: none is on screen
+async function splash(z) {
+await post(['{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":0,"y":0,"align":"top_left",' +
+'"loop":false,"section":"default","timeout":60,"z_index":' + z + "}"]);
+splashUp = Date.now();
+}
+async function splashEnd() {
+const end = splashUp + SPLASH_MS + 100;
+while (splashUp && !stopped && Date.now() < end) await nap(end - Date.now());
+ctl.turn = 0;
+ctl.ok = ctl.start = false;
+}
+async function splashOff() {
+if (!splashUp) return;
+splashUp = 0;
+await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_sp"] }));
+}
 const timing = [];                  // measuring builds only: how long each step of the last changes took
 async function change(els, dir, light) {
 busy = true;
@@ -464,10 +482,10 @@ const WORDS = { PERFECT: "#FFC24AFF", CLEAN: "#5AEB82FF", DECENT: "#FFFFFFFF", R
 const SLOW = D.slow || 1;           // test builds: a round's time is this many times as long
 const TOP_Z = 2000000000;           // above every page
 const TEST = D.seed || D.food !== undefined;    // test builds write each round to the log
-const st = { best: [], last: 0, hint: 0, rs: 0 };
-let cardOn = true;                  // setting: the card of the controls before a game from the title
-let resetDue = false;               // "Start over" was switched on: everything is cleared at the next quiet moment
-let where = "title";                // "title" | "game" | "over" | "scores": what Back means
+const st = { best: [], last: 0, hint: 0, seen: 0, rs: null };
+let resetVal = null;                // how the switch stands now
+let resetDue = false;               // it was flipped: everything is cleared at the next quiet moment
+let where = "title";                // "guide" | "title" | "game" | "over" | "scores": what Back means
 let backs = 0;
 let game = null;                    // { round, total, lastFood, bag }
 let R = null;                       // the round in play
@@ -494,7 +512,8 @@ st.best.push({ s: Math.floor(e.s), r: Math.floor(e.r), t: e.t });
 st.best.sort((a, b) => b.s - a.s || b.t - a.t);
 st.last = typeof kept.last === "number" ? kept.last : 0;
 st.hint = kept.hint ? 1 : 0;
-st.rs = kept.rs ? 1 : 0;
+st.seen = kept.seen ? 1 : 0;
+st.rs = kept.rs === undefined || kept.rs === null ? null : !!kept.rs;
 }
 } catch (err) {
 }
@@ -504,13 +523,14 @@ return call("POST", "storage/write?path=/ext/data/slice.json", JSON.stringify(st
 }
 async function readSettings() {
 const v = await loadSettings();
-if (v.card !== undefined) cardOn = v.card !== false;
-if (v.reset === true && !st.rs) {
+if (typeof v.reset !== "boolean") return;
+resetVal = v.reset;
+if (st.rs === null) {                            // never looked at before: this is how it stands
+st.rs = v.reset;
+save();
+} else if (v.reset !== st.rs) {
 resetDue = true;
 if (wake) wake();
-} else if (v.reset === false && st.rs) {
-st.rs = 0;
-save();
 }
 }
 let settingsDue = Date.now() + 5000;
@@ -525,7 +545,8 @@ resetDue = false;
 st.best = [];
 st.last = 0;
 st.hint = 0;
-st.rs = 1;
+st.seen = 0;
+st.rs = resetVal;
 game = null;
 return save();
 }
@@ -541,9 +562,9 @@ return el;
 function bitmap(id, data, x, y, z) {
 return { id: id, type: "xpmbitmap", x: x, y: y, align: "top_left", timeout: STILL, data: data, z_index: z };
 }
-function film(id, name, x, y, z, loop) {
+function film(id, name, x, y, z, loop, section) {
 return { id: id, type: "animation", path: "animations/" + name + ".anim", x: x, y: y, align: "top_left", loop: loop !== false,
-section: "default", timeout: STILL, z_index: z };
+section: section || "default", timeout: STILL, z_index: z };
 }
 function small(id, s, x, y, colour, align) {
 return still(text(id, s, "small", x, y, colour, align || "top_left", 4));
@@ -569,14 +590,22 @@ ctl.ok = ctl.start = false;
 backs = 0;
 return k;
 }
-onBack = () => {                    // Back ends the app on the title only; elsewhere it is a step back
-if (where === "title") return false;
+function idle(ms) {
+if (ctl.turn || ctl.ok || ctl.start || backs || resetDue) return null;
+return nap(ms);
+}
+onBack = () => {                    // Back ends the app on the title and on the guide's first page; elsewhere it is a step back
+if (where === "title" || (where === "guide" && gpage <= 1)) return false;
 backs++;
 return true;
 };
+async function send(parts) {
+if (D.lag) await sleep(80 + Math.floor(Math.random() * 70));
+return post(parts);
+}
 async function put(els) {
 const parts = els.map((el) => wire(el));
-if (await post(parts)) {
+if (await send(parts)) {
 const at = Date.now();
 for (let i = 0; i < els.length; i++) live.set(els[i].id, { s: parts[i], t: at, el: els[i] });
 }
@@ -584,28 +613,47 @@ for (let i = 0; i < els.length; i++) live.set(els[i].id, { s: parts[i], t: at, e
 async function wipe(ids) {
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ids }));
 }
-function over(id, name, z) {
-return '{"id":"' + id + '","type":"animation","path":"animations/' + name + '.anim","x":0,"y":0,"align":"top_left","loop":false,' +
-'"section":"default","timeout":20,"z_index":' + z + "}";
+function topFilm(id, name, x, z, section) {
+return '{"id":"' + id + '","type":"animation","path":"animations/' + name + '.anim","x":' + x + ',"y":0,"align":"top_left","loop":false,' +
+'"section":"' + (section || "default") + '","timeout":' + STILL + ',"z_index":' + z + "}";
+}
+const COVER_Z = 2147481000;
+function cover(h) {
+return ['{"id":"zz_k1","type":"rectangle","x":0,"y":0,"width":72,"height":' + Math.max(1, h) + ',"fill":"solid","fill_colors":["#000000FF"],' +
+'"border_width":0,"timeout":' + STILL + ',"z_index":' + COVER_Z + "}",
+'{"id":"zz_k2","type":"rectangle","x":' + (h < 16 ? 0 : OFF) + ',"y":' + Math.min(15, h) + ',"width":72,"height":1,"fill":"solid",' +
+'"fill_colors":["#ECF4FFFF"],"border_width":0,"timeout":' + STILL + ',"z_index":' + (COVER_Z + 1) + "}"];
+}
+const coverOff = () => ['{"id":"zz_k1","type":"rectangle","x":' + OFF + ',"y":0,"width":72,"height":16,"fill":"solid","fill_colors":["#000000FF"],' +
+'"border_width":0,"timeout":' + STILL + ',"z_index":' + COVER_Z + "}", cover(16)[1]];
+async function fall() {
+await send(cover(3));
+await sleep(30);
+await send(cover(8));
+await sleep(30);
+await send(cover(16));
+}
+async function part(more) {
+await send([topFilm("zz_c2", "chop_out", 0, COVER_Z + 2)].concat(coverOff(), more || []));
+await sleep(D.chopOut + 40);
+await wipe(["zz_c2"]);
 }
 let onPage = "boot";
-async function draw(key, els) {
+async function draw(key, els, made) {
 if (key === onPage) return show(els);
 onPage = key;
 busy = true;
 try {
-const t0 = Date.now(), olds = [], mine = {};
-await post([cardAnim("zz_c1", "chop_in", 0)]);
+const olds = [], mine = {};
+await fall();
 for (let i = 0; i < els.length; i++) mine[els[i].id] = 1;
 for (const id of live.keys()) if (!mine[id]) olds.push(id);
-await sleep(D.chopIn + 30 - (Date.now() - t0));
 const sent = await postAll(els.map((el) => wire(el)));
+if (made) made();
 await drop(olds);
 if (sent) remember(els);
 else await show(els, true);
-await post([cardAnim("zz_c2", "chop_out", 0), cardAnim("zz_c1", "chop_in", OFF)]);
-await sleep(D.chopOut + 40);
-await wipe(["zz_c1", "zz_c2"]);
+await part();
 } finally {
 busy = false;
 ctl.ok = ctl.start = false;     // a second press while the page was changing is not a press on the new page
@@ -629,22 +677,78 @@ function wordsEls(top, word) {
 return tag([black(), small("c1", top, 36 - (smallWidth(top) >> 1), -1, GREY),
 big("c2", word, 36 - (textWidth(word, "bold") >> 1), 5, AMBER)], "q");
 }
-function howEls() {
-const a = "WHEEL: KNIFE", b = "PUSH OR TOP: CUT";
-return tag([black(), film("m", "how", 0, 0, 2), small("a", a, 36 - (smallWidth(a) >> 1), 1, STEELC),
-small("b", b, 36 - (smallWidth(b) >> 1), 8, AMBER)], "w");
+const GUIDE = 5;
+let gpage = 0;
+const gEl = (n, x) => topFilm("zz_g" + n, "guide_" + n, x, 5000);
+async function makeGuide() {
+const parts = [];
+for (let n = 1; n <= GUIDE; n++) parts.push(gEl(n, n === 1 ? 0 : OFF));
+await send(parts);
+gpage = 1;
 }
-async function howCard() {
-await draw("how", howEls());
+async function guideBook() {
+where = "guide";
 keys();
 while (!stopped) {
-await nap(40000);
+await idle(90000);
 const k = keys();
-if (k.back || resetDue) return false;
-if (k.turn || k.ok || k.start) return true;
-await show(howEls());                          // (nobody there: the card is kept alive)
+if (resetDue) break;                           // "Start over" was flipped meanwhile: the book is put away, and comes again
+let to = gpage;
+if (k.back) to = gpage - 1;                    // (on page 1 Back has ended the app)
+else if (gpage === GUIDE && (k.ok || k.start || k.turn)) break;
+else if (k.ok || k.start || k.turn > 0) to = gpage + 1;
+else if (k.turn < 0) to = gpage - 1;
+else if (!stopped) {                           // nobody there: everything is kept alive
+const parts = [];
+for (let n = 1; n <= GUIDE; n++) parts.push(gEl(n, n === gpage ? 0 : OFF));
+await send(parts);
+await show(titleEls());
 }
-return false;
+to = Math.max(1, Math.min(GUIDE, to));
+if (to !== gpage && !stopped) {                // one request: the new page in, the old one out
+await send([gEl(to, 0), gEl(gpage, OFF)]);
+gpage = to;
+ctl.turn = 0;                                // (a wheel that is still turning does not run through the book)
+}
+}
+if (stopped) return;
+if (resetDue) {
+const ids = [];
+for (let n = 1; n <= GUIDE; n++) ids.push("zz_g" + n);
+await wipe(ids);
+gpage = 0;
+where = "title";
+return;
+}
+st.seen = 1;
+save();
+busy = true;
+try {
+await fall();
+await show(titleEls());                        // (it is there already)
+await part([gEl(gpage, OFF)]);
+const ids = [];
+for (let n = 1; n <= GUIDE; n++) ids.push("zz_g" + n);
+await wipe(ids);
+} finally {
+busy = false;
+}
+gpage = 0;
+where = "title";
+onPage = "title";
+keys();                                          // the key that left the book does nothing else
+}
+async function openBook() {
+busy = true;
+try {
+await fall();
+await putUnder("title", titleEls());
+await makeGuide();
+await part();
+} finally {
+busy = false;
+}
+keys();
 }
 async function card(top, word, ms) {
 await draw("card " + word, wordsEls(top, word));
@@ -748,11 +852,26 @@ return out;
 const pieceEl = (pc, dy) => bitmap("g_" + pc.id, pieceData(pc.a, pc.b), R.x0 + pc.a, R.y + (dy || 0), 3);
 const boardEl = (dy) => film("g_bd", "board", 2, 12 + (dy || 0), 2, false);
 const isCut = (c) => R.cuts.indexOf(c) >= 0;
-function knifeEls(away, dy) {
-const X = R.x0 + R.knife, sp = away || isCut(R.knife) ? null : spanAt(R.knife);
-const rows = Math.max(4, Math.min(11, R.y + (sp ? sp[0] : 0)));
-return [film("g_kn", "knife_" + rows, away ? OFF : X - 3, dy || 0, 6, false),
+const BLADE = ["#FFFFFFFF", "#9CBCEEFF"];
+function knifeEls(mode, dy) {
+const X = R.x0 + R.knife, away = mode === "away", down = mode === "down";
+const sp = away || down || isCut(R.knife) ? null : spanAt(R.knife);
+const top = down ? 4 : 2 + (dy || 0), tip = down ? 11 : Math.max(3, R.y + (sp ? sp[0] : 0) - 1) + (dy || 0);
+const blade = rect("g_bl", away ? OFF : X, top, 1, tip - top + 1, BLADE[0], 7);
+blade.fill = "gradient_v";
+blade.fill_colors = BLADE;
+return [film("g_kn", "knife", away ? OFF : X - 3, down ? 2 : dy || 0, 6, false), blade,
 rect("g_sh", sp ? X : OFF, R.y + (sp ? sp[0] : 0), 1, sp ? sp[1] - sp[0] + 1 : 1, "#0000009C", 5)];
+}
+const LEAD = 600;
+const timeEl = (k) => film("g_tm", "bar_" + (R.T * SLOW), 0, 15, 7, false, k < 0 ? "default" : "s" + k);
+const CRUMBS = ["....a....\n...a.....\n.....a...\n....a....\n.........", ".a.....a.\n.........\na...a....\n.......a.\n..a......"];
+function crumbsEl(n, x, y) {
+return bitmap("g_cr", "! XPM2\n9 5 2 1\n. c none\na c " + R.food.cr + "\n" + CRUMBS[n], x, y, 8);
+}
+function gleamEl(i, x, part) {
+const el = rect("g_gl" + i, x, part ? 7 : 2, 1, 5, part ? "#BCD6FFFF" : "#FFFFFFFF", 9);
+return el;
 }
 function pipsEl() {
 let rows = "";
@@ -762,24 +881,19 @@ return bitmap("g_pp", "! XPM2\n2 " + (2 * R.N - 1) + " 3 1\n. c none\na c #C8D6E
 function playEls() {
 const els = [rect("g_bg", 0, 0, 72, 16, "#000000FF", 0), rect("g_bb", 3, 12, 66, 1, "#7A4A24FF", 1), boardEl(0), pipsEl()];
 for (let i = 0; i < R.pieces.length; i++) els.push(pieceEl(R.pieces[i], 0));
+els.push(crumbsEl(0, OFF, 0), timeEl(R.from));
 return els.concat(knifeEls());
 }
-async function startClock() {
+function setClock() {
 const whole = R.T * SLOW * 1000;
-let k = R.left > 0 ? Math.round((whole - R.left) / 500) : 0;
-k = Math.max(0, Math.min(2 * R.T * SLOW - 1, k));
-const el = film("g_tm", "bar_" + (R.T * SLOW), 0, 15, 7, false);
-el.section = "s" + k;
-await put([el]);
-R.deadline = Date.now() + whole - k * 500 + 200;
-if (TEST) console.log(APP + " go");
+R.deadline = Date.now() + (R.from < 0 ? LEAD + whole : whole - R.from * 500) + 200;
 }
 async function cut() {
 const c = R.knife, X = R.x0 + c;
 let at = -1;
 for (let i = 0; i < R.pieces.length; i++) if (c >= R.pieces[i].a + 1 && c <= R.pieces[i].b - 2) at = i;
 if (at < 0) {                                    // on a cut, or right beside one: the knife only nods
-await put(knifeEls(false, 1));
+await put(knifeEls("", 1));
 await sleep(50);
 await put(knifeEls());
 return false;
@@ -789,23 +903,29 @@ one.b = c;
 R.pieces.splice(at + 1, 0, two);
 R.cuts.push(c);
 R.cuts.sort((p, q) => p - q);
-await put([film("g_kd", "knifed", X - 3, 2, 6, false)].concat(knifeEls(true), [boardEl(1), pieceEl(one, 1), pieceEl(two, 1)]));
+await put(knifeEls("down").slice(0, 2).concat([boardEl(1), pieceEl(one, 1), pieceEl(two, 1)]));
 await sleep(55);
-const crumbs = film("g_cr", "crumbs_" + R.at, X - 5, R.y + (sp ? sp[0] : 0) - 5, 7, false);
-await put([boardEl(0), pieceEl(one, -1), pieceEl(two, -1), crumbs, pipsEl()]);
+const cy = R.y + (sp ? sp[0] : 0) - 5;
+await put([boardEl(0), pieceEl(one, -1), pieceEl(two, -1), crumbsEl(0, X - 4, cy), pipsEl()]);
 await sleep(55);
-await put([pieceEl(one, 0), pieceEl(two, 0), film("g_kd", "knifed", OFF, 2, 6, false)].concat(knifeEls()));
+await put([pieceEl(one, 0), pieceEl(two, 0), crumbsEl(1, X - 4, cy - 1)].concat(knifeEls()));
+const round = R;
+setTimeout(() => {                               // the crumbs are gone a moment later (nobody waits for that)
+if (R === round && onPage === "play" && !busy) put([crumbsEl(1, OFF, 0)]);
+}, 110);
 return true;
 }
 async function play() {
-await draw("play", playEls());
+const whole = R.T * SLOW * 1000;                 // -1 = from its beginning; else from that half second on
+R.from = R.left > 0 ? Math.max(0, Math.min(2 * R.T * SLOW - 1, Math.round((whole - R.left) / 500) - 1)) : -1;
+await draw("play", playEls(), setClock);
 if (stopped) return "time";
-await startClock();
+if (TEST) console.log(APP + " go");
 let lastTurn = 0;
 while (!stopped) {
 const now = Date.now();
 if (now >= R.deadline) return "time";
-await nap(Math.min(R.deadline - now, 400));
+await idle(Math.min(R.deadline - now, 400));
 const k = keys();
 if (resetDue) return "reset";
 if (k.back) {
@@ -833,7 +953,7 @@ small("b", quit, 36 - (smallWidth(quit) >> 1), 8, GREY)], "z");
 async function pauseCard() {
 while (!stopped) {
 await draw("pause", pauseEls());
-await nap(30000);
+await idle(30000);
 const k = keys();
 if (resetDue) return false;
 if (k.start) return true;
@@ -847,6 +967,10 @@ let sum = 0;
 for (let i = 0; i < R.pieces.length; i++) sum += Math.min(1, Math.abs(R.pieces[i].b - R.pieces[i].a - p) / p);
 sum += R.N + 1 - R.pieces.length;
 return Math.max(0, Math.round(100 - 100 * sum / (R.N + 1)));
+}
+function verdict(got) {
+const pass = Math.min(75, 60 + Math.round(1.5 * (game.round - 1)));
+return got < pass ? "RUINED" : got >= 97 ? "PERFECT" : got >= 88 ? "CLEAN" : got >= 78 ? "DECENT" : "ROUGH";
 }
 function rulerEl(full) {
 const p = (R.L - R.N) / (R.N + 1), top = [], low = [];
@@ -862,20 +986,23 @@ for (let x = pc.a; x < pc.b; x++) low[R.x0 + x] = ch;
 return bitmap("g_ru", "! XPM2\n72 2 5 1\n. c none\nw c #FFFFFF\ng c #2FD060\no c #FF9A1A\nr c #FF4030\n" + top.join("") + "\n" + low.join(""), 0, 14, 7);
 }
 async function judge() {
-const got = score();
-await put(knifeEls(true));
+const got = score(), word = verdict(got), t0 = Date.now();
+await put(knifeEls("away"));
 await drop(["g_tm"]);
 await sleep(120);
 await put([rulerEl(false)]);
 await sleep(160);
 await put([rulerEl(true)]);
-if (got >= 97) {                                 // PERFECT: a hard light runs down every cut
+if (word === "PERFECT") {                        // a hard light runs down every cut (rectangles: nothing to load)
 await sleep(200);
+for (let part = 0; part < 3; part++) {         // down the cuts: upper half, lower half, gone
 const lights = [];
-for (let i = 0; i < R.cuts.length; i++) lights.push(film("g_gl" + i, "gleam", R.x0 + R.cuts[i] - 2, 1, 8, false));
+for (let i = 0; i < R.cuts.length; i++) lights.push(gleamEl(i, part < 2 ? R.x0 + R.cuts[i] : OFF, part));
 await put(lights);
+await sleep(90);
 }
-await sleep(900);
+}
+await sleep(1400 - (Date.now() - t0));
 return got;
 }
 function resultEls(pct, word, line) {
@@ -885,8 +1012,7 @@ if (word) els.push(small("w", word, 35, 0, WORDS[word]));
 return tag(els, "r");
 }
 async function showResult(got, timeUp) {
-const pass = Math.min(75, 60 + Math.round(1.5 * (game.round - 1)));
-const word = got < pass ? "RUINED" : got >= 97 ? "PERFECT" : got >= 88 ? "CLEAN" : got >= 78 ? "DECENT" : "ROUGH";
+const word = verdict(got);
 const line = timeUp ? "TIME UP" : "ROUND " + game.round, steps = [0.3, 0.55, 0.75, 0.88, 0.96, 1];
 await draw("result", resultEls(0, "", line));
 for (let i = 0; i < steps.length; i++) {
@@ -896,7 +1022,7 @@ await sleep(55);
 await sleep(120);
 await show(resultEls(got, word, line));
 if (word === "PERFECT") {
-await post([over("zz_fl", "flash", TOP_Z)]);
+await send([topFilm("zz_fl", "flash", 0, TOP_Z)]);
 await sleep(D.flash + 60);
 await wipe(["zz_fl"]);
 }
@@ -929,10 +1055,10 @@ save();
 const lines = overLines();
 busy = true;
 try {
-await post([over("zz_ru", "ruined", TOP_Z)]);
+await send([topFilm("zz_ru", "ruined", 0, TOP_Z)]);
 await sleep(D.ruined + 150);
 await putUnder("over", overEls(0, lines[0][0], lines[0][1]));
-await post([over("zz_ro", "ruined_out", TOP_Z + 1)]);      // (it shows the same picture for its first 0.4 s)
+await send([topFilm("zz_ro", "ruined_out", 0, TOP_Z + 1)]);      // (the same picture for its first 0.4 s)
 await sleep(200);
 await wipe(["zz_ru"]);
 await sleep(D.ruinedOut - 200 + 60);
@@ -951,15 +1077,11 @@ overAt = Date.now();
 if (TEST) console.log(APP + " over " + game.total);
 keys();
 }
-async function runGame(fromTitle) {
+async function runGame() {
 where = "game";
 if (!D.seed) seed = ((seed + Date.now()) % 2147483646) + 1;
 game = { round: D.round || 1, total: D.bonus || 0, lastFood: -1, bag: [] };
 keys();
-if (fromTitle && cardOn && D.food === undefined && !(await howCard())) {
-where = "title";
-return;
-}
 while (!stopped && !resetDue) {
 newRound();
 if (!R.food.plain && !st.hint) {               // the first food whose shape misleads: the rule, once
@@ -1010,7 +1132,7 @@ keys();
 let play = false;
 while (!stopped) {
 await draw("scores", scoresEls(top, 0));
-await nap(30000);
+await idle(30000);
 const k = keys();
 if (resetDue) break;
 if (k.start) play = true;
@@ -1027,22 +1149,22 @@ where = "title";
 return play;
 }
 async function step() {
-if (resetDue) {                                  // "Start over": cleared, said on a card, then the title
+if (resetDue) {                                  // "Start over": cleared, said on a card; then like new: the guide, the title
 where = "title";
 await clearAll();
 await card("START OVER", "CLEARED", 1500);
-keys();
+await openBook();
+await guideBook();
 return;
 }
 if (where === "over") {
 const lines = overLines(), line = lines[overLine % 2];
 await draw("over", overEls(game.total, line[0], line[1]));
-await nap(2400);
+await idle(2400);
 const k = keys();
 if (resetDue) return;
 if ((k.start || k.ok) && Date.now() - overAt < 800) return;      // (still the hand that was cutting)
-if (k.start) return runGame(false);
-if (k.ok && (await scores())) return runGame(true);
+if (k.start || (k.ok && (await scores()))) return runGame();
 if (k.ok) return;
 if (k.back) where = "title";
 else if (!k.turn) overLine++;
@@ -1050,33 +1172,39 @@ return;
 }
 where = "title";
 await draw("title", titleEls());
-await nap(5000);
+await idle(5000);
 const k = keys();
 if (resetDue) return;
-if (k.start || (k.ok && (await scores()))) return runGame(true);
+if (k.start || (k.ok && (await scores()))) return runGame();
 }
 const SPLASH_MS = 1500;
-function splash(x) {
-return '{"id":"zz_sp","type":"animation","path":"animations/splash.anim","x":' + x + ',"y":0,"align":"top_left","loop":false,' +
-'"section":"default","timeout":20,"z_index":' + (TOP_Z + 5) + "}";
-}
+const splash = (x) => topFilm("zz_sp", "splash", x, TOP_Z + 5);
 async function main() {
 const t0 = Date.now();
 await post([splash(0)]);
 await syncTime();
 await load();
 await readSettings();
+const fresh = resetDue;                          // "Start over" was flipped while the app was closed
+if (fresh) {
+await clearAll();
+await putUnder("card CLEARED", wordsEls("START OVER", "CLEARED"));
+} else {
+await putUnder("title", titleEls());
+if (!st.seen) await makeGuide();               // the first time: the guide's pages over the title
+}
 await sleep(SPLASH_MS - (Date.now() - t0));
 if (stopped) return;
-const fresh = resetDue;                          // "Start over" was switched on while the app was closed
-if (fresh) await clearAll();
-await putUnder(fresh ? "card CLEARED" : "title", fresh ? wordsEls("START OVER", "CLEARED") : titleEls());
-await post([cardAnim("zz_c2", "chop_out", 0), splash(OFF)]);
+await send([topFilm("zz_c2", "chop_out", 0, COVER_Z + 2), splash(OFF)]);
 await sleep(D.chopOut + 40);
 await wipe(["zz_c2", "zz_sp"]);
 keys();
-if (fresh) await sleep(1500);
 dataLoop();
+if (fresh) {                                     // the card for a moment; then the guide, as on first use
+await sleep(1500);
+await openBook();
+}
+if (gpage) await guideBook();
 while (!stopped) {
 try {
 await step();

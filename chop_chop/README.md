@@ -1,6 +1,6 @@
 # Chop Chop
 
-A small game of skill: cut the food into pieces of the same length before the time runs out. Turn the wheel to place the knife and press to cut; the more even the pieces, the higher the score, and one bad cut ends the game.
+A small game of skill: cut the food into pieces of the same length before the time runs out. Turn the knob to place the knife and press Start or OK to cut; the more even the pieces, the higher the score, and one bad cut ends the game.
 
 ![Chop Chop on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
 
@@ -8,8 +8,8 @@ A small game of skill: cut the food into pieces of the same length before the ti
 
 ## What you see
 
-- **The title**: a loaf on its board and the name, with PLAY under the top button and TOP 5 under the wheel.
-- **Before a game**, a card says what the controls do. It waits until you touch a control.
+- **The title**: a loaf on its board and the name, with PLAY under Start and TOP 5 under the knob.
+- **A guide the first time**: five short pages that you turn yourself, one control a page, each with a mark under the control it means and the word for what it does.
 - **Before each round**, a card says how many cuts: 1 CUT, 3 CUTS, up to 6.
 - **A round**: the food lies on the board, the knife hovers over it and its shadow shows where it will cut. The line along the bottom is the time: it shrinks from both ends towards the middle, green, then amber, then red in the last second.
 - **Ten foods**: a loaf, a baguette, a cucumber, an aubergine, a fish, a carrot, a sausage, a roll cake, tofu and a sushi roll, each with its own inside where it is cut.
@@ -26,21 +26,20 @@ A small game of skill: cut the food into pieces of the same length before the ti
 
 ## Controls
 
-- **Title**: the top button plays, a press of the wheel opens the top 5, Back exits.
-- **Controls card**: any turn or press starts the game (it is not a cut); Back returns to the title.
-- **Round**: the wheel moves the knife, one column a click and faster when you spin it; a press of the wheel or the top button cuts; Back pauses.
-- **Pause**: the top button resumes, Back quits to the title.
-- **Game over**: the top button plays again, a press of the wheel opens the top 5, Back goes to the title.
-- **Top 5**: the wheel scrolls, the top button plays, Back goes back.
+- **Title**: Start plays, OK opens the top 5, Back exits.
+- **Guide**: Start, OK or a turn of the knob forward goes to the next page; a turn back or Back goes to the page before. On the last page any key or turn opens the title. Back on the first page exits.
+- **Round**: turn the knob to move the knife, one column a click and faster when you spin it; Start or OK cuts; Back pauses.
+- **Pause**: Start resumes, Back quits to the title.
+- **Game over**: Start plays again, OK opens the top 5, Back goes to the title.
+- **Top 5**: turn the knob to scroll, Start plays, Back goes back.
 
 ## Settings
 
-- **Controls card at start**: on by default. Off: a game from the title starts at once.
-- **Start over**: clears the five best games and everything else the app has kept. It acts when you switch it on; switch it off again afterwards. This cannot be undone.
+- **Start over**: flip this switch to clear the five best games and everything else the app has kept, and to see the guide again. Each flip starts over once. This cannot be undone.
 
 ## Data and privacy
 
-- The app keeps one small file on the bar: your five best games and whether the rule card has been shown.
+- The app keeps one small file on the bar: your five best games, and that the guide and the rule card have been shown.
 - It uses no internet connection and sends nothing anywhere. Nothing leaves the bar.
 - At every start it shows the author's mark for a second and a half.
 - All drawings are the author's own. The app is not affiliated with any other game, brand or product of a similar name.
