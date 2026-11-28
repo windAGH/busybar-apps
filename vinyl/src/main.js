@@ -776,7 +776,7 @@ function wireItem(it, set, part, dx) {
 return letters("w" + set + it.k, it.s, it.x + (dx || 0), it.y, it.c, part, 100);
 }
 const wirePage = (pg, set, part) => pg.items.map((it) => letters("w" + set + it.k, it.s, it.x, it.y - (pg.sc ? pg.sc.off : 0), it.c, part, 100));
-const wmask = (pg) => block("wm", pg && pg.sc ? pg.items[0].x : OFF, 13, EDGE + 1 - (pg && pg.sc ? pg.items[0].x : TXT), 3, "#000000FF", 101);
+const wmask = (pg) => block("wm", pg && pg.sc ? pg.items[0].x : OFF, rowY(2) + 7, EDGE + 1 - (pg && pg.sc ? pg.items[0].x : TXT), 9 - rowY(2), "#000000FF", 101);
 const idsOf = (pg, set) => pg.items.map((it) => "w" + set + it.k);
 let dimUntil = 0, dimOn = false;
 const dimFilm = (name, x) => film("wq", name, x, 105, false, LONG);
