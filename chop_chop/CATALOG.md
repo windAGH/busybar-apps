@@ -4,8 +4,8 @@ A small game of skill: cut the food into pieces of the same length before the ti
 
 ## What you see
 
-- **The title**: a loaf on its board and the name, with PLAY under Start and TOP 5 under the knob.
-- **A guide the first time**: five short pages that you turn yourself, one control a page, each with a mark under the control it means and the word for what it does.
+- **The main screen**: a loaf on its board and the name. Every start arrives here. PLAY stands under Start, and a small blue arrow with GUIDE points at the knob.
+- **The guide**: five short pages that you turn yourself, one control a page, each with a mark under the control it means and the word for what it does. It opens by itself the first time, and whenever you press the knob on the main screen.
 - **Before each round**, a card says how many cuts: 1 CUT, 3 CUTS, up to 6.
 - **A round**: the food lies on the board, the knife hovers over it and its shadow shows where it will cut. The line along the bottom is the time: it shrinks from both ends towards the middle, green, then amber, then red in the last second.
 - **Ten foods**: a loaf, a baguette, a cucumber, an aubergine, a fish, a carrot, a sausage, a roll cake, tofu and a sushi roll, each with its own inside where it is cut.
@@ -22,11 +22,11 @@ A small game of skill: cut the food into pieces of the same length before the ti
 
 ## Controls
 
-- **Title**: Start plays, OK opens the top 5, Back exits.
-- **Guide**: Start, OK or a turn of the knob forward goes to the next page; a turn back or Back goes to the page before. On the last page any key or turn opens the title. Back on the first page exits.
+- **Main screen**: the app opens here. Start plays, pressing the knob (OK) opens the guide, a turn of the knob opens the top 5, Back exits.
+- **Guide**: Start, OK or a turn of the knob forward goes to the next page; a turn back or Back goes to the page before. Back on the first page, or any key or turn on the last, closes the guide and returns to the main screen.
 - **Round**: turn the knob to move the knife, one column a click and faster when you spin it; Start or OK cuts; Back pauses.
-- **Pause**: Start resumes, Back quits to the title.
-- **Game over**: Start plays again, OK opens the top 5, Back goes to the title.
+- **Pause**: Start resumes, Back quits to the main screen.
+- **Game over**: Start plays again, OK opens the top 5, Back goes to the main screen.
 - **Top 5**: turn the knob to scroll, Start plays, Back goes back.
 
 ## Settings

@@ -577,10 +577,11 @@ for (let i = 0; i < els.length; i++) els[i].id = p + "_" + els[i].id;
 return els;
 }
 const black = () => rect("bg", 0, 0, 72, 16, "#000000FF", 0);
+const GUIDE_X = 71 - smallWidth("GUIDE");            // (the word ends in column 70, as TOP 5 does)
 const chevron = (c) => "! XPM2\n6 2 2 1\n. c none\na c " + c + "\n..aa..\n.aaaa.";
-function hints(els) {
+function hints(els, guide) {
 els.push(bitmap("u1", chevron("#FFC24A"), 33, 0, 4), small("h1", "PLAY", 27, 1, AMBER),
-bitmap("u2", chevron("#C8CCD6"), 59, 0, 4), small("h2", "TOP 5", 52, 1, STEELC));
+bitmap("u2", chevron(guide ? "#6FB8FF" : "#C8CCD6"), 59, 0, 4), small("h2", guide ? "GUIDE" : "TOP 5", guide ? GUIDE_X : 52, 1, STEELC));
 return els;
 }
 function keys() {
@@ -594,8 +595,8 @@ function idle(ms) {
 if (ctl.turn || ctl.ok || ctl.start || backs || resetDue) return null;
 return nap(ms);
 }
-onBack = () => {                    // Back ends the app on the title and on the guide's first page; elsewhere it is a step back
-if (where === "title" || (where === "guide" && gpage <= 1)) return false;
+onBack = () => {                    // Back ends the app on the title only; elsewhere it is a step back
+if (where === "title") return false;
 backs++;
 return true;
 };
@@ -671,7 +672,7 @@ else await show(els, true);
 onPage = key;
 }
 function titleEls() {
-return tag(hints([film("bg", "title", 0, 0, 0, false), film("gl", "glint", 0, 0, 2)]), "t");
+return tag(hints([film("bg", "title", 0, 0, 0, false), film("gl", "glint", 0, 0, 2)], true), "t");
 }
 function wordsEls(top, word) {
 return tag([black(), small("c1", top, 36 - (smallWidth(top) >> 1), -1, GREY),
@@ -694,7 +695,8 @@ await idle(90000);
 const k = keys();
 if (resetDue) break;                           // "Start over" was flipped meanwhile: the book is put away, and comes again
 let to = gpage;
-if (k.back) to = gpage - 1;                    // (on page 1 Back has ended the app)
+if (k.back && gpage === 1) break;              // Back on the first page closes the book
+else if (k.back) to = gpage - 1;
 else if (gpage === GUIDE && (k.ok || k.start || k.turn)) break;
 else if (k.ok || k.start || k.turn > 0) to = gpage + 1;
 else if (k.turn < 0) to = gpage - 1;
@@ -742,7 +744,7 @@ async function openBook() {
 busy = true;
 try {
 await fall();
-await putUnder("title", titleEls());
+if (onPage !== "title") await putUnder("title", titleEls());
 await makeGuide();
 await part();
 } finally {
@@ -1175,7 +1177,12 @@ await draw("title", titleEls());
 await idle(5000);
 const k = keys();
 if (resetDue) return;
-if (k.start || (k.ok && (await scores()))) return runGame();
+if (k.start) return runGame();
+if (k.ok) {                                      // the wheel's press: the guide, and back here
+await openBook();
+return guideBook();
+}
+if (k.turn && (await scores())) return runGame();   // a turn: the five best games
 }
 const SPLASH_MS = 1500;
 const splash = (x) => topFilm("zz_sp", "splash", x, TOP_Z + 5);
