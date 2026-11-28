@@ -9,7 +9,7 @@
 // of five pages shown the first time the app is used (images/bk_<n>.png: the player turns them), the start.
 // Nothing is made on a beat: a round moves or exchanges pictures that exist (see TIMING below).
 
-const D = {"app":"io.github.windagh.bop_back","acts":[{"k":"cat","n":"CAT","c":"#FF963CFF"},{"k":"forge","n":"FORGE","c":"#FFAA32FF"},{"k":"frog","n":"FROG","c":"#96E850FF"},{"k":"peck","n":"PECK","c":"#FF6050FF"},{"k":"pop","n":"POP","c":"#FFD650FF"}],"rh":[[[8,90,"x.x.x.x.",0,1],[8,90,"x.x.x...",1,1],[8,90,"x...x.x.",2,1],[8,90,"x.x...x.",3,1],[8,90,"..x.x.x.",4,1]],[[8,96,"x.x.xxx.",5,2],[8,96,"xxx.x.x.",6,2],[8,96,"x.xxx.x.",7,2],[8,96,"x.x.x.xx",8,2],[8,96,"xxx.xxx.",9,2]],[[8,104,"x..x..x.",10,3],[8,104,"x..xx.x.",11,3],[8,104,"x.xx..x.",12,3],[8,104,"x.x..xx.",13,3],[8,104,"x..x.xx.",14,3]],[[8,112,"xx.xx.x.",15,4],[8,112,"x..x.x.x",16,4],[8,112,"xxx..xx.",17,4],[8,112,"x.xx.xx.",18,4],[8,112,".xx.x.x.",19,4]],[[8,108,"x.x.x.x.x.xxx...",20,5],[8,108,"x..x..x.x.x.x...",21,5],[8,108,"x.xxx...x.xx..x.",22,5],[8,108,"x.x.xx..x.xx.x..",23,5],[8,108,"xxx.x...xxx.x...",24,5]],[[16,100,"x...x.xxx...x...",25,6],[16,100,"xx..x...xx..x...",26,6],[16,100,"x...xx..x...xx..",27,6],[16,100,"x.x.xx..x...x...",28,6],[16,100,"x...x...xx.xx...",29,6]],[[8,124,"x.xxx.xx",30,7],[8,124,"xx.x.xx.",31,7],[8,124,"xxx.xx.x",32,7],[8,124,"x..xxx.x",33,7],[8,124,".x.xx.x.",34,7]],[[8,130,"x.xx.x..x.x.xx..",35,8],[8,130,"x..x..x.x..xx.x.",36,8],[8,130,"xx.x..x.xx.x....",37,8],[8,130,"x.x.xx.x..x.x.x.",38,8],[16,112,"x..xx.x.x..xx.x.",39,8]]],"signs":{"superb":567,"ok":300,"again":700,"over":700},"book":5,"titleW":33,"gag":750,"logo":1667,"dimFrom":4,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1};
+const D = {"app":"io.github.windagh.bop_back","acts":[{"k":"cat","n":"CAT","c":"#FF963CFF"},{"k":"forge","n":"FORGE","c":"#FFAA32FF"},{"k":"frog","n":"FROG","c":"#96E850FF"},{"k":"peck","n":"PECK","c":"#FF6050FF"},{"k":"pop","n":"POP","c":"#FFD650FF"}],"rh":[[[8,90,"x.x.x.x.",0,1],[8,90,"x.x.x...",1,1],[8,90,"x...x.x.",2,1],[8,90,"x.x...x.",3,1],[8,90,"..x.x.x.",4,1]],[[8,96,"x.x.xxx.",5,2],[8,96,"xxx.x.x.",6,2],[8,96,"x.xxx.x.",7,2],[8,96,"x.x.x.xx",8,2],[8,96,"xxx.xxx.",9,2]],[[8,104,"x..x..x.",10,3],[8,104,"x..xx.x.",11,3],[8,104,"x.xx..x.",12,3],[8,104,"x.x..xx.",13,3],[8,104,"x..x.xx.",14,3]],[[8,112,"xx.xx.x.",15,4],[8,112,"x..x.x.x",16,4],[8,112,"xxx..xx.",17,4],[8,112,"x.xx.xx.",18,4],[8,112,".xx.x.x.",19,4]],[[8,108,"x.x.x.x.x.xxx...",20,5],[8,108,"x..x..x.x.x.x...",21,5],[8,108,"x.xxx...x.xx..x.",22,5],[8,108,"x.x.xx..x.xx.x..",23,5],[8,108,"xxx.x...xxx.x...",24,5]],[[16,100,"x...x.xxx...x...",25,6],[16,100,"xx..x...xx..x...",26,6],[16,100,"x...xx..x...xx..",27,6],[16,100,"x.x.xx..x...x...",28,6],[16,100,"x...x...xx.xx...",29,6]],[[8,124,"x.xxx.xx",30,7],[8,124,"xx.x.xx.",31,7],[8,124,"xxx.xx.x",32,7],[8,124,"x..xxx.x",33,7],[8,124,".x.xx.x.",34,7]],[[8,130,"x.xx.x..x.x.xx..",35,8],[8,130,"x..x..x.x..xx.x.",36,8],[8,130,"xx.x..x.xx.x....",37,8],[8,130,"x.x.xx.x..x.x.x.",38,8],[16,112,"x..xx.x.x..xx.x.",39,8]]],"signs":{"superb":567,"ok":300,"again":700,"over":700},"book":5,"titleW":33,"marks":{"start":["..#..",".###.","#####"],"press":["#####",".###.","..#..",".....","#####"],"turn":["..#.#..",".##.##.","###.###",".##.##.","..#.#.."]},"gag":750,"logo":1667,"dimFrom":4,"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1};
 // ===== beat.js =====
 const HIT_MS = 120;                 // Relaxed (the default): a press this near its hit counts ...
 const PERFECT_MS = 60;              // ... and this near is perfect
@@ -315,10 +315,22 @@ let zBase = 0;
 const lifted = (z) => (z >= TOP_Z - 1000 ? z : z + zBase);
 const wire = (el) => JSON.stringify(el.z_index >= TOP_Z - 1000 || zBase === 0 ? el : Object.assign({}, el, { z_index: el.z_index + zBase }));
 const onTop = (id) => id[0] === "v" || id[0] === "z" || id[0] === "k";     // (ids of what lies over all pages)
-const arrowUp = (c) => "! XPM2\n6 3 2 1\n. c none\na c " + c.slice(0, 7) + "\n..aa..\n.aaaa.\naaaaaa";
-const guideCue = (c) => "! XPM2\n17 9 2 1\n. c none\na c " + c.slice(0, 7) + "\n......aa.........\n.....aaaa........\n.................\n................." +
-"\naaa.a.a.a.aa..aaa\na...a.a.a.a.a.a..\na.a.a.a.a.a.a.aa.\na.a.a.a.a.a.a.a..\naaa.aaa.a.aa..aaa";
-const upDown = (c) => "! XPM2\n3 7 2 1\n. c none\na c " + c.slice(0, 7) + "\n.a.\naaa\n...\n...\n...\naaa\n.a.";
+const xpmRows = (rows, more) => {
+let w = 0;
+for (let i = 0; i < rows.length; i++) w = Math.max(w, rows[i].length);
+const dots = ".".repeat(w);
+return rows.map((r) => (r.replace(/#/g, "a") + dots).slice(0, w)).join("\n") + (more || "");
+};
+const markXpm = (rows, c) => "! XPM2\n" + rows[0].length + " " + rows.length + " 2 1\n. c none\na c " + c.slice(0, 7) + "\n" + xpmRows(rows);
+const arrowUp = (c) => markXpm(D.marks.start, c);              // START
+const turnMark = (c) => markXpm(D.marks.turn, c);              // the knob turned
+const AMBER = "#FFB03CFF", QUIET = "#8A90A6FF", QUIET_GROUND = "#535664FF";
+const guideCue = () => {
+const m = D.marks.press, rows = [];
+for (let i = 0; i < m.length; i++) rows.push("...." + (i === m.length - 1 ? m[i].replace(/#/g, "b") : m[i].replace(/#/g, "a")) + "........");
+rows.push(".................", "aaa.a.a.a.aa..aaa", "a...a.a.a.a.a.aa.", "a.a.a.a.a.a.a.a..", "aaa.aaa.a.aa..aaa");
+return "! XPM2\n17 " + rows.length + " 3 1\n. c none\na c " + QUIET.slice(0, 7) + "\nb c " + QUIET_GROUND.slice(0, 7) + "\n" + rows.join("\n");
+};
 const live = new Map();             // id -> { s: the element as last sent, t: when }
 const loose = [];                   // ids that were sent by hand, on top of the page: gone with the next page
 async function wipe(ids) {
@@ -389,20 +401,22 @@ for (let i = 0; i < els.length; i++) mine[els[i].id] = 1;
 await wipe(olds.filter((id) => !onTop(id) && !mine[id]));
 }
 let nameUntil = 0, unsaved = false;
-function titleEls(moving) {
+function titleEls(moving, markStill) {
 const a = D.acts[st.scene], naming = Date.now() < nameUntil || st.best === 0;
 const els = [rect("bg", 0, 0, 72, 16, BLACK, 0), image("st", a.k + "_t", 0, 0, 1),
-bitmap("go", arrowUp(a.c), 33, 0, 4), text("pl", "PLAY", "small", 33, 2, WHITE),             // under START: play
-bitmap("gd", guideCue(GREY), 55, 0, 4),                       // at the knob: a small arrow and GUIDE (OK opens the book)
-bitmap("ud", upDown(a.c), 34, 9, 4),
-text("ln", naming ? a.n : "BEST " + Math.min(st.best, 99), "small", 72, 8, naming ? a.c : GREY, "top_right")];
+text("pl", "PLAY", "small", 33, 3, WHITE),                     // under START's mark: play
+bitmap("gd", guideCue(), 55, 0, 4),                            // at the knob: the press mark and GUIDE (OK opens the book)
+bitmap("ud", turnMark(a.c), 34, 11, 4),                        // the knob turned: another act
+text("ln", naming ? a.n : "BEST " + Math.min(st.best, 99), "small", 72, 9, naming ? a.c : GREY, "top_right")];
 if (moving) els.push(film("f", a.k + "_idle", 0, 0, 2, true));
+if (markStill) els.push(bitmap("g0", arrowUp(AMBER), 33, 1, 4));
+else els.push(film("go", "go_bob", 33, 0, 5, true));
 return tag(els, "t");
 }
 const plan = D.trace && D.auto ? [1, 1, 5] : null;
 let planned = false;
 async function title() {
-if (onPage !== "title") await draw("title", titleEls(false));
+if (onPage !== "title") await draw("title", titleEls(false, true));
 await show(titleEls(true));
 saveErrs();                       // (at rest: how many draw requests the bar refused, if that has changed)
 await trFlush();
@@ -438,7 +452,7 @@ unsaved = false;
 if (k.ok) {                       // OK: the guide. It is shut again on this page; it starts nothing
 nameUntil = 0;
 await show(titleEls(true));
-await bookMake();
+await bookMake(false);
 await book(false);
 return;
 }
@@ -860,7 +874,7 @@ mode = g.hearts > 0 ? "card" : "over";
 }
 }
 function pauseEls() {
-return tag([rect("bg", 0, 0, 72, 16, BLACK, 0), bitmap("up", arrowUp(WHITE), 33, 0, 4), text("go", "START: GO ON", "small", 36, 2, WHITE, "top_mid"),
+return tag([rect("bg", 0, 0, 72, 16, BLACK, 0), bitmap("up", arrowUp(AMBER), 33, 0, 4), text("go", "START: GO ON", "small", 36, 2, WHITE, "top_mid"),
 text("q", "BACK: QUIT", "small", 36, 8, GREY, "top_mid")], "z");
 }
 async function pause() {
@@ -934,23 +948,27 @@ else if (mode === "over") await gameOver();
 }
 const BOOK_Z = TOP_Z - 100, BOOK_ALIVE_MS = 48000;
 const leaf = (i, on) => wire(image("k_" + i, "bk_" + (i + 1), on ? 0 : OFF, 0, BOOK_Z - i));
-function bookMake() {
+const bookMark = (id, on) => '{"id":"' + id + '","type":"animation","path":"animations/go_bob.anim","x":' + (on ? 33 : OFF) +
+',"y":0,"align":"top_left","loop":true,"section":"default","timeout":' + STILL + ',"z_index":' + (BOOK_Z + 1) + "}";
+function bookMake(first) {
 const parts = [];
 for (let i = 0; i < D.book; i++) parts.push(leaf(i, false));
+if (first) parts.push(bookMark("k_go", false));
 return post(parts);
 }
 async function book(first) {
-const last = D.book - 1, ids = [];
+const last = D.book - 1, ids = [], markId = first ? "k_go" : "t_go";
 let at = 0, shown = 0, sent = Date.now();
 const pile = (from) => {
 const parts = [];
 for (let i = from; i <= last; i++) parts.push(leaf(i, i >= shown));
+if (from === 0) parts.push(bookMark(markId, shown === 0));
 return parts;
 };
 for (let i = 0; i <= last; i++) ids.push("k_" + i);
 turns.length = 0;
 mode = "book";
-await post([leaf(0, true)]);      // page 1 first: it covers the others as they come
+await post([leaf(0, true), bookMark(markId, true)]);           // page 1 first: it covers the others as they come
 await post(pile(1));
 if (first) await wipe(["zz_sp"]);
 let go = false;
@@ -978,6 +996,7 @@ go = true;
 if (!go && at !== shown) {
 const lo = Math.min(at, shown), hi = Math.max(at, shown), parts = [];
 for (let i = lo; i < hi; i++) parts.push(leaf(i, i >= at));
+if ((at === 0) !== (shown === 0)) parts.push(bookMark(markId, at === 0));
 await post(parts);
 shown = at;
 }
@@ -985,7 +1004,10 @@ shown = at;
 if (first) {
 mode = "boot";
 for (let i = 0; i < ids.length; i++) loose.push(ids[i]);     // (the last page stays until the title page lies under it)
+loose.push("k_go");
 } else {
+const mine = titleEls(true).filter((e) => e.id === "t_go");  // the main screen's mark: back to its own place and depth
+await post(mine.map(wire));
 await wipe(ids);                // (the title page lies under it: there it is again)
 mode = "title";
 }
@@ -1015,7 +1037,7 @@ await save();
 }
 }
 const read = !st.seen && !D.noguide && !plan;    // the book: once, the first time the app is used
-if (read) await bookMake();
+if (read) await bookMake(true);
 const until = async (at) => {     // (BACK ends the wait at once; other keys do not shorten it)
 while (!stopped && Date.now() < at) await nap(at - Date.now());
 };
