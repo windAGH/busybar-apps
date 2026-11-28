@@ -16,10 +16,11 @@ The pictures are the app's own screens from the BUSY Bar Emulator.
 - The light follows the bar's clock: bright and busy by day, warmer in the evening, dim with long gaps at night, when the sleeping traveller comes by more often.
 
 ## Controls
-- The first time, the closed shutter shows the controls as a short book: five numbered pages, one control a page. Start, OK or a turn of the knob forward turns the page; a turn back or Back goes a page back. On the last page any key opens the hall. After that the shutter simply rolls up at every start.
+- The app opens on its main screen: the hall already running, with the name on a luggage tag. Start enters at once, pressing the knob (OK) opens the guide, Back exits. Without a key the main screen fades by itself after about four seconds.
+- The guide is a short book on the closed shutter: five numbered pages, one control a page. Start, OK or a turn of the knob forward turns the page; a turn back or Back goes a page back. Any key on the last page, or Back on the first, closes it. The first time, it opens by itself.
 - Start: a luggage tag names the thing in the middle of the belt in a few dry words. Start again sends it away.
 - Turn the knob: the belt's speed - stopped, slow, normal, fast.
-- OK: the next belt. The view goes up a floor; after 4 comes 1.
+- OK, once the main screen has gone: the next belt. The view goes up a floor; after 4 comes 1.
 - Back: exit.
 
 ## Settings
