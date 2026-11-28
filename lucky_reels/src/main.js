@@ -348,7 +348,7 @@ st.g = true;
 await save();
 }
 function titleEls() {
-return [rect("t_bg", 0, 0, 72, 16, BLACK, 0), film("t_pic", "title", 0, 0, 1)].concat(bookEls(-1));
+return [rect("t_bg", 0, 0, 72, 16, BLACK, 0), film("t_pic", "title", 0, 0, 1, true)].concat(bookEls(-1));
 }
 function cardEls() {                // the card that says so, for a moment
 return [rect("c_bg", 0, 0, 72, 16, BLACK, 0), film("c_coin", "coin_big", 6, 2, 1),
