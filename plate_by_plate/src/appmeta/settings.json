@@ -1,0 +1,37 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "speed": {
+      "label": "Belt speed",
+      "type": "enum",
+      "default": "normal",
+      "options": [
+        {
+          "value": "slow",
+          "label": "Slow"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "fast",
+          "label": "Fast"
+        }
+      ]
+    },
+    "night": {
+      "label": "Quiet nights",
+      "type": "boolean",
+      "default": true,
+      "description": "From 11 pm to 6 am the bar is dimmer and fewer plates come by."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}
