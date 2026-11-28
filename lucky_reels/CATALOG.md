@@ -19,7 +19,8 @@ A three-reel slot machine for your desk. The coins are play coins only: nothing 
 ## Controls
 
 - The controls by their names: Start is the big button on top, OK is a press of the knob, Turn is turning the knob, Back is the Back button.
-- The first time you open the app, a short guide shows them: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the game, and does nothing else. The guide does not come again by itself; Start over in the settings brings it back.
+- The app opens on its main screen. Start enters the game. OK opens the guide. Back leaves the app.
+- The guide: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before. Any key on the last page, or Back on the first, closes it and leads back to the main screen. The first time you open the app the guide opens by itself.
 - The machine: Start spins. Turn the knob to set the bet: 1, 2, 5, 10 or 25 coins, never more than you have. OK opens the info pages. Back leaves the app.
 - While a win is still counting: Start begins the next spin at once.
 - Info pages: your coins and your best win, the pay table, the number of spins. Turn the knob to go through them. OK, Start or Back returns to the machine.

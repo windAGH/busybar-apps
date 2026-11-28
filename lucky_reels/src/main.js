@@ -209,6 +209,7 @@ el.timeout = 30;
 return wire(el);
 }
 let bookAt = -1, bookBacks = 0;     // the page on show (-1: no guide); Back presses the guide has taken
+let bookShut = false;               // Back on the first page: the book is to be closed
 const pageEl = (i, on) => film("k_p" + i, "guide_" + i, on ? 0 : OFF, 0, 20, true);
 function bookEls(at) {
 const els = [];
@@ -217,13 +218,14 @@ return els;
 }
 function bookBack() {               // (for onBack) true: the guide has taken the key
 if (bookAt < 0) return false;
-if (bookAt === 0) return false;   // on the first page Back leaves the app
+if (bookAt === 0) bookShut = true;               // on the first page Back closes the book
 bookBacks++;
 return true;
 }
 async function book(under) {
 if (!live.get("k_p0")) await put(bookEls(-1));
 bookAt = 0;
+bookShut = false;
 onPage = "book";
 await put([pageEl(0, true)]);
 if (under) await wipe([under]);
@@ -235,7 +237,7 @@ await nap(50000);
 const steps = ctl.n + ctl.turn - bookBacks, any = ctl.n || ctl.turn || bookBacks;
 ctl.n = ctl.turn = bookBacks = 0;
 ctl.ok = ctl.start = false;
-if (stopped) break;
+if (stopped || bookShut) break;
 if (!any) {
 await put(bookEls(bookAt));                  // nothing was pressed: the pictures are only kept alive
 continue;
@@ -341,9 +343,12 @@ rigAt = 0;
 }
 async function guide(under) {
 await book(under);
-if (stopped) return;
+if (stopped || st.g) return;
 st.g = true;
 await save();
+}
+function titleEls() {
+return [rect("t_bg", 0, 0, 72, 16, BLACK, 0), film("t_pic", "title", 0, 0, 1)].concat(bookEls(-1));
 }
 function cardEls() {                // the card that says so, for a moment
 return [rect("c_bg", 0, 0, 72, 16, BLACK, 0), film("c_coin", "coin_big", 6, 2, 1),
@@ -549,7 +554,17 @@ return true;
 };
 const IDLE = 5000;                  // a page at rest looks at the settings again this often (nothing is drawn for that)
 async function step() {
-if (mode === "game") {
+if (mode === "title") {                          // the main screen: it waits for a key
+await draw("title", titleEls());
+await nap(IDLE);
+const k = keys();
+if (k.start) {                                 // Start: into the game
+if (st.coins < 1) mode = "new";
+else await opening(false);
+} else if (k.ok) {                             // OK: the guide; closing it leads back here
+await guide("");
+}
+} else if (mode === "game") {
 await draw("game", gameEls());
 await nap(dirty ? 1500 : IDLE);                 // (a new bet is kept once the knob has rested a moment)
 const k = keys();
@@ -604,7 +619,7 @@ if (fresh) await startOver();
 if (D.start !== undefined) st.coins = D.start;
 while (BETS.indexOf(st.bet) > 0 && st.bet > st.coins) st.bet = BETS[BETS.indexOf(st.bet) - 1];
 shown = st.coins;
-if (!st.g && !fresh) await put(bookEls(-1));      // (first use: the guide's pages are made now, off-screen)
+if (!fresh) await put(bookEls(-1));              // (the guide's pages are made now, off-screen, with the mark over them)
 await until(t0 + SPLASH_MS);
 if (stopped) return;
 let under = true;                                // the mark is still on the screen
@@ -620,14 +635,10 @@ await guide(under ? "zz_sp" : "");
 under = false;
 if (stopped) return;
 }
-if (st.coins < 1) {
-mode = "new";
-await draw("new", newEls());
+mode = "title";                                  // every start arrives on the main screen
+await draw("title", titleEls());
 if (under) await wipe(["zz_sp"]);
 keys();
-} else {
-await opening(under);
-}
 let settingsDue = Date.now() + IDLE;
 const began = Date.now();
 while (!stopped) {
@@ -641,7 +652,7 @@ await draw("card", cardEls());
 await put(bookEls(-1));                  // (the guide's pages are made while the card is read)
 await sleep(1500);
 if (!stopped) await guide("");
-if (!stopped) await opening(false);
+mode = "title";
 continue;
 }
 }
