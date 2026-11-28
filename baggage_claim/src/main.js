@@ -11,7 +11,7 @@
 // four belts and the things on them, the band, the flaps, the tag, the picture, the next belt, one look, the start).
 // All pictures are films in animations/, drawn by the author's own code; nothing is fetched from anywhere.
 
-const D = {"app":"io.github.windagh.baggage_claim","name":"Baggage Claim","kinds":[{"f":"hard","v":[[16,12,9,6],[16,12,9,6],[16,12,9,6],[18,12,11,6],[17,13,9,7],[16,12,9,6],[16,12,9,6],[17,13,9,7],[18,12,11,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[40,44]},{"f":"cabin","v":[[12,10,7,5],[13,11,7,6],[12,10,7,5],[12,10,7,5],[13,11,7,6]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[44,47]},{"f":"duffel","v":[[17,10,9,5],[17,10,9,5],[17,11,9,6],[17,10,9,5]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[34,52]},{"f":"backpack","v":[[12,12,7,6],[12,13,7,7],[12,12,7,6],[12,13,7,7]],"n":1,"ms":1000,"lat":0,"y":[-4.6,4.6],"g":[42,39]},{"f":"guitar","v":[[25,12,11,6],[25,12,11,6],[25,12,11,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[32,65]},{"f":"golf","v":[[22,10,12,5],[22,10,12,5],[22,10,12,5]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[41,50]},{"f":"skis","v":[[27,7,14,3],[27,7,14,3],[27,7,14,3]],"n":1,"ms":1000,"lat":0,"y":[-2.0,3.2],"g":[24,44]},{"f":"surf","v":[[29,8,15,4],[29,8,15,4],[29,8,15,4]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.1],"g":[46,51]},{"f":"box","v":[[13,12,7,6],[14,14,8,7],[13,12,7,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[36,40]},{"f":"pet","v":[[14,13,8,7],[14,13,8,7],[14,13,8,7]],"n":2,"ms":220,"lat":0,"y":[-4.0,4.0],"g":[30,46],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,1]},{"f":"pram","v":[[13,13,8,7],[13,13,8,7],[13,13,8,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[28,65]},{"f":"hatbox","v":[[11,12,6,6],[11,12,6,6],[11,12,6,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[37,56]},{"f":"cello","v":[[28,14,14,7],[28,14,14,7],[28,14,14,7]],"n":1,"ms":1000,"lat":0,"y":[-4.5,4.5],"g":[30,57]},{"f":"cooler","v":[[13,13,7,7],[13,13,7,7],[14,15,8,8]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[41,52]},{"f":"stickers","v":[[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[24,45]},{"f":"wrapped","v":[[16,13,9,7],[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.5,4.5],"g":[40,60]},{"f":"duo","v":[[22,12,12,6],[22,12,12,6],[22,12,12,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[52,59]},{"f":"briefcase","v":[[12,10,6,6],[13,11,7,6],[12,10,6,6]],"n":1,"ms":1000,"lat":0,"y":[-4.8,3.0],"g":[44,54]},{"f":"flightcase","v":[[15,12,8,6],[15,12,8,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[51,50]},{"f":"umbrella","v":[[25,7,13,3],[25,6,13,4],[25,9,13,4]],"n":1,"ms":1000,"lat":0,"y":[-2.0,3.1],"g":[44,67]},{"f":"trunk","v":[[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[31,44]},{"f":"sleeper","v":[[28,13,16,7],[28,13,16,7],[28,13,16,7]],"n":8,"ms":420,"lat":0,"y":[-4.2,4.2],"g":[32,41],"s":1,"ni":4},{"f":"cat","v":[[16,13,9,7],[16,13,9,7],[16,13,9,7]],"n":8,"ms":200,"lat":0,"y":[-4.0,4.0],"g":[30,62],"s":1},{"f":"dog","v":[[22,12,11,6],[22,12,11,6],[22,12,11,6]],"n":6,"ms":140,"lat":0,"y":[-4.9,4.9],"g":[41,60],"s":1},{"f":"burst","v":[[27,11,16,6],[27,11,16,6]],"n":4,"ms":320,"lat":0,"y":[-4.0,4.0],"g":[50,62],"s":1},{"f":"shoe","v":[[15,9,8,4],[15,9,8,4],[15,9,8,4]],"n":4,"ms":300,"lat":0,"y":[-3.0,3.9],"g":[47,49],"s":1},{"f":"fishbowl","v":[[11,13,6,7]],"n":12,"ms":220,"lat":0,"y":[-4.5,4.5],"g":[40,51],"s":1},{"f":"cactus","v":[[12,15,8,9]],"n":4,"ms":180,"lat":2,"y":[-2.9,2.8],"g":[34,47],"s":1},{"f":"duck","v":[[12,10,7,5]],"n":8,"ms":260,"lat":0,"y":[-3.0,3.0],"g":[26,56],"s":1},{"f":"vacuum","v":[[11,12,6,6]],"n":6,"ms":170,"lat":0,"y":[-4.5,5.2],"g":[36,48],"s":1,"ag":1},{"f":"balloon","v":[[14,16,8,9],[14,16,8,9],[14,16,8,9]],"n":8,"ms":300,"lat":1,"y":[-2.0,4.0],"g":[39,40],"s":1},{"f":"pizza","v":[[13,15,7,9]],"n":9,"ms":220,"lat":1,"y":[-4.5,4.5],"g":[37,49],"s":1},{"f":"glow","v":[[18,15,9,8]],"n":6,"ms":200,"lat":0,"y":[-4.0,4.0],"g":[54,39],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,4,5],"s":1},{"f":"snowman","v":[[10,13,5,11]],"n":8,"ms":380,"lat":3,"y":[-1.5,1.0],"g":[44,60],"s":1,"mo":[12,1,2]},{"f":"present","v":[[12,14,7,8],[12,14,7,8],[12,14,7,8]],"n":8,"ms":220,"lat":0,"y":[-4.0,4.0],"g":[39,51],"s":1,"mo":[12]},{"f":"notmine","v":[[51,12,27,6]],"n":4,"ms":320,"lat":0,"y":[-4.0,4.0],"g":[43,44],"s":1},{"f":"twins","v":[[35,12,19,6]],"n":6,"ms":240,"lat":0,"y":[-4.0,4.0],"g":[48,59],"s":1},{"f":"toaster","v":[[17,13,11,7]],"n":5,"ms":130,"lat":0,"y":[-3.0,3.9],"g":[38,38],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,3,3,4],"s":1},{"f":"penguin","v":[[12,11,6,9]],"n":6,"ms":200,"lat":3,"y":[-1.5,1.0],"g":[38,52],"s":1},{"f":"disco","v":[[18,12,9,6]],"n":8,"ms":160,"lat":1,"y":[-3.0,3.0],"g":[47,55],"s":1},{"f":"cake","v":[[11,13,6,7]],"n":6,"ms":150,"lat":1,"y":[-4.5,4.5],"g":[26,52],"s":1},{"f":"pumpkin","v":[[16,14,8,7]],"n":8,"ms":140,"lat":1,"y":[-3.9,3.8],"g":[39,64],"s":1,"mo":[10]}],"none":[38,47],"speeds":[0,3,6,12],"pitch":12,"flapMs":900,"reach":5,"shutUp":850,"shutDown":450,"strikeMs":1150,"pages":5,"fadeMs":400,"sets":["22","13","04","24","34"],"ptr":"! XPM2\n5 3 2 1\n. c none\na c #FFB028\n..a..\n.aaa.\naaaaa"};
+const D = {"app":"io.github.windagh.baggage_claim","name":"Baggage Claim","kinds":[{"f":"hard","v":[[16,12,9,6],[16,12,9,6],[16,12,9,6],[18,12,11,6],[17,13,9,7],[16,12,9,6],[16,12,9,6],[17,13,9,7],[18,12,11,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[40,44]},{"f":"cabin","v":[[12,10,7,5],[13,11,7,6],[12,10,7,5],[12,10,7,5],[13,11,7,6]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[44,47]},{"f":"duffel","v":[[17,10,9,5],[17,10,9,5],[17,11,9,6],[17,10,9,5]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[34,52]},{"f":"backpack","v":[[12,12,7,6],[12,13,7,7],[12,12,7,6],[12,13,7,7]],"n":1,"ms":1000,"lat":0,"y":[-4.6,4.6],"g":[42,39]},{"f":"guitar","v":[[25,12,11,6],[25,12,11,6],[25,12,11,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[32,65]},{"f":"golf","v":[[22,10,12,5],[22,10,12,5],[22,10,12,5]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.0],"g":[41,50]},{"f":"skis","v":[[27,7,14,3],[27,7,14,3],[27,7,14,3]],"n":1,"ms":1000,"lat":0,"y":[-2.0,3.2],"g":[24,44]},{"f":"surf","v":[[29,8,15,4],[29,8,15,4],[29,8,15,4]],"n":1,"ms":1000,"lat":0,"y":[-3.0,3.1],"g":[46,51]},{"f":"box","v":[[13,12,7,6],[14,14,8,7],[13,12,7,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[36,40]},{"f":"pet","v":[[14,13,8,7],[14,13,8,7],[14,13,8,7]],"n":2,"ms":220,"lat":0,"y":[-4.0,4.0],"g":[30,46],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,1]},{"f":"pram","v":[[13,13,8,7],[13,13,8,7],[13,13,8,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[28,65]},{"f":"hatbox","v":[[11,12,6,6],[11,12,6,6],[11,12,6,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[37,56]},{"f":"cello","v":[[28,14,14,7],[28,14,14,7],[28,14,14,7]],"n":1,"ms":1000,"lat":0,"y":[-4.5,4.5],"g":[30,57]},{"f":"cooler","v":[[13,13,7,7],[13,13,7,7],[14,15,8,8]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[41,52]},{"f":"stickers","v":[[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[24,45]},{"f":"wrapped","v":[[16,13,9,7],[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.5,4.5],"g":[40,60]},{"f":"duo","v":[[22,12,12,6],[22,12,12,6],[22,12,12,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[52,59]},{"f":"briefcase","v":[[12,10,6,6],[13,11,7,6],[12,10,6,6]],"n":1,"ms":1000,"lat":0,"y":[-4.8,3.0],"g":[44,54]},{"f":"flightcase","v":[[15,12,8,6],[15,12,8,6]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[51,50]},{"f":"umbrella","v":[[25,7,13,3],[25,6,13,4],[25,9,13,4]],"n":1,"ms":1000,"lat":0,"y":[-2.0,3.1],"g":[44,67]},{"f":"trunk","v":[[16,13,9,7],[16,13,9,7]],"n":1,"ms":1000,"lat":0,"y":[-4.0,4.0],"g":[31,44]},{"f":"sleeper","v":[[28,13,16,7],[28,13,16,7],[28,13,16,7]],"n":8,"ms":420,"lat":0,"y":[-4.2,4.2],"g":[32,41],"s":1,"ni":4},{"f":"cat","v":[[16,13,9,7],[16,13,9,7],[16,13,9,7]],"n":8,"ms":200,"lat":0,"y":[-4.0,4.0],"g":[30,62],"s":1},{"f":"dog","v":[[22,12,11,6],[22,12,11,6],[22,12,11,6]],"n":6,"ms":140,"lat":0,"y":[-4.9,4.9],"g":[41,60],"s":1},{"f":"burst","v":[[27,11,16,6],[27,11,16,6]],"n":4,"ms":320,"lat":0,"y":[-4.0,4.0],"g":[50,62],"s":1},{"f":"shoe","v":[[15,9,8,4],[15,9,8,4],[15,9,8,4]],"n":4,"ms":300,"lat":0,"y":[-3.0,3.9],"g":[47,49],"s":1},{"f":"fishbowl","v":[[11,13,6,7]],"n":12,"ms":220,"lat":0,"y":[-4.5,4.5],"g":[40,51],"s":1},{"f":"cactus","v":[[12,15,8,9]],"n":4,"ms":180,"lat":2,"y":[-2.9,2.8],"g":[34,47],"s":1},{"f":"duck","v":[[12,10,7,5]],"n":8,"ms":260,"lat":0,"y":[-3.0,3.0],"g":[26,56],"s":1},{"f":"vacuum","v":[[11,12,6,6]],"n":6,"ms":170,"lat":0,"y":[-4.5,5.2],"g":[36,48],"s":1,"ag":1},{"f":"balloon","v":[[14,16,8,9],[14,16,8,9],[14,16,8,9]],"n":8,"ms":300,"lat":1,"y":[-2.0,4.0],"g":[39,40],"s":1},{"f":"pizza","v":[[13,15,7,9]],"n":9,"ms":220,"lat":1,"y":[-4.5,4.5],"g":[37,49],"s":1},{"f":"glow","v":[[18,15,9,8]],"n":6,"ms":200,"lat":0,"y":[-4.0,4.0],"g":[54,39],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,4,5],"s":1},{"f":"snowman","v":[[10,13,5,11]],"n":8,"ms":380,"lat":3,"y":[-1.5,1.0],"g":[44,60],"s":1,"mo":[12,1,2]},{"f":"present","v":[[12,14,7,8],[12,14,7,8],[12,14,7,8]],"n":8,"ms":220,"lat":0,"y":[-4.0,4.0],"g":[39,51],"s":1,"mo":[12]},{"f":"notmine","v":[[51,12,27,6]],"n":4,"ms":320,"lat":0,"y":[-4.0,4.0],"g":[43,44],"s":1},{"f":"twins","v":[[35,12,19,6]],"n":6,"ms":240,"lat":0,"y":[-4.0,4.0],"g":[48,59],"s":1},{"f":"toaster","v":[[17,13,11,7]],"n":5,"ms":130,"lat":0,"y":[-3.0,3.9],"g":[38,38],"q":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,3,3,3,3,3,3,3,4],"s":1},{"f":"penguin","v":[[12,11,6,9]],"n":6,"ms":200,"lat":3,"y":[-1.5,1.0],"g":[38,52],"s":1},{"f":"disco","v":[[18,12,9,6]],"n":8,"ms":160,"lat":1,"y":[-3.0,3.0],"g":[47,55],"s":1},{"f":"cake","v":[[11,13,6,7]],"n":6,"ms":150,"lat":1,"y":[-4.5,4.5],"g":[26,52],"s":1},{"f":"pumpkin","v":[[16,14,8,7]],"n":8,"ms":140,"lat":1,"y":[-3.9,3.8],"g":[39,64],"s":1,"mo":[10]}],"none":[38,47],"speeds":[0,3,6,12],"pitch":12,"flapMs":900,"reach":5,"shutUp":850,"shutDown":450,"strikeMs":1150,"pages":5,"fadeMs":400,"pressPage":2,"pressX":60,"startPage":0,"startX":32,"sets":["22","13","04","24","34"],"ptr":"! XPM2\n5 3 2 1\n. c none\na c #FFB028\n..a..\n.aaa.\naaaaa"};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -805,8 +805,8 @@ for (let n = 0; n < SLOTS; n++) {                      // the places not in use 
 if (!used[n]) list.push(["t" + n, 0, K[0].f + "0", "f0", OFFX, 0, Z.thing, 120]);
 }
 list.push(fixed[1], flaps(now, st, dx), now < flashEnd ? fixed[3] : fixed[2]);    // (the lamps flare: no dark between the pools)
-list.push(DOWN);                                       // (the shutter that can come down: always there, showing nothing)
-if (title) list.push(title.fade ? TITLE_OFF : TITLE_ON);
+list.push(DOWN, markOk(false), markStart(false));      // (the shutter that can come down, the guide's two marks that
+if (title) list.push(title.fade ? TITLE_OFF : TITLE_ON, ["sn", 0, "start", "a", title.fade ? OFFX : D.startX, 0, Z.title + 1, 120]);   // are films: always there, out of sight)
 list.push(SLAB);                                       // (the slab between two floors: always there, out of sight; the last)
 return list;
 }
@@ -823,6 +823,23 @@ saveDue = now + 1500;
 const SLAB = ["lf", 0, "lift", "n1", 0, -40, Z.lift, 120];
 const DOWN = ["sd", 0, "shutter", "clear", 0, 0, Z.shutter + 1, 120];
 const TITLE_ON = ["ti", 0, "title", "on", 0, 0, Z.title, 120], TITLE_OFF = ["ti", 1, "title", "fade", 0, 0, Z.title, 120];
+const markOk = (on) => ["pm", 0, "press", "a", on ? D.pressX : OFFX, 0, Z.signs + 1, 120];
+const markStart = (on) => ["sm", 0, "start", "a", on ? D.startX : OFFX, 0, Z.signs + 1, 120];
+function setMarks(list, page, on) {
+let ok = false, st = false;
+for (let i = 0; i < list.length; i++) {
+if (list[i][0] === "pm") {
+list[i] = markOk(on && page === D.pressPage);
+ok = true;
+} else if (list[i][0] === "sm") {
+list[i] = markStart(on && page === D.startPage);
+st = true;
+}
+}
+if (!ok) list.unshift(markOk(on && page === D.pressPage));
+if (!st) list.unshift(markStart(on && page === D.startPage));
+return list;
+}
 const SLAB_IN = [-12, -7, -3, 0], SLAB_OUT = [3, 8, 13, 17];
 async function nextBelt() {
 let now = Date.now();
@@ -999,7 +1016,7 @@ while (!stopped) {
 if (startOver) {                                     // "Start over": said on the shutter, then the guide from its first page
 await clearAll(Date.now());
 guideAsked = false;
-await sync([SHUT, sign("R")], 0, true);
+await sync(setMarks([SHUT, sign("R")], 0, false), 0, true);
 list = null;                                       // (the hall behind is made anew)
 page = 0;
 await sleep(1500);
@@ -1008,17 +1025,18 @@ backs = 0;
 }
 const show = sign(book() ? "p" + (page + 1) : "off");
 if (!list) {                                         // the hall behind the shutter: made off-screen, then moved into place
-await sync([SHUT, show], 0, true);
+await sync(setMarks([SHUT, show], page, book()), 0, true);
 list = shutHall(Date.now());
-await sync(list, OFFX, true);
-await sync(list, 0, true);
+const behind = list.filter((el) => el[0] !== "pm" && el[0] !== "sm");     // (the page's mark stays where it is)
+await sync(behind, OFFX, true);
+await sync(behind, 0, true);
 list.push(SHUT, show);
 } else if (list[list.length - 1][0] !== "sg") {
 list.push(SHUT, show);
 } else {
 list[list.length - 1] = show;
 }
-await sync(list, 0);
+await sync(setMarks(list, page, book()), 0);
 if (!book()) {                                       // no book: the shutter stands a moment, and opens
 await sleep(500);
 await readSettings();
@@ -1064,6 +1082,7 @@ page = clamp(page + step, 0, D.pages - 1);
 onBack = null;
 if (stopped) return;
 noKeys();
+setMarks(list, 0, false);
 list.pop();
 list[list.length - 1] = ["st", 1, "shutter", "up", 0, 0, Z.shutter, 120];
 await sync(list, 0);
@@ -1109,7 +1128,7 @@ await sync(list, 0);
 await sleep(D.shutDown + 60);
 list.push(SHUT, sign("off"));
 await sync(list, 0);
-await sync([SHUT, sign("off")], 0);                    // (the hall behind is taken away: it is made anew)
+await sync(setMarks([SHUT, sign("off")], 0, false), 0);    // (the hall behind is taken away: it is made anew)
 }
 async function main() {
 const t0 = Date.now();
@@ -1120,7 +1139,7 @@ await readSettings();
 light = lightNow();
 fill(Date.now());
 let flipped = startOver;
-const front = [SHUT, sign(flipped ? "R" : seenGuide ? "off" : "p1")];   // (flipped while the app was closed: the shutter says so)
+const front = setMarks([SHUT, sign(flipped ? "R" : seenGuide ? "off" : "p1")], 0, !flipped && !seenGuide);   // (flipped while the app was closed: the shutter says so)
 await sync(front, OFFX, true);
 await sleep(SPLASH_MS - 250 - (Date.now() - t0));
 await sync(front, 0, true);                            // (under the film, which hides everything)
