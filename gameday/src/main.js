@@ -48,20 +48,36 @@ const pad2 = (n) => (n < 10 ? "0" : "") + n;
 function report(what, err) {
 console.error(APP + ": " + what + ": " + (err && err.message ? err.message : String(err)));
 }
+let callWait = 0, netWait = 0;
+let unanswered = 0;                 // requests to the bar that got no answer at all, counted
+function within(p, ms) {
+if (!ms) return p;
+return new Promise((done, fail) => {
+const timer = setTimeout(() => fail(new Error("no answer in " + ms + " ms")), ms);
+p.then((v) => {
+clearTimeout(timer);
+done(v);
+}, (err) => {
+clearTimeout(timer);
+fail(err);
+});
+});
+}
 async function call(method, path, body, type) {
 try {
 const init = body === undefined ? { method: method }
 : { method: method, headers: { "Content-Type": type || "application/json" }, body: body };
-const res = await fetch(API + path, init);
-const text = await res.text();
+const res = await within(fetch(API + path, init), callWait);
+const text = await within(res.text(), callWait);
 return { ok: res.ok, status: res.status, text: text };
 } catch (err) {
+unanswered++;
 return { ok: false, status: 0, text: String(err) };
 }
 }
 async function getJson(url) {
-const res = await fetch(url);
-const text = await res.text();
+const res = await within(fetch(url), netWait);
+const text = await within(res.text(), netWait);
 if (!res.ok) {
 throw new Error("HTTP " + res.status);
 }
@@ -221,6 +237,9 @@ for (let i = 0; i < els.length; i++) {
 live.set(els[i].id, { s: wire(els[i]), t: at, el: els[i] });
 }
 }
+function unsure() {
+for (const rec of live.values()) rec.t = 0;
+}
 const MARK = ["zz_h1", "zz_h2"];
 let markOn = false, markAt = 0;
 async function mark() {
@@ -263,7 +282,7 @@ await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, ele
 async function show(els, partial) {
 if (ctl.held !== markOn || markOn) await mark();
 if (labelEnd) await unlabel();
-const now = Date.now();
+const now = Date.now(), lost = unanswered;
 let batch = [];
 const flush = async () => {
 if (batch.length === 0) return;
@@ -283,9 +302,10 @@ const old = live.get(el.id);
 if (old && old.s === s && now - old.t < 400 * el.timeout) continue;
 batch.push({ el: el, s: s });
 if (batch.length === 3) await flush();
+if (unanswered !== lost) return;             // the bar is not answering: this pass is over, the next one starts afresh
 }
 await flush();
-if (partial) return;
+if (partial || unanswered !== lost) return;
 const keep = new Set();
 for (let i = 0; i < els.length; i++) keep.add(els[i].id);
 const stale = [];
@@ -309,8 +329,7 @@ if (!els[i]._solid && col(span(els[i])[dir > 0 ? 1 : 0]) === n) out.push(els[i])
 return out;
 }
 async function firstShow(els) {
-await post(inOrder(els, 1).map((el) => wire(el)));
-remember(els);
+if (await post(inOrder(els, 1).map((el) => wire(el)))) remember(els);       // (not taken as drawn when the bar refused it)
 }
 const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
 let splashUp = 0;                   // when the film was sent; 0: none is on screen
@@ -342,11 +361,12 @@ if (light) {
 parts.unshift('{"id":"zz_band","type":"animation","path":"animations/band.anim","x":0,"y":0,"align":"top_left",' +
 '"loop":false,"section":"default","timeout":5,"z_index":2147483000}');
 }
-await post(parts);
+const drawn = await post(parts);
 mark.push(Date.now() - t0);                   // new page drawn
 await drop(olds);
 mark.push(Date.now() - t0);                   // old page gone
 remember(els);
+if (!drawn) unsure();
 if (light) {
 await sleep(D.band);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_band"] }));
@@ -402,11 +422,12 @@ try {
 const olds = [], t0 = Date.now();
 for (const rec of live.values()) olds.push(rec.el);
 await post([cardAnim("zz_c1", "card_" + kind + "_down", 0)]);
-await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
+const made = await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
 await sleep(D.card + 1000 - (Date.now() - t0));
-await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
+const moved = await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
 await drop(olds.map((el) => el.id));
 remember(els);
+if (!made || !moved) unsure();
 await post([cardAnim("zz_c2", "card_" + kind + "_up", 0), cardAnim("zz_c1", "card_" + kind + "_down", OFF)]);
 await sleep(D.card + 60);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -498,10 +519,58 @@ const GAME_HOSTS = ["https://site.api.espn.com", "https://site.web.api.espn.com"
 const GAME_PATH = "/apis/site/v2/sports/football/nfl/scoreboard/";
 for (let i = 0; i < (D.dead || 0); i++) GAME_HOSTS[i] = LIST_HOSTS[i] = "https://dead" + i + ".espn.invalid";     // test builds
 const STALE_MS = 150000;            // a live game's numbers older than this are shown as not fresh
+callWait = 7000;
+netWait = 15000;
 let gameIds = [];
+let mineIds = null, mineFor = "";
+function mineToCome() {
+if (mineIds === null) return true;
+for (let i = 0; i < mineIds.length; i++) if (!games.get(mineIds[i])) return true;
+return false;
+}
 const games = new Map();            // id -> game
 const fetched = new Map();          // id -> { at: when we last have it from, hold: do not ask again before }
 let listLoaded = false, listDue = 0;
+let lastKnown = {}, lastRead = false, lastDirty = false, keepDue = 0;
+function keepWeek() {
+const st = {};
+for (let i = 0; i < gameIds.length; i++) if (lastKnown[gameIds[i]]) st[gameIds[i]] = lastKnown[gameIds[i]];
+lastDirty = false;
+call("POST", "storage/write?path=/ext/data/week.json", JSON.stringify({ at: Date.now(), ids: gameIds, st: st }), "application/octet-stream");
+}
+let roundUntil = 0;
+function allSeen() {
+if (!roundUntil) return false;                 // which games there are is not known yet
+if (Date.now() > roundUntil) return true;
+for (let i = 0; i < gameIds.length; i++) if (!games.get(gameIds[i])) return false;
+return true;
+}
+function firstLooks(now) {
+const n = gameIds.length, live = [], out = [];
+let lo = -1, hi = n;
+for (let i = 0; i < n; i++) {
+const g = games.get(gameIds[i]), k = lastKnown[gameIds[i]];
+const state = g ? (isOn(g) ? "in" : g.state) : k ? (k[0] === "pre" && k[1] < now ? "in" : k[0]) : "";
+if (state === "in") live.push(i);
+else if (state === "post") lo = i;
+else if (state === "pre" && hi === n) hi = i;
+}
+for (let i = 0; i < n; i++) {
+const id = gameIds[i], k = lastKnown[id];
+let v;
+if (mineIds && mineIds.indexOf(id) !== -1) v = 9e11;
+else if (k && k[0] === "in") v = 8e11;
+else if (k && k[0] === "pre") v = k[1] < now + 3600000 ? 7e11 - Math.abs(now - k[1]) / 1000 : 1e11;
+else if (k) v = 2e11;
+else if (live.length) {
+let d = n;
+for (let j = 0; j < live.length; j++) d = Math.min(d, Math.abs(i - live[j]));
+v = 6e11 - d * 1e9;
+} else v = (i > lo && i < hi ? 5e11 : 3e11) - Math.abs(i - (lo + hi) / 2) * 1e9;
+out.push(v - i);
+}
+return out;
+}
 async function loadList() {
 let ids = [];
 try {
@@ -511,7 +580,6 @@ for (let i = 0; i < items.length; i++) {
 const m = /\/events\/(\d+)/.exec(items[i].$ref || "");
 if (m) ids.push(m[1]);
 }
-call("POST", "storage/write?path=/ext/data/week.json", JSON.stringify({ at: Date.now(), ids: ids }), "application/octet-stream");
 } catch (err) {                                // no list: the one kept from last time, if it is under a week old
 const kept = await call("GET", "storage/read?path=/ext/data/week.json");
 let old = null;
@@ -522,16 +590,20 @@ old = JSON.parse(kept.text);
 if (gameIds.length) throw err;
 if (kept.ok && old && old.ids && old.ids.length && Date.now() - old.at < 7 * 86400000) {
 gameIds = old.ids;
+lastKnown = old.st || lastKnown;
 } else {                                     // nothing kept either: at least the followed team's next game
 const team = await getJsonAny(GAME_HOSTS, "/apis/site/v2/sports/football/nfl/teams/" + TEAMS[0].toLowerCase());
 const next = (team.team && team.team.nextEvent) || [];
 gameIds = next.map((e) => String(e.id)).filter((id) => /^\d+$/.test(id));
 }
+if (gameIds.length && !roundUntil) roundUntil = Date.now() + 45000;
 throw err;                                   // still a failure (it is tried again), but the games can be asked for
 }
 if (D.when) ids = [];                           // test builds (build.py --when): a date after the season, no games
 gameIds = ids;
 listLoaded = true;
+if (!roundUntil) roundUntil = Date.now() + 45000;
+keepWeek();
 for (const id of games.keys()) {
 if (ids.indexOf(id) === -1) {
 games.delete(id);
@@ -718,8 +790,13 @@ if (g.timeout_by && g.state === "in") {
 g.timeout_since = before && before.play === g.play && before.timeout_since ? before.timeout_since : Date.now();
 }
 if (inBreak(g)) g.breakSince = (before && before.breakSince) || Date.now();
+setTick(g, before);                            // from where the shown clock counts down to this look's value
 if (isHalf(g)) g.half_since = g.half_since || (before && before.half_since) || Date.now();
 if (!before && followed(g)) gameIndex = 0;     // the followed team's game has just arrived: it is next
+if (!lastKnown[id] || lastKnown[id][0] !== g.state) {       // (kept for the next start, when it changes)
+lastKnown[id] = [g.state, g.start];
+lastDirty = true;
+}
 try {
 spot(before, g, sit.lastPlay);
 } catch (err) {
@@ -750,26 +827,33 @@ function followed(g) {
 return TEAMS.indexOf(g.away) !== -1 || TEAMS.indexOf(g.home) !== -1;
 }
 function goodFor(g) {
-if (g.state === "in") return scoresUp ? 8000 : 30000;
+if (g.state === "in") {
+if (!scoresUp) return 30000;
+if (g.id === mainId || g.id === onScreen) return 5000;       // the game on show: every five seconds
+const main = games.get(mainId);
+return main && main.state === "in" ? 60000 : 8000;
+}
 if (g.state === "pre" && scoresUp && !off(g) && g.start - Date.now() < 120000 && Date.now() - g.start < 1800000) return 10000;
 if (g.state !== "post" && Math.abs(g.start - Date.now()) < 4 * 3600000) return 60000;
 return g.state === "post" ? 1800000 : 600000;
 }
 function staleGame(now) {
-let pick = null, worst = -1;
+let pick = null, worst = -1, first = null;
+const round = allSeen();
 for (let i = 0; i < gameIds.length; i++) {
 const id = gameIds[i];
 const f = fetched.get(id);
 if (f && now < f.hold) continue;
 const g = games.get(id);
 let late;
-if (!g) {
-late = 1e12 - i;                           // never seen: first, in list order
+if (!g) {                                    // never seen: before the games that are only due again, the ones
+if (!first) first = firstLooks(now);       // most likely being played first (firstLooks)
+late = 1e12 + first[i];
 } else {
 late = now - f.at - goodFor(g);
 if (late < 0) continue;
 if (followed(g)) late += 1e9;
-if (id === mainId || id === onScreen) late += 2e9;     // the game the app stays on and the one on screen come first
+if ((id === mainId || id === onScreen) && (late >= 5000 || round)) late += 3e12;
 }
 if (late > worst) {
 worst = late;
@@ -780,17 +864,47 @@ return pick;
 }
 feeds.push(async (now) => {
 if (!scoresWanted || now < netPause) return false;
+if (!lastRead) {                               // what the last run knew of the week's games (the bar's own storage: quick)
+lastRead = true;
+const kept = await call("GET", "storage/read?path=/ext/data/week.json");
+try {
+const old = JSON.parse(kept.text);
+if (kept.ok && old && old.st && Date.now() - old.at < 7 * 86400000) lastKnown = old.st;
+} catch (e) {
+}
+}
+if (lastDirty && now >= keepDue && allSeen()) {
+keepDue = now + 60000;
+keepWeek();
+}
 if (now >= listDue) {
 listDue = now + (gameIds.length ? 600000 : 0);                  // if it fails: again after the pause
 await loadList();
 listDue = Date.now() + 6 * 3600000;
 return true;
 }
+if (listLoaded && gameIds.length && mineFor !== TEAMS[0] + gameIds[0]) {       // which of the week's games is the followed team's
+mineFor = TEAMS[0] + gameIds[0];
+mineIds = null;
+let ids = [];
+try {
+const got = await getJsonAny(LIST_HOSTS, "/v2/sports/football/leagues/nfl/teams/" + TEAMS[0].toLowerCase() + "/events?limit=5");
+const items = got.items || [];
+for (let i = 0; i < items.length; i++) {
+const m = /\/events\/(\d+)/.exec(items[i].$ref || "");
+if (m && gameIds.indexOf(m[1]) !== -1) ids.push(m[1]);
+}
+} catch (err) {
+ids = [];                                  // not to be had: the first game that is on, as it comes
+}
+mineIds = ids;
+return true;
+}
 const id = staleGame(now);
 if (!id) return seasonFeed(now);               // no game needs a look: is the season over?
 fetched.set(id, { at: (fetched.get(id) || { at: 0 }).at, hold: 0 });
 await loadGame(id);
-fetched.set(id, { at: Date.now(), hold: 0 });
+fetched.set(id, { at: id === mainId || id === onScreen ? Math.max(now, Date.now() - 3000) : Date.now(), hold: 0 });
 return true;
 });
 const CHAMP_MS = 30 * 86400000;
@@ -908,11 +1022,78 @@ return all.filter(isOn).sort(byStart)
 .concat(all.filter((g) => g.state === "post").sort(byStart))
 .concat(all.filter((g) => g.state === "pre" && !soon(g)).sort(byStart));
 }
+const NAME_MS = 1000;               // how long the name stands before LOADING takes its place
+const LOADPAGE = { id: "load", kind: "load", state: "pre", away: "", home: "", start: 0 };
+let nameSince = 0, startDone = false;
+function bandOpen() {
+const n = gameIds.length;
+let lo = -1, hi = n;
+for (let i = 0; i < n; i++) {
+const g = games.get(gameIds[i]);
+if (g && g.state === "post") lo = i;
+else if (g && g.state === "pre" && !isOn(g) && hi === n) hi = i;
+}
+for (let i = lo + 1; i < hi; i++) if (!games.get(gameIds[i])) return true;
+return false;
+}
+function startReady() {
+if (startDone) return true;
+if (!roundUntil) return false;                 // which games there are is not known yet
+if (allSeen()) startDone = true;
+else if (!mineToCome() && (firstOn() || !bandOpen())) startDone = true;
+return startDone;
+}
+function loadEls(p) {
+const els = [text(p + "e", "LOADING", "small", 36, -1, SOFT, "top_mid")];
+if (roundUntil && gameIds.length) {
+let n = 0;
+for (let i = 0; i < gameIds.length; i++) if (games.get(gameIds[i])) n++;
+els.push(text(p + "m2", n + " OF " + gameIds.length, "small", 36, 6, FAINT, "top_mid"));
+}
+els.push(bar(p + "hb0", 4, 15, 64, 1, "#FFFFFF1C", 1),
+{ id: p + "hfg", type: "animation", path: "animations/flow_g.anim", x: 4, y: 15, align: "top_left", loop: true,
+section: "n32", timeout: STILL, z_index: 2, _w: 64 });
+return els;
+}
 function firstOn() {
 const on = allGames().filter(isOn).sort(byStart);
 const rank = (g) => TEAMS.findIndex((t) => t === g.away || t === g.home);
 const mine = on.filter(followed).sort((a, b) => rank(a) - rank(b) || (b.state === "in") - (a.state === "in"));
-return mine[0] || on[0] || null;
+if (mine[0]) return mine[0];
+if (on.length && listLoaded && gameIds.length && mineToCome()) return null;      // not before the followed team's game has been seen
+return on[0] || null;
+}
+const TICK_LAG = 150, TICK_LAG_LAST = 80;         // tenths of a second
+function clockTenths(str) {
+const parts = String(str || "").split(":");
+const v = parts.length > 1 ? parseInt(parts[0], 10) * 60 + parseFloat(parts[1]) : parseFloat(parts[0]);
+return v !== v ? null : Math.round(v * 10);   // (NaN: not a number)
+}
+function setTick(g, before) {
+const f = clockTenths(g.clock), now = g.at;
+g.tick = null;
+if (f === null) return;
+g.tick = { v: f, t0: now, feed: f };
+const k = before && before.tick && before.state === "in" && before.period === g.period ? before.tick : null;
+if (g.state !== "in" || inBreak(g) || timeoutLeft(g) > 0 || !k) return;
+const was = clockShown(before, now);                         // what stands on screen at this moment
+if (was <= f) return;                                        // there already (or time was put back): the feed's value
+const lag = f < 600 ? TICK_LAG_LAST : TICK_LAG;
+if (was - f >= lag + 10) g.tick.v = f + lag;                 // a second and more too far behind: from that distance, from now
+else if (was > k.feed) { g.tick.v = k.v; g.tick.t0 = k.t0; } // counting: on, in step
+else g.tick.v = was;                                         // it stood: from here, from now
+}
+function clockShown(g, at) {
+const k = g.tick;
+if (!k) return clockTenths(g.clock);
+const t = (at === undefined ? Date.now() : at) - k.t0;
+return Math.max(k.feed, k.v - 10 * Math.max(0, Math.floor(t / 1000)));
+}
+function clockText(g) {
+const v = clockShown(g);
+if (!g.tick || v === g.tick.feed) return g.clock;
+const sec = Math.floor(v / 10);
+return Math.floor(sec / 60) + ":" + pad2(sec % 60);
 }
 function mod(a, n) {
 return ((a % n) + n) % n;
@@ -986,6 +1167,7 @@ els.push(bar(p + "fd", Math.min(Math.max(4 + Math.round(target * 63 / 100), 4), 
 els.push(bar(p + "b", Math.min(Math.max(bx - 1, 4), 66), 14, 2, 2, "#FF7A1AFF", 6));
 }
 function gameEls(g, p, phase, at) {
+if (g && g.kind === "load") return loadEls(p); // the place of the games still to come
 if (g && g.kind) return seasonEls(g, p);       // a page of the season's end, not a game
 if (!g) {                                      // nothing to show: say why
 if (listLoaded && gameIds.length === 0 && seasonAsked && !seasonItems()) {   // (not before we know whether the season is over)
@@ -994,7 +1176,8 @@ return [image(p + "cd", "images/card_noweek.png", 0, 0, 0, 72)];        // "NO G
 if (offline && fails > 0 && games.size === 0) {
 return [image(p + "cd", "images/card_" + (wifiUp ? "nodata" : "nowifi") + ".png", 0, 0, 0, 72)];
 }
-return [text(p + "e", D.name, "small", 36, 5, FAINT, "top_mid")];         // nothing has answered yet: the name, quietly
+if (!nameSince || Date.now() - nameSince < NAME_MS) return [text(p + "e", D.name, "small", 36, 5, FAINT, "top_mid")];   // the name, quietly
+return loadEls(p);                           // nothing to show yet: LOADING
 }
 const on = isOn(g), over = g.state === "post";
 const loseA = over && g.as < g.hs, loseH = over && g.hs < g.as;
@@ -1078,7 +1261,7 @@ const left = timeoutLeft(g);
 if (left > 0) {                                // a timeout is on: the clock and the quarter take turns on top, and
 const own = g.timeout_by === "away" || g.timeout_by === "home";
 const showQ = Math.floor(Date.now() / 1000) % 4 >= 2;
-els.push(text(p + "m1", showQ ? (g.period > 4 ? "OT" : "Q" + Math.max(1, g.period)) : g.clock, "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
+els.push(text(p + "m1", showQ ? (g.period > 4 ? "OT" : "Q" + Math.max(1, g.period)) : clockText(g), "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
 text(p + "m2", own ? "T/O" : "TV", "small", 36, 6, own ? DOWN : SOFT, "top_mid"));
 } else if (/DELAY|SUSPEND/.test(g.status)) {   // stopped by the weather or the like: "Delay" over the quarter
 els.push(text(p + "m1", "Delay", "small", 36, -1, DOWN, "top_mid"),
@@ -1088,11 +1271,11 @@ const old = Date.now() - g.at > STALE_MS;    // no fresh numbers for a while: th
 const quarter = g.period > 4 ? "OT" : "Q" + Math.max(1, g.period);
 if (downStays && down !== "" && !old) {      // the down keeps the lower row; above it the clock, and for two
 const showQ = Math.floor(Date.now() / 1000) % 8 >= 6;                    // seconds in eight the quarter
-els.push(text(p + "m1", showQ ? quarter : g.clock, "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
+els.push(text(p + "m1", showQ ? quarter : clockText(g), "small", 36, -1, showQ ? LIVE : WHITE, "top_mid"),
 text(p + "m2", down, "small", 36, 6, DOWN, "top_mid"));
 } else {
 els.push(text(p + "m1", quarter, "small", 36, -1, old ? FAINT : LIVE, "top_mid"),
-text(p + "m2", old ? "--:--" : showDown ? down : g.clock, "small", 36, 6, showDown && !old ? DOWN : SOFT, "top_mid"));
+text(p + "m2", old ? "--:--" : showDown ? down : clockText(g), "small", 36, 6, showDown && !old ? DOWN : SOFT, "top_mid"));
 }
 }
 timeouts(els, p, g);
@@ -1266,8 +1449,10 @@ shown = games.get(onScreen) || undefined;
 }
 }
 let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
+let onLoad = false, loadSeen = [];             // the knob stands on LOADING; the games that were on when it got there
 const seen = { id: null, poss: null, period: 0, to: false };     // the game on show as it was a moment ago
 scoresUp = true;
+if (solo && !nameSince) nameSince = Date.now();
 try {
 while (!stopped && (solo || stay(end))) {
 let game = null, until = Date.now() + PER_GAME, main = null;
@@ -1279,10 +1464,15 @@ main = firstOn();                      // at the start, and when the game on sho
 mainId = main ? main.id : null;
 finalSince = 0;
 }
-if (!main && (!tour || tour.why !== "auto")) tour = { list: carousel(null), k: 0, why: "auto" };
+if (!main && startReady() && (!tour || tour.why !== "auto")) tour = { list: carousel(null), k: 0, why: "auto" };
 if (main && tour && tour.why === "auto") tour = null;                   // a game has come on
 if (tour && tour.why === "break" && !inBreak(main)) tour = null;        // it is being played again
-if (jump) {
+if (onLoad && allSeen()) onLoad = false; // the whole week is in: the page is gone
+if (onLoad) {
+game = LOADPAGE;
+until = Infinity;
+jump = null;
+} else if (jump) {
 game = jump;
 jump = null;
 } else if (tour) {
@@ -1333,10 +1523,37 @@ first = false;
 shown = game;
 onScreen = game ? game.id : null;
 if (!solo && !ctl.held && end - until < 3000) until = end;   // no new game for under 3 seconds: this one stays
-let full = 0;
+let full = 0, clockWas = "";
 while (!stopped) {
 const t0 = Date.now();
 if (game) game = shown = games.get(game.id) || game;
+const starting = solo && !game && !startReady();     // the start (the name, LOADING): no control but Back does anything
+if (starting) {
+ctl.ok = ctl.start = false;
+ctl.turn = 0;
+}
+if (solo && onLoad) {
+hits.wait = null;
+ctl.ok = ctl.start = false;
+const on = allGames().filter(isOn).sort(byStart);
+let come = null;
+for (let i = 0; i < on.length && !come; i++) if (loadSeen.indexOf(on[i].id) === -1) come = on[i];
+if (come || allSeen() || ctl.turn) {
+if (come) mainId = come.id;
+else if (ctl.turn) {
+dir = ctl.turn > 0 ? 1 : -1;
+if (on.length) mainId = on[dir > 0 ? 0 : on.length - 1].id;
+}
+ctl.turn = 0;
+finalSince = 0;
+onLoad = false;
+how = "side";
+break;
+}
+await show(lift(gameEls(game, pp), pp, z));
+await nap(500);
+continue;
+}
 if (solo) {
 main = games.get(mainId) || null;
 if (game && soon(game)) {              // the game on show is counting down to its start ...
@@ -1399,14 +1616,16 @@ how = "flip";
 if (game) jump = game;
 break;
 }
-if (ctl.start) {                       // Start: the carousel / straight back to the game
+if (tour && tour.why !== "auto" && (ctl.start || ctl.turn)) {
 ctl.start = false;
-if (tour && tour.why !== "auto") {
+ctl.turn = 0;
 tour = null;
-how = main && isOn(main) ? "close" : "roll";   // behind the closing card ("BACK TO LIVE"), as
-dir = -1;                          // at the end of a round; else the game comes back down
+how = (main && isOn(main)) || firstOn() ? "close" : "roll";
+dir = -1;
 break;
 }
+if (ctl.start) {                       // Start: the carousel
+ctl.start = false;
 if (tour) break;                     // nothing is on, the carousel runs anyway: its next item now
 const list = carousel(main);
 if (list.length) {
@@ -1414,14 +1633,26 @@ tour = { list: list, k: 0, why: "start" };
 how = "open";
 break;
 }
-await notice("alone");
+if (allSeen()) await notice("alone");
+else {                               // nothing to go round yet: the LOADING page, where the games will come
+onLoad = true;
+loadSeen = allGames().filter(isOn).map((g) => g.id);
+how = "side";
+break;
+}
 ctl.turn = 0;
 }
 if (ctl.turn) {                        // encoder
 const turns = ctl.turn;
 ctl.turn = 0;
 dir = turns > 0 ? 1 : -1;
-const on = allGames().filter(isOn).sort(byStart);
+const on = allGames().filter(isOn).sort(byStart), here = on.findIndex((g) => g.id === mainId);
+if (!allSeen() && (!on.length || (here !== -1 && (here + turns >= on.length || here + turns < 0)))) {
+onLoad = true;
+loadSeen = on.map((g) => g.id);
+how = "side";
+break;
+}
 if (!on.length) {                    // nothing is on: say so, the carousel carries on
 await notice("none");
 ctl.turn = 0;                      // turns made meanwhile do not queue more cards
@@ -1456,8 +1687,12 @@ if (tour && tour.why === "break" && main && !inBreak(main)) {
 dir = -1;
 break;
 }
-if (!tour && (!main || !sameGame(main, game) || (!isOn(main) && main.state !== "post"))) break;
+if (!starting && !tour && (!main || !sameGame(main, game) || (!isOn(main) && main.state !== "post"))) break;
 if (tour && tour.why === "auto" && firstOn()) break;                  // a game has come on
+if (!tour && main && main.state === "post" && sameGame(main, game)) {
+if (!finalSince) finalSince = t0;
+if (t0 - finalSince >= FINAL_STAY) break;
+}
 if (t0 >= until) break;
 } else {
 if (!stay(ctl.held ? Infinity : end)) break;       // Rotation: time is up, or the encoder changes page
@@ -1468,7 +1703,7 @@ break;
 }
 if (t0 >= until) break;
 }
-if (!game && games.size) break;          // the first scores have arrived: show them now
+if (!game && games.size && (!solo || startReady())) break;       // the game to stay on is there: show it now
 if (!game && seasonItems()) break;       // the season's end is known now: its pages
 const wait = Math.min(until - t0, 500);
 if (!game || game.state !== "in" || isHalf(game)) {      // nothing runs along the field: a few times a second
@@ -1482,9 +1717,10 @@ if (real === null || real === undefined || at === null || at === undefined) at =
 else if (Math.abs(real - at) > 0.4) at += (real - at) * 0.25;
 else at = real;
 spots.set(game.id, at);
-const phase = Math.floor(Date.now() * 0.011);
-if (t0 - full >= 1000) {                 // once a second everything, in between only what moves
-full = t0;
+const phase = Math.floor(Date.now() * 0.011), clock = clockText(game);
+if (t0 - full >= 1000 || clock !== clockWas) {       // once a second everything - and right when the clock's next
+full = t0;                             // second is due: only its text is sent then; in between only what moves
+clockWas = clock;
 await show(lift(gameEls(game, pp, phase, at), pp, z));
 } else {
 const strip = [];

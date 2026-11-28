@@ -716,9 +716,11 @@ const unbind = listen("input", (event) => {
 //   at first, and no other game is settled on before it has been seen. (When it ends its final stays 20 seconds.)
 //   When no game is on, the carousel runs by itself: today's finished games, then the ones to come - today's, or
 //   the next day's that has any when today is done.
-//   encoder  next / previous game that is on (sideways). While the carousel runs by a press of Start: through it.
+//   encoder  next / previous game that is on (sideways). While the day's games are still coming in after a start,
+//            the round ends with a LOADING page, the place of the games still to come (see "the start" below).
 //            With nothing on, a turn only says so ("NO GAMES ON RIGHT NOW").
-//   Start    the carousel, one round, between the two title cards; Start again = back to the game at once, behind the closing card.
+//   Start    the carousel, one round, between the two title cards; Start again, or a turn of the knob, = back to
+//            the game at once, behind the closing card.
 //   OK       teams as jerseys over their letters <-> as their three letters alone (until the app is closed).
 //   Back     ends the app.
 //   Signs (setting "Big play signs"), only for the game the app stays on: 3 POINTER (and, when the feed names him,
@@ -1058,6 +1060,58 @@ async function loadSituation(id) {
 
 function isHalf(g) {
   return g.state === "in" && /half/i.test(g.detail + g.status);
+}
+
+// ---------- the start: the name, then LOADING, then the strip ----------
+// After the author's mark the app shows its name, then a page that says it is waiting: the word LOADING over the
+// line of the hour before a game, its light running. That page stays until the game the app will stay on is known
+// and has been looked at - the followed team's if it is on, else the first one found on - or until it is clear
+// that nothing is on (the games come in the order of their starts: once every game between the last one found
+// over and the first one found still to come has been looked at, none is being played) and the carousel can
+// begin. Not for the whole day: the other games come in behind the strip. Until then no game is shown, not
+// the followed team's finished one either, and no control but Back does anything.
+const NAME_MS = 1000;               // how long the name stands before LOADING takes its place
+let nameSince = 0, startDone = false;
+
+/** A game that has not been looked at may still be one that is being played. */
+function bandOpen() {
+  const n = todayIds.length;
+  let lo = -1, hi = n;
+  for (let i = 0; i < n; i++) {
+    const g = games.get(todayIds[i]);
+    if (g && g.state === "post") lo = i;
+    else if (g && g.state === "pre" && !isOn(g) && hi === n) hi = i;
+  }
+  for (let i = lo + 1; i < hi; i++) if (!games.get(todayIds[i])) return true;
+  return false;
+}
+
+// The same page is a place in the round the knob turns through, for as long as games are still coming in: the games
+// that are in, then LOADING - the place of the ones still to come, with how many of the day's games have been
+// looked at. A game that arrives takes its place before it; whoever stands on LOADING at that moment gets that
+// game. When the whole day is in, the page is gone.
+const LOADPAGE = { id: "load", kind: "load", state: "pre", away: "", home: "", start: 0 };
+
+function loadEls(p) {
+  const els = [text(p + "e", "LOADING", "small", 36, 0, SOFT, "top_mid")];
+  if (roundUntil && todayIds.length) {
+    let n = 0;
+    for (let i = 0; i < todayIds.length; i++) if (games.get(todayIds[i])) n++;
+    els.push(text(p + "m2", n + " OF " + todayIds.length, "small", 36, 7, FAINT, "top_mid"));
+  }
+  // (the line of the hour before a game, its light running)
+  els.push(bar(p + "hb0", LINE_X, 15, 2 * LINE_HALF, 1, "#FFFFFF1C", 1),
+    { id: p + "hfg", type: "animation", path: "animations/flow_g.anim", x: LINE_X, y: 15, align: "top_left", loop: true,
+      section: "n" + LINE_HALF, timeout: STILL, z_index: 2, _w: 2 * LINE_HALF });
+  return els;
+}
+
+function startReady() {
+  if (startDone) return true;
+  if (!roundUntil) return false;                 // which games there are is not known yet
+  if (allSeen()) startDone = true;
+  else if (!mineToCome() && (firstOn() || !bandOpen())) startDone = true;
+  return startDone;
 }
 
 // ---------- who has the ball ----------
@@ -1668,6 +1722,7 @@ function seasonEls(g, p) {
 }
 
 function gameEls(g, p) {
+  if (g && g.kind === "load") return loadEls(p); // the place of the games still to come
   if (g && g.kind) return seasonEls(g, p);       // a page of the season's end, not a game
   if (!g) {                                      // nothing to show: say why
     if (listLoaded && gameIds.length === 0 && nothingAhead && seasonAsked && !seasonItems()) {   // (not before we know whether the season is over)
@@ -1678,7 +1733,8 @@ function gameEls(g, p) {
       // up and the hosts do not answer ("NO DATA / RETRYING").
       return [image(p + "cd", "images/card_" + (wifiUp ? "nodata" : "nowifi") + ".png", 0, 0, 0, 72)];
     }
-    return [text(p + "e", D.name, "small", 36, 4, FAINT, "top_mid")];         // nothing has answered yet: the name, quietly
+    if (!nameSince || Date.now() - nameSince < NAME_MS) return [text(p + "e", D.name, "small", 36, 4, FAINT, "top_mid")];   // the name, quietly
+    return loadEls(p);                           // nothing to show yet: LOADING
   }
   const over = g.state === "post";
   const loseA = over && g.as < g.hs, loseH = over && g.hs < g.as;
@@ -1900,8 +1956,10 @@ async function hoopsPage(p, enter) {
   // the carousel ({ list, k, why: "auto" nothing is on | "start" }), a game a control asked for, since when the
   // game on show has been over, and when the last sign was shown
   let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
+  let onLoad = false, loadSeen = [];             // the knob stands on LOADING; the games that were on when it got there
   const seen = { id: null, period: 0, to: false };       // the game on show as it was a moment ago
   scoresUp = true;
+  if (!nameSince) nameSince = Date.now();
   try {
     while (!stopped) {
       // ---- which game now
@@ -1913,9 +1971,14 @@ async function hoopsPage(p, enter) {
         mainId = main ? main.id : null;
         finalSince = 0;
       }
-      if (!main && (!tour || tour.why !== "auto")) tour = { list: carousel(null), k: 0, why: "auto" };
+      if (!main && startReady() && (!tour || tour.why !== "auto")) tour = { list: carousel(null), k: 0, why: "auto" };
       if (main && tour && tour.why === "auto") tour = null;                     // a game has come on
-      if (jump) {
+      if (onLoad && allSeen()) onLoad = false;   // the whole day is in: the page is gone
+      if (onLoad) {
+        game = LOADPAGE;
+        until = Infinity;
+        jump = null;
+      } else if (jump) {
         game = jump;
         jump = null;
       } else if (tour) {
@@ -1963,6 +2026,36 @@ async function hoopsPage(p, enter) {
         const t0 = Date.now();
         if (game) game = shown = games.get(game.id) || game;
         main = games.get(mainId) || null;
+        const starting = !game && !startReady();   // the start (the name, LOADING): no control but Back does anything
+        if (starting) {
+          ctl.ok = ctl.start = false;
+          ctl.turn = 0;
+        }
+        if (onLoad) {
+          // The knob stands on LOADING: nothing moves the screen but a game that arrives - it comes in at once -
+          // the last game of the day (the page is gone: back to the game the app stays on), or a turn (on round
+          // the games that are in).
+          pendingSign = null;
+          ctl.ok = ctl.start = false;
+          const on = allGames().filter(isOn).sort(byStart);
+          let come = null;
+          for (let i = 0; i < on.length && !come; i++) if (loadSeen.indexOf(on[i].id) === -1) come = on[i];
+          if (come || allSeen() || ctl.turn) {
+            if (come) mainId = come.id;
+            else if (ctl.turn) {
+              dir = ctl.turn > 0 ? 1 : -1;
+              if (on.length) mainId = on[dir > 0 ? 0 : on.length - 1].id;
+            }
+            ctl.turn = 0;
+            finalSince = 0;
+            onLoad = false;
+            how = "side";
+            break;
+          }
+          await show(lift(gameEls(game, pp), pp, z));
+          await nap(500);
+          continue;
+        }
         if (game && soon(game)) {                // the game on show is counting down to its start ...
           kickId = game.id;
         } else {                                 // ... and has started: a card comes down and says so
@@ -2014,14 +2107,19 @@ async function hoopsPage(p, enter) {
           if (game) jump = game;
           break;
         }
-        if (ctl.start) {                         // Start: the carousel / straight back to the game
+        // During the round of the league, Start again - or a turn of the knob - ends it at once: back to the game
+        // the app stays on (or the one it would choose now, if that one has ended), behind the closing card ("BACK
+        // TO LIVE") as at the end of a round. With no game on to go back to there is no card: the strip rolls back.
+        if (tour && tour.why !== "auto" && (ctl.start || ctl.turn)) {
           ctl.start = false;
-          if (tour && tour.why !== "auto") {
-            tour = null;
-            how = main && isOn(main) ? "close" : "roll";   // behind the closing card ("BACK TO LIVE"), as
-            dir = -1;                          // at the end of a round; else the game comes back down
-            break;
-          }
+          ctl.turn = 0;
+          tour = null;
+          how = (main && isOn(main)) || firstOn() ? "close" : "roll";
+          dir = -1;
+          break;
+        }
+        if (ctl.start) {                         // Start: the carousel
+          ctl.start = false;
           if (tour) break;                       // nothing is on, the carousel runs anyway: its next item now
           const list = carousel(main);
           if (list.length) {
@@ -2029,16 +2127,30 @@ async function hoopsPage(p, enter) {
             how = "open";
             break;
           }
-          if (allSeen()) await notice("alone");  // (not while the day's games are still coming in)
+          if (allSeen()) await notice("alone");
+          else {                                 // nothing to go round yet: the LOADING page, where the games will come
+            onLoad = true;
+            loadSeen = allGames().filter(isOn).map((g) => g.id);
+            how = "side";
+            break;
+          }
           ctl.turn = 0;
         }
         if (ctl.turn) {                          // encoder
           const turns = ctl.turn;
           ctl.turn = 0;
           dir = turns > 0 ? 1 : -1;
-          const on = allGames().filter(isOn).sort(byStart);
-          if (!on.length) {                      // nothing is on: say so, the carousel carries on - but not before
-            if (allSeen()) await notice("none"); // every game of the day has been looked at once
+          const on = allGames().filter(isOn).sort(byStart), here = on.findIndex((g) => g.id === mainId);
+          if (!allSeen() && (!on.length || (here !== -1 && (here + turns >= on.length || here + turns < 0)))) {
+            // games are still coming in, and the turn goes past the last one that is in (or none is on yet): the
+            // LOADING page, the place of the ones still to come
+            onLoad = true;
+            loadSeen = on.map((g) => g.id);
+            how = "side";
+            break;
+          }
+          if (!on.length) {                      // nothing is on: say so, the carousel carries on
+            await notice("none");
             ctl.turn = 0;                        // turns made meanwhile do not queue more cards
             dir = 1;
           } else if (tour && tour.list.length) { // while the carousel runs: through its items, up or down
@@ -2060,7 +2172,7 @@ async function hoopsPage(p, enter) {
             dir = 1;
           }
         }
-        if (!tour && (!main || !sameGame(main, game) || (!isOn(main) && main.state !== "post"))) break;
+        if (!starting && !tour && (!main || !sameGame(main, game) || (!isOn(main) && main.state !== "post"))) break;
         if (tour && tour.why === "auto" && firstOn()) break;                    // a game has come on
         // The game the app stays on has ended while it was on show: its final stays FINAL_STAY, then the app moves on -
         // to another game that is on, or to the carousel.
@@ -2069,7 +2181,7 @@ async function hoopsPage(p, enter) {
           if (t0 - finalSince >= FINAL_STAY) break;
         }
         if (t0 >= until) break;
-        if (!game && games.size) break;          // the first scores have arrived: show them now
+        if (!game && games.size && startReady()) break;          // the game to stay on is there: show it now
         if (!game && seasonItems()) break;       // the season's end is lastKnown now: its pages
         // ---- draw
         const wait = Math.min(until - t0, 500);

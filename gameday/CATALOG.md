@@ -19,7 +19,7 @@ While a game is on, the app stays on one game: your team's if it is on, otherwis
 
 - **Wheel**: the next or the previous game that is on.
 - **OK** (press the wheel): the teams as their marks, or as their three letters.
-- **Start**: a look around the league: the other games that are on, the finished ones, the ones to come, and back to your game. Start again goes back at once, behind a BACK TO LIVE card.
+- **Start**: a look around the league: the other games that are on, the finished ones, the ones to come, and back to your game. Start again or a wheel turn goes back at once.
 - **Back**: exit.
 
 ## Settings
