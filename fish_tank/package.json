@@ -1,0 +1,22 @@
+{
+  "name": "fish_tank",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A tank of pet fish on the BUSY Bar. Start: feed. Turn the knob: the lamp. OK: fish shop and status. Back: exit.",
+  "author": "Dennis Zhang",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "busy-cli build",
+    "app:install": "busy-cli app install",
+    "app:uninstall": "busy-cli app uninstall",
+    "app:run": "busy-cli app run",
+    "app:stop": "busy-cli app stop"
+  },
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "devDependencies": {
+    "@busy-app/cli": "^0.6.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "bubbles": {
+      "label": "Bubbles",
+      "type": "boolean",
+      "default": true,
+      "description": "Bubbles rise from the sand now and then."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}
