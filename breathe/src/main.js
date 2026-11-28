@@ -5,10 +5,10 @@
 // This file is generated from the author's working sources (one file, so that the bar has one script to read):
 // D = generated data (where things stand on the screen, how long the films run, the patterns, the letters of the
 // summary), then the bar (its API, clock, controls and drawing), then the app (elements and chains of films, what is
-// kept, the start page and the introduction, a session with pause and stop, the end and the summary), then the start.
+// kept, the main screen and the guide, a session with pause and stop, the end and the summary), then the start.
 // Everything that moves is a film in animations/; the script only says when each one starts.
 
-const D = {"app":"io.github.windagh.breathe","name":"Breathe","hole":[27,3],"nameAt":[0,1],"digitAt":[45,0],"minAt":[58,1],"chevAt":[32,0],"pauseAt":[29,1],"glowAt":[0,11],"pages":5,"t":{"rest":3000,"wake":1200,"finish":4000,"glow":2400,"rise":1600,"name":700,"digit":500,"dim":1000,"word":2800,"hush":500,"unhush":900,"gather":1100,"cover":1000,"hold":350,"splash":1500},"caps":{"A":[".xx.","x..x","x..x","x..x","xxxx","x..x","x..x","x..x"],"B":["xxx.","x..x","x..x","xxx.","x..x","x..x","x..x","xxx."],"D":["xxx.","x..x","x..x","x..x","x..x","x..x","x..x","xxx."],"E":["xxxx","x...","x...","xxx.","x...","x...","x...","xxxx"],"F":["xxxx","x...","x...","xxx.","x...","x...","x...","x..."],"H":["x..x","x..x","x..x","xxxx","x..x","x..x","x..x","x..x"],"I":["x","x","x","x","x","x","x","x"],"M":["x...x","xx.xx","x.x.x","x.x.x","x...x","x...x","x...x","x...x"],"N":["x..x","xx.x","xx.x","x.xx","x.xx","x..x","x..x","x..x"],"R":["xxx.","x..x","x..x","xxx.","x.x.","x..x","x..x","x..x"],"S":[".xx.","x..x","x...",".xx.","...x","...x","x..x",".xx."],"T":["xxxxx","..x..","..x..","..x..","..x..","..x..","..x..","..x.."],"Y":["x...x","x...x",".x.x.",".x.x.","..x..","..x..","..x..","..x.."],"0":[".xx.","x..x","x..x","x..x","x..x","x..x","x..x",".xx."],"1":[".x.","xx.",".x.",".x.",".x.",".x.",".x.","xxx"],"2":[".xx.","x..x","...x","...x","..x.",".x..","x...","xxxx"],"3":[".xx.","x..x","...x",".xx.","...x","...x","x..x",".xx."],"4":["x..x","x..x","x..x","x..x","xxxx","...x","...x","...x"],"5":["xxxx","x...","x...","xxx.","...x","...x","x..x",".xx."],"6":[".xx.","x..x","x...","xxx.","x..x","x..x","x..x",".xx."],"7":["xxxx","...x","...x","..x.","..x.",".x..",".x..",".x.."],"8":[".xx.","x..x","x..x",".xx.","x..x","x..x","x..x",".xx."],"9":[".xx.","x..x","x..x","x..x",".xxx","...x","x..x",".xx."]," ":["..","..","..","..","..","..","..",".."]},"lineA":0.34,"sumY":2,"pats":[{"id":"calm","name":"CALM","ms":[3428.5714285714284,0,5142.857142857142,0],"f":["in_calm","","out_calm",""],"line":"#8C64C8","tones":["#FF99AC","#FFA4B3","#FFB0BA","#FFBBC2","#FFC6C9","#FFD1D1","#FFDDD8","#FFE8DF"]},{"id":"box","name":"BOX","ms":[4000,4000,4000,4000],"f":["in_box","hf4","out_box","he4"],"line":"#C8902E","tones":["#FFC566","#FFCB75","#FFD285","#FFD894","#FFDEA4","#FFE5B3","#FFEBC3","#FFF2D2"]},{"id":"sleep","name":"SLEEP","ms":[4000,7000,8000,0],"f":["in_sleep","hf7","out_sleep",""],"line":"#3C9A96","tones":["#51AAA0","#5DB1A6","#69B8AD","#74BEB3","#80C5B9","#8CCCBF","#98D3C6","#A4DACC"]}]};
+const D = {"app":"io.github.windagh.breathe","name":"Breathe","hole":[27,3],"nameAt":[0,0],"digitAt":[4,10],"minAt":[9,10],"cueAt":[50,0],"chevAt":[32,0],"pauseAt":[29,1],"glowAt":[0,11],"pages":5,"t":{"rest":3000,"wake":1200,"finish":4000,"glow":2400,"rise":1600,"name":700,"digit":400,"dim":1000,"word":2800,"hush":500,"unhush":900,"gather":1100,"cover":1000,"hold":350,"splash":1500},"caps":{"A":[".xx.","x..x","x..x","x..x","xxxx","x..x","x..x","x..x"],"B":["xxx.","x..x","x..x","xxx.","x..x","x..x","x..x","xxx."],"D":["xxx.","x..x","x..x","x..x","x..x","x..x","x..x","xxx."],"E":["xxxx","x...","x...","xxx.","x...","x...","x...","xxxx"],"F":["xxxx","x...","x...","xxx.","x...","x...","x...","x..."],"H":["x..x","x..x","x..x","xxxx","x..x","x..x","x..x","x..x"],"I":["x","x","x","x","x","x","x","x"],"M":["x...x","xx.xx","x.x.x","x.x.x","x...x","x...x","x...x","x...x"],"N":["x..x","xx.x","xx.x","x.xx","x.xx","x..x","x..x","x..x"],"R":["xxx.","x..x","x..x","xxx.","x.x.","x..x","x..x","x..x"],"S":[".xx.","x..x","x...",".xx.","...x","...x","x..x",".xx."],"T":["xxxxx","..x..","..x..","..x..","..x..","..x..","..x..","..x.."],"Y":["x...x","x...x",".x.x.",".x.x.","..x..","..x..","..x..","..x.."],"0":[".xx.","x..x","x..x","x..x","x..x","x..x","x..x",".xx."],"1":[".x.","xx.",".x.",".x.",".x.",".x.",".x.","xxx"],"2":[".xx.","x..x","...x","...x","..x.",".x..","x...","xxxx"],"3":[".xx.","x..x","...x",".xx.","...x","...x","x..x",".xx."],"4":["x..x","x..x","x..x","x..x","xxxx","...x","...x","...x"],"5":["xxxx","x...","x...","xxx.","...x","...x","x..x",".xx."],"6":[".xx.","x..x","x...","xxx.","x..x","x..x","x..x",".xx."],"7":["xxxx","...x","...x","..x.","..x.",".x..",".x..",".x.."],"8":[".xx.","x..x","x..x",".xx.","x..x","x..x","x..x",".xx."],"9":[".xx.","x..x","x..x","x..x",".xxx","...x","x..x",".xx."]," ":["..","..","..","..","..","..","..",".."]},"lineA":0.34,"sumY":2,"pats":[{"id":"calm","name":"CALM","ms":[3428.5714285714284,0,5142.857142857142,0],"f":["in_calm","","out_calm",""],"line":"#8C64C8","tones":["#FF99AC","#FFA4B3","#FFB0BA","#FFBBC2","#FFC6C9","#FFD1D1","#FFDDD8","#FFE8DF"]},{"id":"box","name":"BOX","ms":[4000,4000,4000,4000],"f":["in_box","hf4","out_box","he4"],"line":"#C8902E","tones":["#FFC566","#FFCB75","#FFD285","#FFD894","#FFDEA4","#FFE5B3","#FFEBC3","#FFF2D2"]},{"id":"sleep","name":"SLEEP","ms":[4000,7000,8000,0],"f":["in_sleep","hf7","out_sleep",""],"line":"#3C9A96","tones":["#51AAA0","#5DB1A6","#69B8AD","#74BEB3","#80C5B9","#8CCCBF","#98D3C6","#A4DACC"]}]};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -487,7 +487,7 @@ const HX = D.hole[0], HY = D.hole[1];
 const WORD = ["w_in_", "w_hold_", "w_out_", "w_hold_"];
 let mode = "home";                  // home, run, pause, done
 let pat = 0, mins = 1;              // what is chosen
-let shownPat = 0, shownMin = 1;     // what the start page shows (it follows, one eased change at a time)
+let shownPat = 0, shownMin = 1;     // what the main screen shows (it follows, one eased change at a time)
 let wordsOn = true, startWith = 0;
 let lz = 100;
 const up = () => (lz += 10);
@@ -576,8 +576,8 @@ backs = 0;
 return k;
 }
 ctl.hits = 0;
-onBack = () => {                    // Back leaves the app from the start page only; anywhere else it stops what is going on
-if (mode === "home" || (mode === "guide" && gPage === 0)) {       // (and from the guide's first page)
+onBack = () => {                    // Back leaves the app from the main screen only; anywhere else it stops what is going on
+if (mode === "home") {            // (in the guide it turns a page back, and on the first page closes the book)
 if (wake) wake();               // (the page's wait is cut short: the app is gone at once, not when its next small breath is due)
 return false;
 }
@@ -632,11 +632,12 @@ async function showHome(wake, veil) {
 const id = PATS[pat].id;
 if (!on.x_hu) await post([anim("x_hu", "hush_hold", 0, 0, ZTOP)]);
 await clearUnhush();
-await endChains(["n", "d", "c"], ["h_mn"]);
+await endChains(["n", "d", "c"], ["h_mn", "h_cu"]);
 const n = next("n"), d = next("d"), c = next("c");
 const page = (dx) => [anim(n, "nm_" + id, D.nameAt[0] + dx, D.nameAt[1], ZTEXT + ch("n").n),
 anim(d, "d" + mins, D.digitAt[0] + dx, D.digitAt[1], ZTEXT + ch("d").n),
 anim("h_mn", "min", D.minAt[0] + dx, D.minAt[1], ZTEXT),
+anim("h_cu", "cue", D.cueAt[0] + dx, D.cueAt[1], ZTEXT),      // (the guide's cue at the knob)
 anim(c, "chev0", D.chevAt[0] + dx, D.chevAt[1], ZTEXT + ch("c").n)];
 await post(page(AWAY));           // (a new element is seen above everything for the moment in which it is made)
 await post(page(0));
@@ -668,10 +669,10 @@ async function fadeOutPage() {
 await post([anim("x_hu", "hush", 0, 0, ZTOP)]);
 await sleep(TM.hush + 100);
 await clearUnhush();
-await endChains(["n", "d", "c"], ["h_mn"]);
+await endChains(["n", "d", "c"], ["h_mn", "h_cu"]);
 }
 async function stepPattern() {
-const to = (shownPat + 1) % PATS.length, a = PATS[shownPat].id, b = PATS[to].id;
+const to = pat, a = PATS[shownPat].id, b = PATS[to].id;
 await chain("n", "nm_" + a + "_" + b, D.nameAt[0], D.nameAt[1]);
 await chain("l", "rest_" + a + "_" + b, HX, HY, up());
 shownPat = to;
@@ -695,19 +696,22 @@ for (let k = 0; k < D.pages; k++) parts.push(gEl(k, AWAY));
 await gSend(parts);
 gMade = true;
 }
-async function guide() {
+async function openBook() {
 mode = "guide";
 gPage = 0;
+keys();                           // (what was pressed before counts no more; what is pressed from now on turns pages,
+ctl.hits = 0;                     // also while the request that shows the first page is on its way)
 if (!gMade) await makeGuide();
 await gSend([gEl(0, 0)]);
-keys();
-ctl.hits = 0;
+}
+async function readBook() {
 while (!stopped) {
 if (!(ctl.turn || ctl.hits || backs)) await nap(3600000);       // (nothing waiting: wait; no request is sent meanwhile)
 const b = backs, k = keys(), hit = ctl.hits;
 ctl.hits = 0;
 const n = k.turn + hit - b;     // forward: a turn, START, OK; back: a turn the other way, BACK
-if (gPage === D.pages - 1 && (k.turn || hit || b)) break;       // the last page: anything goes on
+if (gPage === D.pages - 1 && (k.turn || hit || b)) break;       // the last page: anything closes the book
+if (gPage === 0 && b && n < 0) break;                           // BACK on the first page closes it too
 const to = Math.max(0, Math.min(D.pages - 1, gPage + n));
 if (to !== gPage) {
 await gSend([gEl(to, 0), gEl(gPage, AWAY)]);     // one request: the new page in, the old one out
@@ -715,24 +719,37 @@ gPage = to;
 }
 }
 if (stopped) return;
+mode = "busy";
+await gSend([gEl(gPage, AWAY)]);  // closed (its pages stay, off-screen, for the next time): black for a moment,
+if (!st.seen) {                   // then the light comes on and the main screen comes up
 st.seen = 1;
 await save();
-const ids = [];
-for (let k = 0; k < D.pages; k++) ids.push("gp" + k);
-gMade = false;
-mode = "busy";
-await wipe(ids);                  // the book is closed: black for a moment, then the light comes on and the start page comes up
+}
 await showHome(true, null);
 }
-async function freshCard(shown) {
-mode = "busy";
-if (shown) {
+async function guide() {
+await openBook();
+await readBook();
+}
+async function openGuide() {
+await openBook();
+if (on.x_uh) await wipe(["x_uh"]);
+await endChains(["n", "d", "c", "p", "l"], ["h_mn", "h_cu"]);
+lightEnd = 0;
+await readBook();
+}
+async function leaveHome(shown) {
 await fadeOutPage();
 await endChains(["p"]);
 await chain("l", "doze_" + shown, HX, HY, up());
 await sleep(TM.wake + 100);
-await wipe(["x_hu"]);
 await endChains(["l"]);
+}
+async function freshCard(shown) {
+mode = "busy";
+if (shown) {
+await leaveHome(shown);
+await wipe(["x_hu"]);
 }
 const t = capsPic("A FRESH START"), x = (72 - t.w) >> 1;
 await post([anim("x_cv", "cov_hold", 0, 0, ZTOP)]);
@@ -767,15 +784,20 @@ await chain("d", "d" + shownMin + mins, D.digitAt[0], D.digitAt[1]);
 shownMin = mins;
 digitEnd = Date.now() + TM.digit + 120;
 }
-if (shownPat !== pat && now >= nameEnd) await stepPattern();      // the name follows the presses, one pattern at a time
+if (shownPat !== pat && now >= nameEnd) await stepPattern();      // the name follows the knob
 let until = Math.min(pulseDue, settingsDue);
 if (shownMin !== mins) until = Math.min(until, digitEnd);
 if (shownPat !== pat) until = Math.min(until, nameEnd);
 await idle(until);
 const k = keys();
-if (k.turn) mins = Math.max(1, Math.min(5, mins + k.turn));
-if (k.ok) pat = (pat + 1) % PATS.length;
+if (k.turn) {                     // one dial: 1 to 5 minutes of a pattern, then the next pattern's 1 to 5, and round again
+const all = PATS.length * 5;
+const at = (((pat * 5 + mins - 1 + k.turn) % all) + all) % all;
+pat = Math.floor(at / 5);
+mins = (at % 5) + 1;
+}
 if (k.start) await begin();
+else if (k.ok) await openGuide();  // OK (a press of the knob): the guide; closed, it comes back to this page
 }
 async function begin() {
 mode = "run";
@@ -786,7 +808,7 @@ await save();
 await readSettings();
 await sleep(Math.max(t0 + TM.hush + 100, nameEnd) - Date.now());      // half a second (and a change of colour to its end): then the first breath in
 await clearUnhush();
-await endChains(["n", "d", "c"], ["h_mn"]);
+await endChains(["n", "d", "c"], ["h_mn", "h_cu"]);
 await wipe(["x_hu"]);
 await run();
 }
@@ -844,7 +866,7 @@ await line((done + Math.min(ms, now - t0)) / totalMs, lineZ);
 lineAt = Date.now() + lineEvery;
 }
 if (now >= settingsDue && due - now > 600) {      // "Start over" flipped during a session: the session stops as with
-settingsDue = now + 5000;                       // BACK, and the start page (homeStep) clears and starts over
+settingsDue = now + 5000;                       // BACK, and the main screen (homeStep) clears and starts over
 await readSettings();
 if (resetAsked()) {
 settingsDue = 0;
@@ -988,7 +1010,7 @@ dataLoop();
 const fresh = resetAsked();       // "Start over" was flipped while the app was closed
 if (fresh) await clearKept();
 const first = (!st.seen && !D.fresh) || D.guide;        // the first start (or the first after starting over): the guide
-if (first) await makeGuide();     // (its pages, off-screen, while the mark plays)
+await makeGuide();                // (its pages, off-screen, while the mark plays: OK on the main screen opens it)
 while (!stopped && Date.now() < t0 + TM.splash) await sleep(50);      // (1.5 s, and the eighth more that every film is given)
 if (stopped) return;
 await wipe(["x_sp"]);             // (it stands on black; under it is black)
