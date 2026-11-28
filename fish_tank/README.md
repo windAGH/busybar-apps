@@ -4,7 +4,7 @@ A small tank of pet fish on your desk. Feed them, but not too often, light the t
 
 ![Fish Tank on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
 
-*The pictures are the app's own screens from the BUSY Bar Emulator; the main screen is rendered offline from the app's own drawing.*
+*The pictures are the app's own screens from the BUSY Bar Emulator; the main screen and the guide page are rendered offline from the app's own drawing.*
 
 ## What you see
 
