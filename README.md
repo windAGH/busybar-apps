@@ -1,6 +1,6 @@
 # BUSY Bar apps
 
-Fifteen JavaScript apps for the [BUSY Bar](https://busy.app), a desk display of 72 x 16 pixels. All run on the bar itself: no computer, no account, no key. The four with live data fetch it over the bar's Wi-Fi; the others use no internet at all.
+Sixteen JavaScript apps for the [BUSY Bar](https://busy.app), a desk display of 72 x 16 pixels. All run on the bar itself: no computer, no account, no key. The four with live data fetch it over the bar's Wi-Fi, Vinyl gets the song from your Mac or Spotify and its lyrics from lrclib.net; the others use no internet at all.
 
 | App | What it is |
 |---|---|
@@ -8,6 +8,7 @@ Fifteen JavaScript apps for the [BUSY Bar](https://busy.app), a desk display of 
 | **[Gameday](gameday/)** | NFL game day as a live score strip, with the field, the timeouts, big-play signs and countdowns to kick-off. |
 | **[Hoops](hoops/)** | NBA game night as a live score strip, with the timeouts, runs and fouls, big-play signs and countdowns to tip-off. |
 | **[Stocks](stocks/)** | Stock, index, crypto and currency prices, one ticker at a time, with the day's line and the extended sessions. |
+| **[Vinyl](vinyl/)** | What you are listening to as a record player, with synced lyrics; from a small Mac app or your Spotify account. |
 | **Focus and calm** | |
 | **[Flight](flight/)** | A focus timer dressed as a flight: check in at one of 3,244 real airports, get a boarding pass, and watch the real sky go by until you land. |
 | **[Breathe](breathe/)** | A light to breathe with. Follow it in and out for one to five minutes, in three patterns, each with its own colour. |
@@ -49,6 +50,12 @@ One ticker at a time: the price, the day's change and its line, in green or red,
 ![Flight: ten of its screens](flight/preview.png)
 
 Choose where you are, how long you want to focus and an airport that far away. The boarding pass is printed, the aircraft takes off, and the window shows the sky where you are flying: the sun and the moon where they stand, the moon's phase, stars, and clouds from the real weather. Landing ends the session. [More about Flight](flight/)
+
+## Vinyl
+
+![Vinyl: ten of its screens](vinyl/preview.png)
+
+The song playing on your Mac (Spotify, Apple Music, QQ Music, NetEase, a browser...) or on your Spotify account, as a record on a turntable: one record per album, the arm lifts at a pause, the records change at a song's end, and the lyrics run beside it in two rows. Start plays and pauses, the knob sets the volume. Needs the small helper Vinyl for Mac or your own Spotify keys; [setting it up](vinyl/SETUP.md). [More about Vinyl](vinyl/)
 
 ## Breathe
 
@@ -120,7 +127,7 @@ A band of light hides a target behind a shutter. One player peeks and gives a cl
 
 The bar has a knob that turns and can be pressed (OK), a top button (Start) and Back.
 
-The eleven newer apps open on a main screen: Start enters, pressing the knob opens a short guide of five pages you turn yourself, Back leaves. The first time, the guide opens by itself. On every page the same marks are used: a triangle pointing up for Start, a triangle pointing down onto a line for a press of the knob, two side arrows for a turn. What the controls do inside each app is in its README.
+The twelve newer apps open on a main screen: Start enters, pressing the knob opens a short guide of five pages you turn yourself, Back leaves. The first time, the guide opens by itself. On every page the same marks are used: a triangle pointing up for Start, a triangle pointing down onto a line for a press of the knob, two side arrows for a turn. What the controls do inside each app is in its README.
 
 The four older apps start straight away:
 
@@ -167,7 +174,7 @@ The ideas, what each app shows, how it behaves and how it looks are the author's
 - The data sources are unofficial public endpoints (ESPN for Gameday and Hoops; Yahoo Finance and CNBC for Stocks; Open-Meteo for Flight's clouds). They need no key and can change without notice.
 - Flight's airport tables are built from OurAirports (public domain) and OpenFlights (Open Database License); see [flight/airports](flight/airports/).
 - Gameday shows each team as a small pixel drawing of its mark, made for this app (the branch `no-logos` has the app with a plain helmet in the team's colours instead). Hoops draws a plain jersey in the team's colours over its three letters.
-- The eleven apps without live data use no internet connection; what they keep (a best score, a tank of fish, a list) stays in the app's storage on the bar.
+- The eleven games, tools and things to watch use no internet connection; what they keep (a best score, a tank of fish, a list) stays in the app's storage on the bar.
 - All drawings, words and sounds in the games and the things to watch were made for these apps. They are not based on, or affiliated with, any other game, toy, restaurant or brand.
 - Not affiliated with or endorsed by the NFL, the NBA, ESPN, Yahoo, CNBC, any airline or airport, or Flipper.
 
