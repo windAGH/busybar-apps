@@ -577,11 +577,11 @@ for (let i = 0; i < els.length; i++) els[i].id = p + "_" + els[i].id;
 return els;
 }
 const black = () => rect("bg", 0, 0, 72, 16, "#000000FF", 0);
-const GUIDE_X = 71 - smallWidth("GUIDE");            // (the word ends in column 70, as TOP 5 does)
-const chevron = (c) => "! XPM2\n6 2 2 1\n. c none\na c " + c + "\n..aa..\n.aaaa.";
+const startMark = (id) => film(id, "start", 33, 0, 4, true);
 function hints(els, guide) {
-els.push(bitmap("u1", chevron("#FFC24A"), 33, 0, 4), small("h1", "PLAY", 27, 1, AMBER),
-bitmap("u2", chevron(guide ? "#6FB8FF" : "#C8CCD6"), 59, 0, 4), small("h2", guide ? "GUIDE" : "TOP 5", guide ? GUIDE_X : 52, 1, STEELC));
+els.push(startMark("u1"));
+if (guide) els.push(film("h2", "cue_guide", 44, 0, 4));
+else els.push(film("h1", "cue_play", 14, 0, 4), film("h2", "cue_top5", 46, 0, 4), film("u2", "press", 66, 0, 4, true));
 return els;
 }
 function keys() {
@@ -614,8 +614,8 @@ for (let i = 0; i < els.length; i++) live.set(els[i].id, { s: parts[i], t: at, e
 async function wipe(ids) {
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ids }));
 }
-function topFilm(id, name, x, z, section) {
-return '{"id":"' + id + '","type":"animation","path":"animations/' + name + '.anim","x":' + x + ',"y":0,"align":"top_left","loop":false,' +
+function topFilm(id, name, x, z, section, loop) {
+return '{"id":"' + id + '","type":"animation","path":"animations/' + name + '.anim","x":' + x + ',"y":0,"align":"top_left","loop":' + !!loop + "," +
 '"section":"' + (section || "default") + '","timeout":' + STILL + ',"z_index":' + z + "}";
 }
 const COVER_Z = 2147481000;
@@ -681,10 +681,12 @@ big("c2", word, 36 - (textWidth(word, "bold") >> 1), 5, AMBER)], "q");
 const GUIDE = 5;
 let gpage = 0;
 const gEl = (n, x) => topFilm("zz_g" + n, "guide_" + n, x, 5000);
+const gMarks = (on) => [topFilm("zz_gs", "start", on ? 33 : OFF, 5001, null, true), topFilm("zz_gp", "press_a", on ? 60 : OFF, 5001, null, true)];
+const G_IDS = ["zz_gs", "zz_gp"];
 async function makeGuide() {
 const parts = [];
 for (let n = 1; n <= GUIDE; n++) parts.push(gEl(n, n === 1 ? 0 : OFF));
-await send(parts);
+await send(parts.concat(gMarks(false)));
 gpage = 1;
 }
 async function guideBook() {
@@ -703,19 +705,19 @@ else if (k.turn < 0) to = gpage - 1;
 else if (!stopped) {                           // nobody there: everything is kept alive
 const parts = [];
 for (let n = 1; n <= GUIDE; n++) parts.push(gEl(n, n === gpage ? 0 : OFF));
-await send(parts);
+await send(parts.concat(gMarks(gpage === 2)));
 await show(titleEls());
 }
 to = Math.max(1, Math.min(GUIDE, to));
 if (to !== gpage && !stopped) {                // one request: the new page in, the old one out
-await send([gEl(to, 0), gEl(gpage, OFF)]);
+await send([gEl(to, 0), gEl(gpage, OFF)].concat(to === 2 || gpage === 2 ? gMarks(to === 2) : []));
 gpage = to;
 ctl.turn = 0;                                // (a wheel that is still turning does not run through the book)
 }
 }
 if (stopped) return;
 if (resetDue) {
-const ids = [];
+const ids = G_IDS.slice();
 for (let n = 1; n <= GUIDE; n++) ids.push("zz_g" + n);
 await wipe(ids);
 gpage = 0;
@@ -728,8 +730,8 @@ busy = true;
 try {
 await fall();
 await show(titleEls());                        // (it is there already)
-await part([gEl(gpage, OFF)]);
-const ids = [];
+await part([gEl(gpage, OFF)].concat(gpage === 2 ? gMarks(false) : []));
+const ids = G_IDS.slice();
 for (let n = 1; n <= GUIDE; n++) ids.push("zz_g" + n);
 await wipe(ids);
 } finally {
@@ -949,8 +951,8 @@ return "time";
 }
 function pauseEls() {
 const quit = "BACK: QUIT";
-return tag([black(), bitmap("u", chevron("#FFC24A"), 33, 0, 4), small("a", "RESUME", 21, 1, AMBER),
-small("b", quit, 36 - (smallWidth(quit) >> 1), 8, GREY)], "z");
+return tag([black(), startMark("u"), small("a", "RESUME", 21, 3, AMBER),
+small("b", quit, 36 - (smallWidth(quit) >> 1), 9, GREY)], "z");
 }
 async function pauseCard() {
 while (!stopped) {

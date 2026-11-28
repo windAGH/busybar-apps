@@ -4,13 +4,13 @@ A small game of skill: cut the food into pieces of the same length before the ti
 
 ## What you see
 
-- **The main screen**: a loaf on its board and the name. Every start arrives here. PLAY stands under Start, and a small blue arrow with GUIDE points at the knob.
+- **The main screen**: a loaf on its board and the name. Every start arrives here. A small triangle under Start moves gently towards the button: Start plays. At the knob stands GUIDE with the mark for a press, a triangle pointing down onto a line.
 - **The guide**: five short pages that you turn yourself, one control a page, each with a mark under the control it means and the word for what it does. It opens by itself the first time, and whenever you press the knob on the main screen.
 - **Before each round**, a card says how many cuts: 1 CUT, 3 CUTS, up to 6.
 - **A round**: the food lies on the board, the knife hovers over it and its shadow shows where it will cut. The line along the bottom is the time: it shrinks from both ends towards the middle, green, then amber, then red in the last second.
 - **Ten foods**: a loaf, a baguette, a cucumber, an aubergine, a fish, a carrot, a sausage, a roll cake, tofu and a sushi roll, each with its own inside where it is cut.
 - **The judging**: white marks show where the cuts belonged and a coloured line shows each piece (green is right, orange is one column off, red is more). Then the percentage counts up with a verdict: PERFECT, CLEAN, DECENT or ROUGH.
-- **Game over**: when a round falls below the pass mark the word is RUINED; you see your total, the rounds you got through and your best.
+- **Game over**: when a round falls below the pass mark the word is RUINED; you see your total, the rounds you got through and your best. PLAY stands beside Start's triangle and TOP 5 beside the press mark at the knob.
 - **Top 5**: your five best games with score, round and date; the newest is in amber.
 
 ## How it is scored
