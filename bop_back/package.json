@@ -1,0 +1,22 @@
+{
+  "name": "bop_back",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A rhythm game for the BUSY Bar: a little act plays a phrase, a count, then you play it back with Start.",
+  "author": "Dennis Zhang",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "busy-cli build",
+    "app:install": "busy-cli app install",
+    "app:uninstall": "busy-cli app uninstall",
+    "app:run": "busy-cli app run",
+    "app:stop": "busy-cli app stop"
+  },
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "devDependencies": {
+    "@busy-app/cli": "^0.6.0"
+  }
+}
