@@ -41,7 +41,7 @@ Terminal is a program that comes with every Mac. You type a line into it and the
 Copy this whole line (on this page, press the copy button at its right end):
 
 ```sh
-curl -fsSL -o ~/vinyl_helper.py https://raw.githubusercontent.com/windAGH/busybar-apps/COMMIT_ID/vinyl/helper/vinyl_helper.py && python3 ~/vinyl_helper.py --install
+curl -fsSL -o ~/vinyl_helper.py https://raw.githubusercontent.com/windAGH/busybar-apps/336cc69c658cc5a8cf2d27c7b97ada77b08bca46/vinyl/helper/vinyl_helper.py && python3 ~/vinyl_helper.py --install
 ```
 
 Click into the Terminal window, press **Command + V** to paste it, then press **Return**.
@@ -119,7 +119,7 @@ Instead of installing it, you can run Vinyl for Mac in a Terminal window. It the
 open, and prints what it does. In step 2 use this line instead:
 
 ```sh
-curl -fsSL -o ~/vinyl_helper.py https://raw.githubusercontent.com/windAGH/busybar-apps/COMMIT_ID/vinyl/helper/vinyl_helper.py && python3 ~/vinyl_helper.py
+curl -fsSL -o ~/vinyl_helper.py https://raw.githubusercontent.com/windAGH/busybar-apps/336cc69c658cc5a8cf2d27c7b97ada77b08bca46/vinyl/helper/vinyl_helper.py && python3 ~/vinyl_helper.py
 ```
 
 To stop it, click the window, hold **Control** and press **C**. To start it again later: `python3 ~/vinyl_helper.py`.
