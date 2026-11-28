@@ -16,12 +16,13 @@ Slosh turns the BUSY Bar into a small glass tank, half full of water, with somet
 - **On the tank**: Start pushes the water in the middle. Turn the knob to tilt the tank to that side. OK opens a page of two steps. Back lets the water out and exits.
 - **Step 1/2, the water**: turn the knob through the eight waters, each shown at once in the tank, with its name above and eight small lights on the floor. OK or Start takes it and goes on to step 2. Back returns to the tank.
 - **Step 2/2, what floats**: turn the knob through none, the duck, the sailing boat, the paper boat, the bottle, the ball, the ice cube and the buoy. Each one drops in beside its name and rides the water while you choose. OK or Start takes it and returns to the tank; press at once to keep what you had. Back goes a step back, to the waters.
-- **The guide**: every start opens with five short pages that show the controls, one per page, written in the water's light over a shallow water that already moves a little when you touch a key. You turn them yourself: Start, OK or a turn forward for the next page, a turn backward or Back for the one before; after the last page the tank is there. Five quick presses go straight through.
+- **The guide**: the first time you open the app, five short pages show the controls, one per page, written in the water's light over a shallow water that already moves a little when you touch a key. You turn them yourself: Start, OK or a turn forward for the next page, a turn backward or Back for the one before; after the last page the tank is there. The guide does not come again by itself.
 
 ## Settings
 
 - **Floating**: none, or one of the seven things. The duck is there from the start. Changing it changes what floats; so does step 2 on the bar, and the last change counts.
 - **Calm**: the water also moves by itself now and then, a gentle push every half minute. On from the start.
+- **Start over**: flip this switch, either way, to clear what the app has kept. It begins like new: the guide, fresh water of the first colour, and the thing that Floating names. Each flip starts over once.
 
 ## Good to know
 
@@ -31,6 +32,6 @@ Slosh turns the BUSY Bar into a small glass tank, half full of water, with somet
 
 ## Data and privacy
 
-- The app keeps one small file on the bar: the water and the floating thing you chose.
+- The app keeps one small file on the bar: the water and the floating thing you chose, and that the guide has been seen.
 - It does not use the internet and has no account. Nothing leaves the bar.
 - All drawings are the author's own. The names of the waters are names of colours. The app is not affiliated with any maker of toys, drinks or aquariums.

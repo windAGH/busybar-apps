@@ -47,6 +47,12 @@
       "type": "boolean",
       "default": true,
       "description": "The water also moves by itself now and then: a gentle push every half minute."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
     }
   }
 }
