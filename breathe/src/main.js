@@ -49,20 +49,36 @@ const pad2 = (n) => (n < 10 ? "0" : "") + n;
 function report(what, err) {
 console.error(APP + ": " + what + ": " + (err && err.message ? err.message : String(err)));
 }
+let callWait = 0, netWait = 0;
+let unanswered = 0;                 // requests to the bar that got no answer at all, counted
+function within(p, ms) {
+if (!ms) return p;
+return new Promise((done, fail) => {
+const timer = setTimeout(() => fail(new Error("no answer in " + ms + " ms")), ms);
+p.then((v) => {
+clearTimeout(timer);
+done(v);
+}, (err) => {
+clearTimeout(timer);
+fail(err);
+});
+});
+}
 async function call(method, path, body, type) {
 try {
 const init = body === undefined ? { method: method }
 : { method: method, headers: { "Content-Type": type || "application/json" }, body: body };
-const res = await fetch(API + path, init);
-const text = await res.text();
+const res = await within(fetch(API + path, init), callWait);
+const text = await within(res.text(), callWait);
 return { ok: res.ok, status: res.status, text: text };
 } catch (err) {
+unanswered++;
 return { ok: false, status: 0, text: String(err) };
 }
 }
 async function getJson(url) {
-const res = await fetch(url);
-const text = await res.text();
+const res = await within(fetch(url), netWait);
+const text = await within(res.text(), netWait);
 if (!res.ok) {
 throw new Error("HTTP " + res.status);
 }
@@ -222,6 +238,9 @@ for (let i = 0; i < els.length; i++) {
 live.set(els[i].id, { s: wire(els[i]), t: at, el: els[i] });
 }
 }
+function unsure() {
+for (const rec of live.values()) rec.t = 0;
+}
 const MARK = ["zz_h1", "zz_h2"];
 let markOn = false, markAt = 0;
 async function mark() {
@@ -264,7 +283,7 @@ await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, ele
 async function show(els, partial) {
 if (ctl.held !== markOn || markOn) await mark();
 if (labelEnd) await unlabel();
-const now = Date.now();
+const now = Date.now(), lost = unanswered;
 let batch = [];
 const flush = async () => {
 if (batch.length === 0) return;
@@ -284,9 +303,10 @@ const old = live.get(el.id);
 if (old && old.s === s && now - old.t < 400 * el.timeout) continue;
 batch.push({ el: el, s: s });
 if (batch.length === 3) await flush();
+if (unanswered !== lost) return;             // the bar is not answering: this pass is over, the next one starts afresh
 }
 await flush();
-if (partial) return;
+if (partial || unanswered !== lost) return;
 const keep = new Set();
 for (let i = 0; i < els.length; i++) keep.add(els[i].id);
 const stale = [];
@@ -310,8 +330,7 @@ if (!els[i]._solid && col(span(els[i])[dir > 0 ? 1 : 0]) === n) out.push(els[i])
 return out;
 }
 async function firstShow(els) {
-await post(inOrder(els, 1).map((el) => wire(el)));
-remember(els);
+if (await post(inOrder(els, 1).map((el) => wire(el)))) remember(els);       // (not taken as drawn when the bar refused it)
 }
 const SPLASH_MS = 1500;             // the film's length: 30 pictures, 20 a second
 let splashUp = 0;                   // when the film was sent; 0: none is on screen
@@ -343,11 +362,12 @@ if (light) {
 parts.unshift('{"id":"zz_band","type":"animation","path":"animations/band.anim","x":0,"y":0,"align":"top_left",' +
 '"loop":false,"section":"default","timeout":5,"z_index":2147483000}');
 }
-await post(parts);
+const drawn = await post(parts);
 mark.push(Date.now() - t0);                   // new page drawn
 await drop(olds);
 mark.push(Date.now() - t0);                   // old page gone
 remember(els);
+if (!drawn) unsure();
 if (light) {
 await sleep(D.band);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_band"] }));
@@ -403,11 +423,12 @@ try {
 const olds = [], t0 = Date.now();
 for (const rec of live.values()) olds.push(rec.el);
 await post([cardAnim("zz_c1", "card_" + kind + "_down", 0)]);
-await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
+const made = await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
 await sleep(D.card + 1000 - (Date.now() - t0));
-await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
+const moved = await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
 await drop(olds.map((el) => el.id));
 remember(els);
+if (!made || !moved) unsure();
 await post([cardAnim("zz_c2", "card_" + kind + "_up", 0), cardAnim("zz_c1", "card_" + kind + "_down", OFF)]);
 await sleep(D.card + 60);
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -898,9 +919,8 @@ const t0 = due;
 due += ms;
 const more = lineParts(done / totalMs, lineZ);
 if (wordsOn && b < 3) {       // IN, HOLD, OUT: with the first three breaths, then only the light
-await clearOld("w");            // (the word in the pattern's colour, and under it its shade: two films, one fade)
-await clearOld("ws");
-more.push(anim(next("ws"), "w_shade", 0, 0, lineZ + 1 + ch("ws").n), anim(next("w"), WORD[ph] + PATS[pat].id, 0, 0, lineZ + 2000 + ch("w").n));
+await clearOld("w");            // (the word in the pattern's colour with its own soft shadow: one film)
+more.push(anim(next("w"), WORD[ph] + PATS[pat].id, 0, 0, lineZ + 2000 + ch("w").n));
 }
 if (ph === 0 || ph === 2) {
 await chain("l", F[ph], 0, 0, b === 0 && ph === 0 ? lz + 2 : up(), more);     // (the very first: under the veil, see lz)
@@ -969,7 +989,7 @@ async function stop() {
 mode = "stop";
 await post([anim("x_ga", "gather_" + PATS[pat].id, 0, 0, ZTOP + 5)]);
 await sleep(TM.gather + 150);
-await endChains(["l", "w", "ws", "g", "p"], ["s_ln", "s_hd", "x_dm", "x_pz", "x_po", "x_go"]);
+await endChains(["l", "w", "g", "p"], ["s_ln", "s_hd", "x_dm", "x_pz", "x_po", "x_go"]);
 await showHome(false, ["x_ga"]);
 }
 async function finish(breaths, lineZ) {
@@ -989,7 +1009,7 @@ st.n++;
 st.min += minutes;
 await save();
 await sleep(t0 + 700 - Date.now());
-await endChains(["w", "ws", "g", "p"], ["s_ln", "s_hd"]);
+await endChains(["w", "g", "p"], ["s_ln", "s_hd"]);
 await sleep(t0 + TM.finish + 200 - Date.now());
 await summary(minutes, breaths);
 }
