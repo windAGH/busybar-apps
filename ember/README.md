@@ -4,7 +4,7 @@ A slingshot game for the BUSY Bar. Sling a glowing ember at towers of ice and st
 
 ![Ember on the BUSY Bar: 10 screens, each 72 x 16 pixels, shown six times as large](preview.png)
 
-*The pictures are the app's own screens, captured from the BUSY Bar Emulator; the first one, the main screen, is rendered from the app's own films and letters.*
+*The pictures are the app's own screens: the ones of play (6 to 9) captured from the BUSY Bar Emulator, the others rendered from the app's own films and letters.*
 
 ## What you see
 
