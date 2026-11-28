@@ -128,8 +128,16 @@ for (let i = 0; i < els.length; i++) live.set(els[i].id, { s: parts[i], t: at })
 }
 async function wipe(ids) {
 if (!ids.length) return;
-for (let i = 0; i < ids.length; i++) live.delete(ids[i]);
+const was = [];
+for (let i = 0; i < ids.length; i++) {
+was.push(live.get(ids[i]));
+live.delete(ids[i]);
+}
 const got = await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ids }));
+if (got.status === 0 || got.status >= 500) {  // the bar did not take it (busy, e.g. while a package is installed):
+for (let i = 0; i < ids.length; i++) if (was[i]) live.set(ids[i], was[i]);   // kept, so the next page removes them
+return;                                      // (else a spinning reel could stay up for STILL seconds)
+}
 if (got.ok || got.status !== 400 || ids.length === 1) return;
 for (let i = 0; i < ids.length; i++) {       // one id that is already gone makes the bar refuse the whole list
 await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: [ids[i]] }));
