@@ -106,21 +106,47 @@ function report(what, err) {
 }
 
 // ---------- the bar's API ----------
+// While the bar is busy with something large from outside (a package being installed), it does not answer an app's
+// requests; its own fetch gives one up after five seconds ("Inactivity timeout" - seen on the bar, 27 Nov 2026). A
+// page is several requests, so a pass over it can take that long several times over, and the elements, not sent
+// again in time, run out one after the other. Two things are done about it: a pass that meets an unanswered
+// request is given up (show), and the next one starts afresh; and, as a net under the bar's own limit, an app can
+// set how long it waits for an answer at all - from the bar itself (callWait) and from the internet (netWait), in
+// ms; 0 = for as long as it takes. A request given up counts as failed (a draw is sent again at the next step, a
+// look is tried again after the usual pause); its answer, should it still come, is dropped.
+let callWait = 0, netWait = 0;
+let unanswered = 0;                 // requests to the bar that got no answer at all, counted
+
+function within(p, ms) {
+  if (!ms) return p;
+  return new Promise((done, fail) => {
+    const timer = setTimeout(() => fail(new Error("no answer in " + ms + " ms")), ms);
+    p.then((v) => {
+      clearTimeout(timer);
+      done(v);
+    }, (err) => {
+      clearTimeout(timer);
+      fail(err);
+    });
+  });
+}
+
 async function call(method, path, body, type) {
   try {
     const init = body === undefined ? { method: method }
       : { method: method, headers: { "Content-Type": type || "application/json" }, body: body };
-    const res = await fetch(API + path, init);
-    const text = await res.text();
+    const res = await within(fetch(API + path, init), callWait);
+    const text = await within(res.text(), callWait);
     return { ok: res.ok, status: res.status, text: text };
   } catch (err) {
+    unanswered++;
     return { ok: false, status: 0, text: String(err) };
   }
 }
 
 async function getJson(url) {
-  const res = await fetch(url);
-  const text = await res.text();
+  const res = await within(fetch(url), netWait);
+  const text = await within(res.text(), netWait);
   if (!res.ok) {
     throw new Error("HTTP " + res.status);
   }
@@ -328,6 +354,11 @@ function remember(els) {
   }
 }
 
+/** ... and that they may not be there after all (a request of the change failed): the next pass sends them all again. */
+function unsure() {
+  for (const rec of live.values()) rec.t = 0;
+}
+
 // "Held" (OK was pressed): two small dim bars in the top left corner, the same on every page, above the page.
 const MARK = ["zz_h1", "zz_h2"];
 let markOn = false, markAt = 0;
@@ -380,7 +411,7 @@ async function unlabel(now) {
 async function show(els, partial) {
   if (ctl.held !== markOn || markOn) await mark();
   if (labelEnd) await unlabel();
-  const now = Date.now();
+  const now = Date.now(), lost = unanswered;
   let batch = [];
   const flush = async () => {
     if (batch.length === 0) return;
@@ -400,9 +431,10 @@ async function show(els, partial) {
     if (old && old.s === s && now - old.t < 400 * el.timeout) continue;
     batch.push({ el: el, s: s });
     if (batch.length === 3) await flush();
+    if (unanswered !== lost) return;             // the bar is not answering: this pass is over, the next one starts afresh
   }
   await flush();
-  if (partial) return;
+  if (partial || unanswered !== lost) return;
   const keep = new Set();
   for (let i = 0; i < els.length; i++) keep.add(els[i].id);
   const stale = [];
@@ -432,8 +464,7 @@ function inOrder(els, dir) {
 
 /** The very first page: one request, in order. */
 async function firstShow(els) {
-  await post(inOrder(els, 1).map((el) => wire(el)));
-  remember(els);
+  if (await post(inOrder(els, 1).map((el) => wire(el)))) remember(els);       // (not taken as drawn when the bar refused it)
 }
 
 // ---------- the author's mark at the start ----------
@@ -493,11 +524,12 @@ async function change(els, dir, light) {
       parts.unshift('{"id":"zz_band","type":"animation","path":"animations/band.anim","x":0,"y":0,"align":"top_left",' +
         '"loop":false,"section":"default","timeout":5,"z_index":2147483000}');
     }
-    await post(parts);
+    const drawn = await post(parts);
     mark.push(Date.now() - t0);                   // new page drawn
     await drop(olds);
     mark.push(Date.now() - t0);                   // old page gone
     remember(els);
+    if (!drawn) unsure();
     if (light) {
       await sleep(D.band);
       await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_band"] }));
@@ -568,11 +600,12 @@ async function shutter(kind, els) {
     const olds = [], t0 = Date.now();
     for (const rec of live.values()) olds.push(rec.el);
     await post([cardAnim("zz_c1", "card_" + kind + "_down", 0)]);
-    await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
+    const made = await post(inOrder(els, 1).map((el) => wire(el, 0, 32)));
     await sleep(D.card + 1000 - (Date.now() - t0));
-    await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
+    const moved = await post(olds.map((el) => wire(el, 0, -32)).concat(els.map((el) => wire(el))));
     await drop(olds.map((el) => el.id));
     remember(els);
+    if (!made || !moved) unsure();
     await post([cardAnim("zz_c2", "card_" + kind + "_up", 0), cardAnim("zz_c1", "card_" + kind + "_down", OFF)]);
     await sleep(D.card + 60);
     await call("DELETE", "display/draw", JSON.stringify({ application_name: APP, element_ids: ["zz_c1", "zz_c2"] }));
@@ -659,13 +692,19 @@ const unbind = listen("input", (event) => {
 //   during a game:
 //     the seven dots over each score   the timeouts that team has left (they go out from the middle outwards)
 //     the middle                       quarter over clock; now and then, for three seconds: a run that is on
-//                                      ("NYK" over "9-0"), and the team fouls of this quarter once a team has four
-//                                      ("Foul" over "4-5", away - home, yellow from five: the other side shoots)
+//                                      ("NYK" over "9-0"); and, only while the clock is stopped (a timeout, the
+//                                      end of a quarter, a whistle), the team fouls of this quarter once a team has
+//                                      four ("Foul" over "4-5", away - home, yellow from five: the other side shoots)
 //     the line along the bottom        the quarter's time: full at 12:00 (5:00 in overtime) and shrinking from both
-//                                      ends towards the middle as the clock runs down, the away team's colour on
-//                                      the left half, the home team's on the right; it stays between the two
-//                                      teams' letters (columns 16-55). Before the tip-off and at halftime the same
-//                                      line in green: growing as the tip-off nears, shrinking as the break runs out
+//                                      ends towards the middle as the clock runs down; it stays between the two
+//                                      teams' letters (columns 16-55). In ONE colour, that of the team that has
+//                                      the ball, with a light running along it towards the side that team attacks
+//                                      (the away team stands on the left and plays to the right); when the ball
+//                                      changes hands the line breathes - out and in again in the other colour.
+//                                      While nobody is known to have it: the away team's colour on the left half,
+//                                      the home team's on the right, no light - see "who has the ball" below.
+//                                      Before the tip-off and at halftime the same line in green: growing as the
+//                                      tip-off nears, shrinking as the break runs out
 //
 // A game is "on" while it is being played and, already, in the hour before its tip-off (0 - 0 and a countdown).
 // The game clock is asked for every five seconds; between two looks the strip counts it down itself, once a second,
@@ -673,7 +712,8 @@ const unbind = listen("input", (event) => {
 //
 // The app:
 //   While a game is on, the app shows ONE game and stays on it. At the start that is the followed team's game if
-//   it is on, else the first game that is on. (When it ends its final stays 20 seconds.)
+//   it is on, else the first game that is on: the followed team's game of the day is asked for by name and looked
+//   at first, and no other game is settled on before it has been seen. (When it ends its final stays 20 seconds.)
 //   When no game is on, the carousel runs by itself: today's finished games, then the ones to come - today's, or
 //   the next day's that has any when today is done.
 //   encoder  next / previous game that is on (sideways). While the carousel runs by a press of Start: through it.
@@ -708,6 +748,9 @@ let onScreen = null;                // the game on screen
 // "Today" is the league's day: it only turns over at 10:00 UTC (5 or 6 in the morning in New York), so a game that
 // runs past midnight still belongs to its evening. When today's games are all finished (or there are none), the
 // next day that has games is looked for, up to four days ahead, and its games become the "to come" part.
+// The game on show is looked at every five seconds; so that it really gets them, the other games that are being
+// played are looked at once a minute while a game is on show (every 30 seconds while the carousel runs) - the bar
+// asks one thing at a time, and on a night with ten games the others would fill the line.
 // For the game the app stays on there is one more, very small request (0.6 KB) every 20 seconds: timeouts left and
 // team fouls. Backup: every game from ESPN's two hosts in turn; the lists are kept in the app's
 // storage and used when the list cannot be fetched on the same day; with nothing kept, the followed team's next
@@ -717,11 +760,25 @@ const LIST_HOSTS = ["https://sports.core.api.espn.com"], CORE = "/v2/sports/bask
 const GAME_HOSTS = ["https://site.api.espn.com", "https://site.web.api.espn.com"];
 const GAME_PATH = "/apis/site/v2/sports/basketball/nba/scoreboard/";
 const STALE_MS = 150000;            // a live game's numbers older than this are shown as not fresh
+// A request the bar or a host never answers is given up (see the top of the bar's part). The bar's own limit is
+// five seconds; these lie above it, as the net under it.
+callWait = 7000;
+netWait = 15000;
 let dayKey = "";                    // the league day the lists belong to, "20261125"
 let todayIds = [], nextIds = [], gameIds = [];
 const games = new Map();            // id -> game
 const fetched = new Map();          // id -> { at: when we last have it from, hold: do not ask again before }
 let listLoaded = false, listDue = 0, nextProbe = 0, nextDue = 0;
+// The followed team's games of the league day (ids; none: it does not play) - null while that is not known yet - and
+// the day and team they were asked for. Asked for by the team's name (0.2 KB), right after the day's list.
+let mineIds = null, mineFor = "";
+
+/** The followed team plays today and its game has not been looked at yet (or whether it plays is not known yet). */
+function mineToCome() {
+  if (mineIds === null) return true;
+  for (let i = 0; i < mineIds.length; i++) if (!games.get(mineIds[i])) return true;
+  return false;
+}
 
 function leagueDay(ms, plus) {
   const d = new Date(ms - 36000000 + (plus || 0) * 86400000);
@@ -860,13 +917,21 @@ async function loadGame(id) {
     last: (lp.type && lp.type.text) || "", play: String(lp.id || ""), at: Date.now(),
     run: null, runPts: 0, runSigned: 0, leader: null, scoredBy: null, scoredAt: 0,
     to_a: undefined, to_h: undefined, foul_a: undefined, foul_h: undefined, bonus_a: false, bonus_h: false,
-    timeout_by: null,
+    timeout_by: null, ball: null, playAt: 0, playClock: "",
   };
   const by = String((lp.team && lp.team.id) || "");
   const lastBy = by && by === String(t.away.team.id) ? "away" : by && by === String(t.home.team.id) ? "home" : null;
   if (/timeout/i.test(g.last) && g.state === "in") g.timeout_by = lastBy || "tv";
   const before = games.get(id);
+  const same = before && before.state === "in" && before.period === g.period;
+  const fresh = !(same && before.play === g.play);
+  g.playAt = fresh ? g.at : before.playAt;       // when this play was first seen, and the clock then
+  g.playClock = fresh ? g.clock : before.playClock;
+  // The timeout stays the feed's last play until the next play comes, long after the game has gone on: once the
+  // clock has moved from where it stood when the timeout was called, the timeout is over.
+  if (g.timeout_by && g.clock !== g.playClock) g.timeout_by = null;
   setTick(g, before);                            // from where the shown clock counts down to this look's value
+  setBall(g, same ? before : null, fresh, lp, lastBy);       // who has the ball, as far as the last play tells
   if (before) {                                  // what only a second look can tell: runs, changes of lead, signs
     g.to_a = before.to_a; g.to_h = before.to_h; g.foul_a = before.foul_a; g.foul_h = before.foul_h;
     g.bonus_a = before.bonus_a; g.bonus_h = before.bonus_h;
@@ -930,6 +995,53 @@ function isHalf(g) {
   return g.state === "in" && /half/i.test(g.detail + g.status);
 }
 
+// ---------- who has the ball ----------
+// The feed does not say who has the ball; it gives the last play, and whose it was. From a play that is new at this
+// look, only what is certain is taken:
+//   a basket, or the last free throw made      -> the other team brings the ball in
+//   a rebound (defensive or offensive), a steal -> the team that got it
+//   a turnover                                 -> the other team
+//   a missed shot, a free throw with more to come -> the team that shoots
+//   anything else (a foul, a substitution, a jump ball ...) -> as it was
+// It holds for BALL_MS after that play was first seen (g.playAt); a new period starts with nobody.
+const BALL_MS = 30000;
+
+function setBall(g, before, fresh, lp, lastBy) {
+  g.ball = before ? before.ball : null;
+  if (g.state !== "in" || !lastBy || !fresh || /^no turnover/i.test(g.last)) return;
+  const other = lastBy === "away" ? "home" : "away", said = String(lp.text || "");
+  const made = / makes /.test(said) || (lp.scoreValue > 0 && !/ misses /.test(said));
+  if (/free throw/i.test(g.last)) {
+    const of = /(\d) of (\d)/.exec(g.last);
+    if (of && of[1] !== of[2]) g.ball = lastBy;
+    else if (of && made) g.ball = other;
+  } else if (/rebound|steal/i.test(g.last)) g.ball = lastBy;
+  else if (/turnover|traveling/i.test(g.last)) g.ball = other;
+  else if (made) g.ball = other;
+  else if (/ misses /.test(said)) g.ball = lastBy;
+}
+
+/** Whose colour the bottom line has at this moment: "a" / "h" (that team has the ball), "" (nobody is known to). */
+function ballKey(g) {
+  if (g.timeout_by || inBreak(g) || !g.ball || Date.now() - g.playAt > BALL_MS) return "";
+  return g.ball === "away" ? "a" : "h";
+}
+
+/** The clock is stopped: a timeout, the end of a period, or a whistle - the last play is one that stops it (not the
+ *  last free throw: play goes on from it), it came no more than WHISTLE_MS ago, the feed's clock still stands where
+ *  it stood when that play came, and the shown clock has arrived there. (After a whistle the game goes on without a
+ *  new play for a while; the feed's clock moves only every ten seconds or so, so for that long this cannot be told.) */
+const WHISTLE = /foul|free throw|violation|out of bounds|traveling|jump ball|replay|review|challenge|ejection|delay|substitution|shot clock/i;
+const WHISTLE_MS = 20000;
+
+function clockStands(g) {
+  if (g.timeout_by || inBreak(g)) return true;
+  if (!WHISTLE.test(g.last) || g.clock !== g.playClock || Date.now() - g.playAt > WHISTLE_MS) return false;
+  const of = /(\d) of (\d)/.exec(g.last);
+  if (of && of[1] === of[2]) return false;
+  return clockShown(g) <= (g.tick ? g.tick.feed : 0);
+}
+
 /** In the last hour before its tip-off. */
 function soon(g) {
   return g.state === "pre" && !off(g) && g.start - Date.now() <= SOON_MS;
@@ -956,7 +1068,11 @@ function followed(g) {
 
 /** How long a game's data stays good. */
 function goodFor(g) {
-  if (g.state === "in") return scoresUp && (g.id === mainId || g.id === onScreen) ? 5000 : 30000;
+  if (g.state === "in") {
+    if (scoresUp && (g.id === mainId || g.id === onScreen)) return 5000;
+    const main = games.get(mainId);              // the others wait longer while a game is on show
+    return scoresUp && main && main.state === "in" ? 60000 : 30000;
+  }
   // about to start, or due and the feed still says "to come": looked at often, so that the start is seen at once
   if (g.state === "pre" && scoresUp && !off(g) && g.start - Date.now() < 120000 && Date.now() - g.start < 1800000) return 10000;
   if (g.state !== "post" && Math.abs(g.start - Date.now()) < 4 * 3600000) return 60000;
@@ -974,12 +1090,13 @@ function staleGame(now) {
     const g = games.get(id);
     let late;
     if (!g) {
-      late = 1e12 - i;                           // never seen: first, in list order
+      late = 1e12 - i;                           // never seen: first, in list order - the followed team's before all
+      if (mineIds && mineIds.indexOf(id) !== -1) late += 1e12;
     } else {
       late = now - f.at - goodFor(g);
       if (late < 0) continue;
       if (followed(g)) late += 1e9;
-      if (id === mainId || id === onScreen) late += 2e9;
+      if (id === mainId || id === onScreen) late += 3e12;      // the game on show: before all, also before games never seen
     }
     if (late > worst) {
       worst = late;
@@ -997,6 +1114,23 @@ feeds.push(async (now) => {
     listDue = Date.now() + 3 * 3600000;
     return true;
   }
+  if (listLoaded && mineFor !== dayKey + TEAMS[0]) {     // which of today's games is the followed team's
+    mineFor = dayKey + TEAMS[0];
+    mineIds = null;
+    let ids = [];
+    try {
+      const got = await getJsonAny(LIST_HOSTS, "/v2/sports/basketball/leagues/nba/teams/" + (D.espn[TEAMS[0]] || "ny") + "/events?dates=" + dayKey + "&limit=5");
+      const items = got.items || [];
+      for (let i = 0; i < items.length; i++) {
+        const m = /\/events\/(\d+)/.exec(items[i].$ref || "");
+        if (m && gameIds.indexOf(m[1]) !== -1) ids.push(m[1]);
+      }
+    } catch (err) {
+      ids = [];                                  // not to be had: the first game that is on, as it comes
+    }
+    mineIds = ids;
+    return true;
+  }
   const main = games.get(mainId);
   if (main && main.state === "in" && scoresUp && now >= sitDue) {
     sitDue = now + 20000;
@@ -1011,7 +1145,9 @@ feeds.push(async (now) => {
   if (id) {
     fetched.set(id, { at: (fetched.get(id) || { at: 0 }).at, hold: 0 });
     await loadGame(id);
-    fetched.set(id, { at: Date.now(), hold: 0 });
+    // (the game on show: its five seconds count from when it was asked for, not from when the answer had come - but
+    // a slow answer still leaves the line free for two seconds, for the other games)
+    fetched.set(id, { at: id === mainId || id === onScreen ? Math.max(now, Date.now() - 3000) : Date.now(), hold: 0 });
     return true;
   }
   if (nextProbe && nextProbe <= 4 && todayDone() && now >= nextDue) {             // the next day that has games
@@ -1144,7 +1280,9 @@ function carousel(home) {
 function firstOn() {
   const on = allGames().filter(isOn).sort(byStart);
   const mine = on.filter(followed).sort((a, b) => (b.state === "in") - (a.state === "in"));
-  return mine[0] || on[0] || null;
+  if (mine[0]) return mine[0];
+  if (on.length && listLoaded && mineToCome()) return null;       // not before the followed team's game has been seen
+  return on[0] || null;
 }
 
 // ---------- the strip ----------
@@ -1173,7 +1311,17 @@ const ROOM = [[15, 26], [45, 56]];
  *  scores are under 100; from 100 the condensed one with every 1 slim, at most twelve columns wide - what there
  *  is. Centred in its room, the odd pixel on the mark's side. Rows 5-11, the middle of the strip's height: the
  *  team's letters (rows 10-14) never leave their mark's 14 columns, so the two do not meet. */
+const made = {};                    // pictures that cost the bar time to put together, by what is in them
+
 function score(id, n, side, colour, tight) {
+  const key = id + n + colour + tight;
+  if (made[id] && made[id].key === key) return Object.assign({}, made[id].el);
+  const el = scoreNew(id, n, side, colour, tight);
+  made[id] = { key: key, el: el };
+  return Object.assign({}, el);
+}
+
+function scoreNew(id, n, side, colour, tight) {
   const s = String(n);
   const lines = ["", "", "", "", "", "", ""];
   for (let i = 0; i < s.length; i++) {
@@ -1284,11 +1432,48 @@ function midLine(els, p, part, left, right) {
   else els.push(bar(p + "hb1", LINE_X + LINE_HALF - n, 15, n, 1, left, 2), bar(p + "hb2", LINE_X + LINE_HALF, 15, n, 1, right, 2));
 }
 
-/** The quarter's time along the bottom (see the top of this file). Not drawn while the clock cannot be read. */
+/** The quarter's time along the bottom (see the top of this file). Not drawn while the clock cannot be read.
+ *  Its two halves are two bars in every case, both in the colour of the team that has the ball, or each in its own
+ *  team's. Over them lie two films the build made, no colour of their own: ball.anim, the running light (section
+ *  "r<n>" to the right, "l<n>" to the left, n = lit columns a side), and veil.anim, which makes the lit part go
+ *  dark ("o<n>") and come back ("i<n>"). Both are there from the first moment of the strip, off-screen while not
+ *  wanted, so that a change of the ball costs no new film: the veil is moved over the line and darkens it, the bars
+ *  change colour and the light its way under it, the veil clears and is moved off again - three small requests. */
+const BREATH_OUT = 190, BREATH_IN = 300;        // ms the veil takes to close (then the colours change), and to clear
+const lineNow = { id: null, key: "", was: "", at: 0 };
+
 function quarterLine(els, p, g) {
   const left = clockShown(g);
   if (left === null) return;
-  midLine(els, p, Math.min(1, left / (g.period > 4 ? 3000 : 7200)), lineColour(g.away) + "FF", lineColour(g.home) + "FF");
+  const part = Math.min(1, left / (g.period > 4 ? 3000 : 7200));
+  const n = part <= 0 ? 0 : Math.max(1, Math.min(LINE_HALF, Math.ceil(LINE_HALF * part - 0.001)));
+  els.push(bar(p + "hb0", LINE_X, 15, 2 * LINE_HALF, 1, "#FFFFFF1C", 1));
+  if (n === 0) return;
+  const now = Date.now(), key = ballKey(g);
+  if (lineNow.id !== g.id) {                     // another game: its line as it is, no breath
+    lineNow.id = g.id;
+    lineNow.key = lineNow.was = key;
+    lineNow.at = 0;
+  } else if (key !== lineNow.key) {
+    if (now - lineNow.at >= BREATH_OUT + BREATH_IN) {
+      lineNow.was = lineNow.key;
+      lineNow.at = now;
+    }
+    lineNow.key = key;
+  }
+  const age = now - lineNow.at, look = age < BREATH_OUT ? lineNow.was : lineNow.key;
+  const a = lineColour(look === "h" ? g.home : g.away) + "FF", h = lineColour(look === "a" ? g.away : g.home) + "FF";
+  els.push(bar(p + "hb1", LINE_X + LINE_HALF - n, 15, n, 1, a, 2), bar(p + "hb2", LINE_X + LINE_HALF, 15, n, 1, h, 2));
+  els.push({ id: p + "hl", type: "animation", path: "animations/ball.anim", x: look ? LINE_X : OFF, y: 15, align: "top_left",
+    loop: true, section: (look === "h" ? "l" : "r") + n, timeout: STILL, z_index: 3, _w: 2 * LINE_HALF });
+  els.push({ id: p + "hx", type: "animation", path: "animations/veil.anim", x: age < BREATH_OUT + BREATH_IN ? LINE_X : OFF, y: 15,
+    align: "top_left", loop: false, section: (age < BREATH_OUT ? "o" : "i") + n, timeout: STILL, z_index: 5, _w: 2 * LINE_HALF });
+}
+
+/** How long until the line's breath needs its next step, in ms (Infinity: it rests). */
+function lineIn() {
+  const age = Date.now() - lineNow.at;
+  return age < BREATH_OUT ? BREATH_OUT - age : age < BREATH_OUT + BREATH_IN ? BREATH_OUT + BREATH_IN - age : Infinity;
 }
 
 /** Timeouts left: seven dots over each score (row 3), in the team's colour: full while that timeout is still
@@ -1300,14 +1485,18 @@ function timeouts(els, p, g) {
   for (let n = 0; n < 2; n++) {
     const have = sides[n][3];
     if (typeof have !== "number") continue;
-    const colour = lineColour(sides[n][4]);
-    let cells = "";
-    for (let i = 0; i < 7; i++) {
-      const k = n === 0 ? i : 6 - i;             // k = 0 is the dot nearest the mark
-      cells += (k < have || (blink && g.timeout_by === sides[n][1] && k === have) ? "a" : "b") + (i < 6 ? "." : "");
+    const colour = lineColour(sides[n][4]), lit = blink && g.timeout_by === sides[n][1];
+    const id = p + "o" + sides[n][0], key = id + have + colour + lit;
+    if (!made[id] || made[id].key !== key) {
+      let cells = "";
+      for (let i = 0; i < 7; i++) {
+        const k = n === 0 ? i : 6 - i;           // k = 0 is the dot nearest the mark
+        cells += (k < have || (lit && k === have) ? "a" : "b") + (i < 6 ? "." : "");
+      }
+      made[id] = { key: key, el: { id: id, type: "xpmbitmap", x: sides[n][2], y: 3, align: "top_left", timeout: T, z_index: 4,
+        data: "! XPM2\n13 1 3 1\n. c none\na c " + colour + "\nb c " + mixHex("#000000", colour, 0.22) + "\n" + cells } };
     }
-    els.push({ id: p + "o" + sides[n][0], type: "xpmbitmap", x: sides[n][2], y: 3, align: "top_left", timeout: T, z_index: 4,
-      data: "! XPM2\n13 1 3 1\n. c none\na c " + colour + "\nb c " + mixHex("#000000", colour, 0.22) + "\n" + cells });
+    els.push(Object.assign({}, made[id].el));
   }
 }
 
@@ -1326,22 +1515,23 @@ function middle(els, p, g) {
     els.push(text(p + "m1", "Delay", "small", 36, 4, WARN, "top_mid"));
     return;
   }
-  if (inBreak(g)) {                              // the end of a quarter
+  // what the middle says for five seconds; then, three seconds each, what there is to add: a run that is on (not
+  // in a break), and - only while the clock is stopped - the team fouls
+  const brk = inBreak(g), extra = [];
+  if (!brk && !g.timeout_by && g.run && g.runPts >= RUN_SHOWN) extra.push("run");
+  if (clockStands(g) && typeof g.foul_a === "number" && typeof g.foul_h === "number" && (g.foul_a >= 4 || g.foul_h >= 4)) extra.push("foul");
+  const slot = Math.floor(now / 1000) % (5 + 3 * extra.length);
+  const what = slot < 5 ? "" : extra[Math.floor((slot - 5) / 3)];
+  if (what === "" && brk) {                      // the end of a quarter
     els.push(text(p + "m1", "End", "small", 36, 0, LIVE, "top_mid"), text(p + "m2", periodName(g), "small", 36, 7, SOFT, "top_mid"));
     return;
   }
-  if (g.timeout_by) {                            // a timeout is on: "T/O" and the quarter take turns over the clock
+  if (what === "" && g.timeout_by) {             // a timeout is on: "T/O" and the quarter take turns over the clock
     const tick = Math.floor(now / 1000) % 2 === 0;
     els.push(text(p + "m1", tick ? "T/O" : periodName(g), "small", 36, 0, tick ? WARN : LIVE, "top_mid"),
       text(p + "m2", clockText(g), "small", 36, 7, SOFT, "top_mid"));
     return;
   }
-  // quarter and clock for five seconds; then, three seconds each, what there is to add
-  const extra = [];
-  if (g.run && g.runPts >= RUN_SHOWN) extra.push("run");
-  if (typeof g.foul_a === "number" && typeof g.foul_h === "number" && (g.foul_a >= 4 || g.foul_h >= 4)) extra.push("foul");
-  const slot = Math.floor(now / 1000) % (5 + 3 * extra.length);
-  const what = slot < 5 ? "" : extra[Math.floor((slot - 5) / 3)];
   if (what === "run") {
     els.push(text(p + "m1", g.run === "away" ? g.away : g.home, "small", 36, 0, WHITE, "top_mid"),
       text(p + "m2", g.runPts + "-0", "small", 36, 7, WARN, "top_mid"));
@@ -1791,15 +1981,22 @@ async function hoopsPage(p, enter) {
         }
         if (!tour && (!main || !sameGame(main, game) || (!isOn(main) && main.state !== "post"))) break;
         if (tour && tour.why === "auto" && firstOn()) break;                    // a game has come on
+        // The game the app stays on has ended while it was on show: its final stays FINAL_STAY, then the app moves on -
+        // to another game that is on, or to the carousel.
+        if (!tour && main && main.state === "post" && sameGame(main, game)) {
+          if (!finalSince) finalSince = t0;
+          if (t0 - finalSince >= FINAL_STAY) break;
+        }
         if (t0 >= until) break;
         if (!game && games.size) break;          // the first scores have arrived: show them now
         if (!game && seasonItems()) break;       // the season's end is known now: its pages
         // ---- draw
         const wait = Math.min(until - t0, 500);
         // nothing on the strip moves by itself but the clock: a few times a second is enough (a timeout's dot blinks
-        // twice a second), and once more right when the clock's next second is due - only its text is sent then
+        // twice a second), once more right when the clock's next second is due - only its text is sent then - and
+        // at the two steps of the line's breath when the ball has changed hands
         await show(lift(gameEls(game, pp), pp, z));
-        await nap(game && game.timeout_by ? Math.min(wait, 250) : Math.max(10, Math.min(wait, tickIn(game) + 3)));
+        await nap(game && game.timeout_by ? Math.min(wait, 250, lineIn() + 3) : Math.max(10, Math.min(wait, tickIn(game) + 3, lineIn() + 3)));
       }
     }
   } finally {
