@@ -668,6 +668,8 @@ const unbind = listen("input", (event) => {
 //                                      line in green: growing as the tip-off nears, shrinking as the break runs out
 //
 // A game is "on" while it is being played and, already, in the hour before its tip-off (0 - 0 and a countdown).
+// The game clock is asked for every five seconds; between two looks the strip counts it down itself, once a second,
+// towards the value it was last given - see "the game clock between two looks" below.
 //
 // The app:
 //   While a game is on, the app shows ONE game and stays on it. At the start that is the followed team's game if
@@ -864,6 +866,7 @@ async function loadGame(id) {
   const lastBy = by && by === String(t.away.team.id) ? "away" : by && by === String(t.home.team.id) ? "home" : null;
   if (/timeout/i.test(g.last) && g.state === "in") g.timeout_by = lastBy || "tv";
   const before = games.get(id);
+  setTick(g, before);                            // from where the shown clock counts down to this look's value
   if (before) {                                  // what only a second look can tell: runs, changes of lead, signs
     g.to_a = before.to_a; g.to_h = before.to_h; g.foul_a = before.foul_a; g.foul_h = before.foul_h;
     g.bonus_a = before.bonus_a; g.bonus_h = before.bonus_h;
@@ -953,7 +956,7 @@ function followed(g) {
 
 /** How long a game's data stays good. */
 function goodFor(g) {
-  if (g.state === "in") return scoresUp && (g.id === mainId || g.id === onScreen) ? 8000 : 30000;
+  if (g.state === "in") return scoresUp && (g.id === mainId || g.id === onScreen) ? 5000 : 30000;
   // about to start, or due and the feed still says "to come": looked at often, so that the start is seen at once
   if (g.state === "pre" && scoresUp && !off(g) && g.start - Date.now() < 120000 && Date.now() - g.start < 1800000) return 10000;
   if (g.state !== "post" && Math.abs(g.start - Date.now()) < 4 * 3600000) return 60000;
@@ -1201,11 +1204,74 @@ function mixHex(a, b, k) {
 // The bottom line keeps to the columns between the two teams' letters: 16-55, twenty a side of the middle.
 const LINE_X = 16, LINE_HALF = 20;
 
-/** Seconds left on a game clock as the feed writes it ("7:42", "42.3"); null when it cannot be read. */
-function clockSecs(str) {
+// ---------- the game clock between two looks ----------
+// The feed is looked at every five seconds or so, and its own clock is a staircase: while a game runs, the value it
+// gives moves only every ten seconds or so, sometimes twenty, and at a whistle it gives the whistle's own value
+// (watched on live games, 27 Nov 2026). Shown as it comes, the clock stands and jumps. So the strip counts it down
+// itself, once a second - towards the feed's last value, never past it:
+//   whenever the feed's value is below the shown one, the shown one counts down a second a second until it is
+//     there, and waits there. So it never shows a time the feed has not given yet: at a whistle it stops on the
+//     whistle's own value, it never has to go back up, and with no news it cannot run away;
+//   it does not fall further behind the feed's value than TICK_LAG (TICK_LAG_LAST in a period's last minute,
+//     where the seconds count most): a second and more beyond that, it skips to that distance;
+//   it stands at the feed's value at once - in a break, in a timeout, at a period's end, in a new period, on a
+//     first look, and when the feed's value is above the shown one (the officials have put time back);
+//   under a minute the feed writes a tenth ("42.3"): whole seconds are counted, the tenth stays as it was and
+//     the last step lands on the feed's own value (44.7, 43.7, 42.7, 42.3) - the look and the width stay, and
+//     nothing is redrawn ten times a second.
+// The price is that the shown clock runs up to TICK_LAG later than the feed's value while the game is played.
+// Counting ahead of the feed instead was tried on the same live games: every whistle then found the clock some
+// seconds too far, and it had to jump back up or stand on a wrong value through the stop.
+// g.tick = { v: tenths of a second shown at t0, t0: from when it counts (ms), feed: the feed's value at this
+// look - where it counts to } - set at every look (setTick).
+// Whatever shows the clock - the writing in the middle, the quarter's line along the bottom - reads clockShown.
+// TICK_LAG: one stair of the feed (ten seconds) and one gap between two looks (five) - with less, the shown clock
+// would reach the feed's value and wait at every stair.
+const TICK_LAG = 150, TICK_LAG_LAST = 80;         // tenths of a second
+
+/** A game clock as the feed writes it ("7:42", "42.3") in tenths of a second; null when it cannot be read. */
+function clockTenths(str) {
   const parts = String(str || "").split(":");
-  const n = parts.length > 1 ? parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10) : parseInt(parts[0], 10);
-  return n !== n ? null : n;                    // (NaN: not a number)
+  const v = parts.length > 1 ? parseInt(parts[0], 10) * 60 + parseFloat(parts[1]) : parseFloat(parts[0]);
+  return v !== v ? null : Math.round(v * 10);   // (NaN: not a number)
+}
+
+function setTick(g, before) {
+  const f = clockTenths(g.clock), now = g.at;
+  g.tick = null;
+  if (f === null) return;
+  g.tick = { v: f, t0: now, feed: f };
+  const k = before && before.tick && before.state === "in" && before.period === g.period ? before.tick : null;
+  if (g.state !== "in" || inBreak(g) || g.timeout_by || !k) return;
+  const was = clockShown(before, now);                         // what stands on screen at this moment
+  if (was <= f) return;                                        // there already (or time was put back): the feed's value
+  const lag = f < 600 ? TICK_LAG_LAST : TICK_LAG;
+  if (was - f >= lag + 10) g.tick.v = f + lag;                 // a second and more too far behind: from that distance, from now
+  else if (was > k.feed) { g.tick.v = k.v; g.tick.t0 = k.t0; } // counting: on, in step
+  else g.tick.v = was;                                         // it stood: from here, from now
+}
+
+/** The game's clock as the strip shows it at this moment, in tenths of a second; null when it cannot be read. */
+function clockShown(g, at) {
+  const k = g.tick;
+  if (!k) return clockTenths(g.clock);
+  const t = (at === undefined ? Date.now() : at) - k.t0;
+  return Math.max(k.feed, k.v - 10 * Math.max(0, Math.floor(t / 1000)));
+}
+
+/** ... and as writing: the feed's own while it stands at the feed's value; else the same look ("7:41", "41.3"). */
+function clockText(g) {
+  const v = clockShown(g);
+  if (!g.tick || v === g.tick.feed) return g.clock;
+  const sec = Math.floor(v / 10);
+  return v >= 600 ? Math.floor(sec / 60) + ":" + pad2(sec % 60) : sec + "." + (v % 10);
+}
+
+/** How long until the shown clock changes next, in ms (Infinity: it stands). */
+function tickIn(g) {
+  const k = g && g.tick, now = Date.now();
+  if (!k || clockShown(g, now) <= k.feed) return Infinity;
+  return now < k.t0 ? k.t0 + 1000 - now : 1000 - ((now - k.t0) % 1000);
 }
 
 /** A line that is `part` (0-1) of its length, shrinking from both ends towards the middle, over its faint track.
@@ -1220,9 +1286,9 @@ function midLine(els, p, part, left, right) {
 
 /** The quarter's time along the bottom (see the top of this file). Not drawn while the clock cannot be read. */
 function quarterLine(els, p, g) {
-  const left = clockSecs(g.clock);
+  const left = clockShown(g);
   if (left === null) return;
-  midLine(els, p, Math.min(1, left / (g.period > 4 ? 300 : 720)), lineColour(g.away) + "FF", lineColour(g.home) + "FF");
+  midLine(els, p, Math.min(1, left / (g.period > 4 ? 3000 : 7200)), lineColour(g.away) + "FF", lineColour(g.home) + "FF");
 }
 
 /** Timeouts left: seven dots over each score (row 3), in the team's colour: full while that timeout is still
@@ -1267,7 +1333,7 @@ function middle(els, p, g) {
   if (g.timeout_by) {                            // a timeout is on: "T/O" and the quarter take turns over the clock
     const tick = Math.floor(now / 1000) % 2 === 0;
     els.push(text(p + "m1", tick ? "T/O" : periodName(g), "small", 36, 0, tick ? WARN : LIVE, "top_mid"),
-      text(p + "m2", g.clock, "small", 36, 7, SOFT, "top_mid"));
+      text(p + "m2", clockText(g), "small", 36, 7, SOFT, "top_mid"));
     return;
   }
   // quarter and clock for five seconds; then, three seconds each, what there is to add
@@ -1287,7 +1353,7 @@ function middle(els, p, g) {
       text(p + "m3", "-", "small", x0 + smallWidth(a) + 1, 7, FAINT),
       text(p + "m4", h, "small", x0 + smallWidth(a) + 4, 7, g.foul_h >= 5 ? WARN : WHITE));
   } else {
-    els.push(text(p + "m1", periodName(g), "small", 36, 0, LIVE, "top_mid"), text(p + "m2", g.clock, "small", 36, 7, SOFT, "top_mid"));
+    els.push(text(p + "m1", periodName(g), "small", 36, 0, LIVE, "top_mid"), text(p + "m2", clockText(g), "small", 36, 7, SOFT, "top_mid"));
   }
 }
 
@@ -1730,9 +1796,10 @@ async function hoopsPage(p, enter) {
         if (!game && seasonItems()) break;       // the season's end is known now: its pages
         // ---- draw
         const wait = Math.min(until - t0, 500);
-        // nothing on the strip moves by itself: a few times a second is enough (a timeout's dot blinks twice a second)
+        // nothing on the strip moves by itself but the clock: a few times a second is enough (a timeout's dot blinks
+        // twice a second), and once more right when the clock's next second is due - only its text is sent then
         await show(lift(gameEls(game, pp), pp, z));
-        await nap(game && game.timeout_by ? Math.min(wait, 250) : wait);
+        await nap(game && game.timeout_by ? Math.min(wait, 250) : Math.max(10, Math.min(wait, tickIn(game) + 3)));
       }
     }
   } finally {

@@ -32,7 +32,7 @@ A change applies within 10 seconds; no restart is needed.
 ## Data and privacy
 
 - Scores come from ESPN's public scoreboard endpoints (site.api.espn.com, site.web.api.espn.com and sports.core.api.espn.com), read by the bar itself over Wi-Fi. They are unofficial, need no key and no account, and can change or stop without notice. Live numbers run some 10 to 30 seconds behind the arena.
-- The app looks at the game on show every 8 seconds. A sign is never made up, but one can be missing.
+- The app looks at the game on show every 5 seconds. Between two looks the game clock counts down by itself, never past the value last received, so it can run a few seconds late. A sign is never made up, but one can be missing.
 - The app sends no personal data: only plain requests for a day's games, one game at a time, its timeouts and fouls and, after the season, the last game of the Finals and the date the next season starts. On the bar it keeps two small files: the list of the day's games and a count of failed requests.
 - This app is not affiliated with or endorsed by the NBA, its teams or ESPN. Team names and abbreviations are used only to say who is playing.
 
