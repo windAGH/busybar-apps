@@ -701,7 +701,7 @@ const unbind = listen("input", (event) => {
 //                                      the ball, with a light running along it towards the side that team attacks
 //                                      (the away team stands on the left and plays to the right); when the ball
 //                                      changes hands the line breathes - out and in again in the other colour.
-//                                      While nobody is known to have it: the away team's colour on the left half,
+//                                      While nobody is lastKnown to have it: the away team's colour on the left half,
 //                                      the home team's on the right, no light - see "who has the ball" below.
 //                                      Before the tip-off and at halftime the same line in green: growing as the
 //                                      tip-off nears, shrinking as the break runs out
@@ -769,11 +769,11 @@ let todayIds = [], nextIds = [], gameIds = [];
 const games = new Map();            // id -> game
 const fetched = new Map();          // id -> { at: when we last have it from, hold: do not ask again before }
 let listLoaded = false, listDue = 0, nextProbe = 0, nextDue = 0;
-// The followed team's games of the league day (ids; none: it does not play) - null while that is not known yet - and
+// The followed team's games of the league day (ids; none: it does not play) - null while that is not lastKnown yet - and
 // the day and team they were asked for. Asked for by the team's name (0.2 KB), right after the day's list.
 let mineIds = null, mineFor = "";
 
-/** The followed team plays today and its game has not been looked at yet (or whether it plays is not known yet). */
+/** The followed team plays today and its game has not been looked at yet (or whether it plays is not lastKnown yet). */
 function mineToCome() {
   if (mineIds === null) return true;
   for (let i = 0; i < mineIds.length; i++) if (!games.get(mineIds[i])) return true;
@@ -807,8 +807,65 @@ function setLists(day, today, next) {
       fetched.delete(id);
     }
   }
-  call("POST", "storage/write?path=/ext/data/day.json", JSON.stringify({ day: day, today: today, next: next }),
+  keepDay();
+}
+
+// What the app knew of each game when it last looked: id -> [state, tip-off]. Kept with the day's lists (day.json)
+// and read at the next start, so that the games that are being played can be asked for first - see firstLooks.
+let lastKnown = {}, lastRead = false, lastDirty = false, keepDue = 0;
+
+function keepDay() {
+  const st = {};
+  for (let i = 0; i < gameIds.length; i++) if (lastKnown[gameIds[i]]) st[gameIds[i]] = lastKnown[gameIds[i]];
+  lastDirty = false;
+  call("POST", "storage/write?path=/ext/data/day.json", JSON.stringify({ day: dayKey, today: todayIds, next: nextIds, st: st }),
     "application/octet-stream");
+}
+
+/** Every game of today has been looked at once: the first round after a start is over. It also counts as over 45
+ *  seconds after the day's games became known - a game that cannot be had must not hold up the rest. */
+let roundUntil = 0;
+
+function allSeen() {
+  if (!roundUntil) return false;                 // which games there are is not known yet
+  if (Date.now() > roundUntil) return true;
+  for (let i = 0; i < todayIds.length; i++) if (!games.get(todayIds[i])) return false;
+  return true;
+}
+
+// The first round after a start: in which order the games never seen are asked for. One game takes the bar over a
+// second, a day has up to fifteen: a game that is being played should be among the first two or three.
+//   the followed team's game first; then the games that were being played when the app last ran, and the ones that
+//   were to start by now; with nothing kept, the list itself helps: it comes in the order of the tip-offs, so the
+//   games being played lie between the last one found over and the first one found still to come - next to a game
+//   found being played, or else half-way between those two; last the ones lastKnown to be over, and the ones for later.
+// Returns a number per place in the list, higher = sooner (all under 1e12).
+function firstLooks(now) {
+  const n = todayIds.length, live = [], out = [];
+  let lo = -1, hi = n;
+  for (let i = 0; i < n; i++) {
+    const g = games.get(todayIds[i]), k = lastKnown[todayIds[i]];
+    const state = g ? (isOn(g) ? "in" : g.state) : k ? (k[0] === "pre" && k[1] < now ? "in" : k[0]) : "";
+    if (state === "in") live.push(i);
+    else if (state === "post") lo = i;
+    else if (state === "pre" && hi === n) hi = i;
+  }
+  for (let i = 0; i < gameIds.length; i++) {
+    const id = gameIds[i], k = lastKnown[id];
+    let v;
+    if (mineIds && mineIds.indexOf(id) !== -1) v = 9e11;
+    else if (k && k[0] === "in") v = 8e11;
+    else if (k && k[0] === "pre") v = k[1] < now + 3600000 ? 7e11 - Math.abs(now - k[1]) / 1000 : 1e11;
+    else if (k) v = 2e11;
+    else if (i >= n) v = 5e10;
+    else if (live.length) {
+      let d = n;
+      for (let j = 0; j < live.length; j++) d = Math.min(d, Math.abs(i - live[j]));
+      v = 6e11 - d * 1e9;
+    } else v = (i > lo && i < hi ? 5e11 : 3e11) - Math.abs(i - (lo + hi) / 2) * 1e9;
+    out.push(v - i);
+  }
+  return out;
 }
 
 async function loadList() {
@@ -829,6 +886,7 @@ async function loadList() {
       dayKey = day;
       todayIds = old.today;
       nextIds = old.next;
+      lastKnown = old.st || lastKnown;
     } else {                                     // nothing kept either: at least the followed team's next game
       const team = await getJsonAny(GAME_HOSTS, "/apis/site/v2/sports/basketball/nba/teams/" + (D.espn[TEAMS[0]] || "ny"));
       const next = (team.team && team.team.nextEvent) || [];
@@ -837,11 +895,14 @@ async function loadList() {
       nextIds = [];
     }
     gameIds = todayIds.concat(nextIds);
+    if (gameIds.length && !roundUntil) roundUntil = Date.now() + 45000;
     throw err;                                   // still a failure (it is tried again), but the games can be asked for
   }
+  if (dayKey && dayKey !== day) lastKnown = {};   // a new day: nothing is known of its games
   setLists(day, today, dayKey === day ? nextIds.filter((id) => today.indexOf(id) === -1) : []);
   if (!nextIds.length) nextProbe = 1;            // the next day with games is looked for when it is wanted
   listLoaded = true;
+  if (!roundUntil) roundUntil = Date.now() + 45000;
 }
 
 /** Nothing of today is still to come: every game of today is over (or today has none). */
@@ -892,7 +953,7 @@ function shooter(lp, teamId) {
     }
     name = name.toUpperCase().replace(/[.,]/g, "").replace(/\s+(JR|SR|II|III|IV)$/, "").replace(/\s+/g, " ").replace(/^ | $/g, "");
     name = name.split("\u2019").join("'");
-    // (no quote inside a regular expression: the bar's engine is only known to read them without)
+    // (no quote inside a regular expression: the bar's engine is only lastKnown to read them without)
     if (/[^A-Z0-9 \-]/.test(name.split("'").join(""))) name = "";
     return num || name ? { num: num, name: name } : null;
   } catch (err) {
@@ -966,6 +1027,10 @@ async function loadGame(id) {
     if (before.state === "in" && g.state === "in" && before.period >= 4 && g.period > before.period) wantSign(g, "ot", null);
     if (before.state === "in" && g.state === "post" && /FINAL/.test(g.status)) wantSign(g, "final", null);
   }
+  if (!lastKnown[id] || lastKnown[id][0] !== g.state) {  // (kept for the next start, when it changes)
+    lastKnown[id] = [g.state, g.start];
+    lastDirty = true;
+  }
   if (lead(g)) g.leader = lead(g);
   if (g.state !== "in") { g.run = null; g.runPts = 0; }
   if (inBreak(g)) g.breakSince = g.breakSince || Date.now();
@@ -1021,7 +1086,7 @@ function setBall(g, before, fresh, lp, lastBy) {
   else if (/ misses /.test(said)) g.ball = lastBy;
 }
 
-/** Whose colour the bottom line has at this moment: "a" / "h" (that team has the ball), "" (nobody is known to). */
+/** Whose colour the bottom line has at this moment: "a" / "h" (that team has the ball), "" (nobody is lastKnown to). */
 function ballKey(g) {
   if (g.timeout_by || inBreak(g) || !g.ball || Date.now() - g.playAt > BALL_MS) return "";
   return g.ball === "away" ? "a" : "h";
@@ -1081,22 +1146,24 @@ function goodFor(g) {
 
 /** The game that most needs a fresh look, or null. Tomorrow's games only once today is done. */
 function staleGame(now) {
-  let pick = null, worst = -1;
-  const upTo = todayDone() ? gameIds.length : todayIds.length;
+  let pick = null, worst = -1, first = null;
+  const upTo = todayDone() ? gameIds.length : todayIds.length, round = allSeen();
   for (let i = 0; i < upTo; i++) {
     const id = gameIds[i];
     const f = fetched.get(id);
     if (f && now < f.hold) continue;
     const g = games.get(id);
     let late;
-    if (!g) {
-      late = 1e12 - i;                           // never seen: first, in list order - the followed team's before all
-      if (mineIds && mineIds.indexOf(id) !== -1) late += 1e12;
+    if (!g) {                                    // never seen: before the games that are only due again, the ones
+      if (!first) first = firstLooks(now);       // most likely being played first (firstLooks)
+      late = 1e12 + first[i];
     } else {
       late = now - f.at - goodFor(g);
       if (late < 0) continue;
       if (followed(g)) late += 1e9;
-      if (id === mainId || id === onScreen) late += 3e12;      // the game on show: before all, also before games never seen
+      // the game on show: before all - but while the first round is still running it waits five seconds longer
+      // (ten in all), so that the day's other games are not held up by it
+      if ((id === mainId || id === onScreen) && (late >= 5000 || round)) late += 3e12;
     }
     if (late > worst) {
       worst = late;
@@ -1108,6 +1175,20 @@ function staleGame(now) {
 
 feeds.push(async (now) => {
   if (now < netPause) return false;
+  if (!lastRead) {                              // what the last run knew of today's games (the bar's own storage: quick)
+    lastRead = true;
+    const kept = await call("GET", "storage/read?path=/ext/data/day.json");
+    try {
+      const old = JSON.parse(kept.text);
+      if (kept.ok && old && old.day === leagueDay(now) && old.st) lastKnown = old.st;
+    } catch (e) {
+      // nothing kept
+    }
+  }
+  if (lastDirty && now >= keepDue && allSeen()) {
+    keepDue = now + 60000;
+    keepDay();
+  }
   if (now >= listDue || (dayKey && dayKey !== leagueDay(now))) {
     listDue = now + (gameIds.length ? 600000 : 0);                  // if it fails: again after the pause
     await loadList();
@@ -1132,7 +1213,7 @@ feeds.push(async (now) => {
     return true;
   }
   const main = games.get(mainId);
-  if (main && main.state === "in" && scoresUp && now >= sitDue) {
+  if (main && main.state === "in" && scoresUp && now >= sitDue && allSeen()) {     // (not before the first round is over)
     sitDue = now + 20000;
     try {
       await loadSituation(mainId);
@@ -1245,7 +1326,7 @@ async function seasonFeed(now) {
 /** What the carousel shows while the season is out, or null: not games but pages, each a "game" with a `kind`. They
  *  take turns like the games do, with the same blind between them.
  *    the champions' banner <-> the Finals' result, in the same gold   (for 30 days after the last game)
- *    "SEASON IS OVER / OFFSEASON" <-> the days to the tip-off         (after that; the countdown once the date is known) */
+ *    "SEASON IS OVER / OFFSEASON" <-> the days to the tip-off         (after that; the countdown once the date is lastKnown) */
 function seasonItems() {
   if (!season || !quiet()) return null;
   const now = seasonNow(), page = (kind) => ({ id: kind, kind: kind, state: "post", away: "", home: "", start: 0 });
@@ -1948,7 +2029,7 @@ async function hoopsPage(p, enter) {
             how = "open";
             break;
           }
-          await notice("alone");
+          if (allSeen()) await notice("alone");  // (not while the day's games are still coming in)
           ctl.turn = 0;
         }
         if (ctl.turn) {                          // encoder
@@ -1956,8 +2037,8 @@ async function hoopsPage(p, enter) {
           ctl.turn = 0;
           dir = turns > 0 ? 1 : -1;
           const on = allGames().filter(isOn).sort(byStart);
-          if (!on.length) {                      // nothing is on: say so, the carousel carries on
-            await notice("none");
+          if (!on.length) {                      // nothing is on: say so, the carousel carries on - but not before
+            if (allSeen()) await notice("none"); // every game of the day has been looked at once
             ctl.turn = 0;                        // turns made meanwhile do not queue more cards
             dir = 1;
           } else if (tour && tour.list.length) { // while the carousel runs: through its items, up or down
@@ -1989,7 +2070,7 @@ async function hoopsPage(p, enter) {
         }
         if (t0 >= until) break;
         if (!game && games.size) break;          // the first scores have arrived: show them now
-        if (!game && seasonItems()) break;       // the season's end is known now: its pages
+        if (!game && seasonItems()) break;       // the season's end is lastKnown now: its pages
         // ---- draw
         const wait = Math.min(until - t0, 500);
         // nothing on the strip moves by itself but the clock: a few times a second is enough (a timeout's dot blinks
