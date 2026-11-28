@@ -1,0 +1,61 @@
+<!doctype html>
+<!-- Vinyl for the BUSY Bar: a page that only SHOWS the one-time code Spotify hands back after "Agree".
+     It is NOT in use yet. To use it, it has to be served over https (for example by GitHub Pages for this repository),
+     its address registered as the Redirect URI of the listener's Spotify app, and the same address set as SP_REDIRECT
+     in the app's script. Until then the guide uses http://127.0.0.1:8888/callback.
+     The page loads nothing from anywhere and sends nothing anywhere: it reads "code" from its own address. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vinyl: your Spotify code</title>
+<style>
+  body { margin: 0; padding: 24px 16px; background: #0c0c0e; color: #e6eaf2; font: 17px/1.45 -apple-system, system-ui, sans-serif; }
+  main { max-width: 34rem; margin: 0 auto; }
+  h1 { font-size: 1.25rem; margin: 0 0 12px; }
+  #code { display: block; width: 100%; box-sizing: border-box; min-height: 7.5em; padding: 12px; margin: 12px 0; border: 1px solid #5c606c; border-radius: 8px;
+          background: #17181c; color: #fff; font: 15px/1.4 ui-monospace, Menlo, monospace; word-break: break-all; resize: none; }
+  button { width: 100%; padding: 14px; border: 0; border-radius: 8px; background: #e2b662; color: #111; font: 600 17px -apple-system, system-ui, sans-serif; }
+  p { margin: 12px 0; } .dim { color: #969caa; font-size: 15px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your Spotify code for Vinyl</h1>
+  <p id="say">Copy this code and paste it into <b>Spotify code</b> in Vinyl's settings (in the BUSY app). It works once, and only for a few minutes.</p>
+  <textarea id="code" readonly aria-label="Your one-time code"></textarea>
+  <button id="copy" type="button">Copy the code</button>
+  <div id="two" style="display:none">
+    <p>A field in Vinyl's settings holds 255 letters, and this code is longer. Copy it in two parts:</p>
+    <button id="copy1" type="button">1. Copy the first part (for "Spotify code")</button>
+    <p></p>
+    <button id="copy2" type="button">2. Copy the rest (for "Spotify code, the rest")</button>
+  </div>
+  <p class="dim">This page shows the code that is in its own address. It sends nothing anywhere.</p>
+</main>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search), code = q.get("code"), box = document.getElementById("code"), say = document.getElementById("say"), btn = document.getElementById("copy");
+    if (!code) {
+      say.textContent = q.get("error") ? "Spotify did not give a code (" + q.get("error") + "). Go back and tap Agree." : "There is no code in this page's address. Open it through the link in the guide.";
+      box.style.display = btn.style.display = "none";
+      return;
+    }
+    box.value = code;
+    var put = function (text, button) {
+      var done = function () { button.textContent = "Copied"; };
+      var old = function () { box.value = text; box.focus(); box.select(); box.setSelectionRange(0, text.length); document.execCommand("copy"); box.value = code; done(); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, old);
+      else old();
+    };
+    btn.addEventListener("click", function () { put(code, btn); });
+    if (code.length > 250) {                        // too long for one field of the bar's settings: in two parts
+      btn.style.display = "none";
+      document.getElementById("two").style.display = "block";
+      document.getElementById("copy1").addEventListener("click", function () { put(code.slice(0, 250), this); });
+      document.getElementById("copy2").addEventListener("click", function () { put(code.slice(250), this); });
+    }
+  })();
+</script>
+</body>
+</html>

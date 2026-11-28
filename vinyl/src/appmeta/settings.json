@@ -1,0 +1,116 @@
+{
+  "format_version": 1,
+  "version": 4,
+  "fields": {
+    "client_id": {
+      "label": "Spotify client ID",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 64,
+      "description": "Only without a Mac. SETUP.md, way 2: the Client ID of the app you make at Spotify."
+    },
+    "client_secret": {
+      "label": "Spotify client secret",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 64,
+      "description": "The secret of the same Spotify developer app."
+    },
+    "refresh_token": {
+      "label": "Spotify refresh token",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 255,
+      "description": "Only if you already have one. Otherwise leave it empty and use Spotify code."
+    },
+    "lyrics": {
+      "label": "Lyrics",
+      "type": "boolean",
+      "default": true,
+      "description": "Synced lyrics from lrclib.net (free, no account). Off: title and artist only."
+    },
+    "helper_addr": {
+      "label": "Vinyl for Mac address",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 64,
+      "description": "Only if you never plug the bar into your Mac: the address Vinyl for Mac prints when it starts, like 192.168.1.20:8765."
+    },
+    "helper_code": {
+      "label": "Vinyl for Mac code",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 12,
+      "description": "The six-digit code Vinyl for Mac prints beside its address. Full steps: github.com/windAGH/busybar-apps, folder vinyl, SETUP.md."
+    },
+    "spotify_code": {
+      "label": "Spotify code",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 255,
+      "description": "Paste the address your browser shows after you agree at Spotify (SETUP.md, way 2). Used once."
+    },
+    "spotify_code2": {
+      "label": "Spotify code, the rest",
+      "type": "string",
+      "default": "",
+      "min_length": 0,
+      "max_length": 255,
+      "description": "Only if the first field did not take the whole address: what was left over."
+    },
+    "timing": {
+      "label": "Words timing",
+      "type": "enum",
+      "default": "normal",
+      "options": [
+        {
+          "value": "earlier",
+          "label": "Earlier"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "later",
+          "label": "Later"
+        }
+      ],
+      "description": "When the lyrics change. Normal: a quarter of a second before the voice. Earlier and Later move it by 0.15 s."
+    },
+    "knob": {
+      "label": "Volume knob",
+      "type": "enum",
+      "default": "normal",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "reversed",
+          "label": "Reversed"
+        }
+      ],
+      "description": "Which way the knob turns the volume up. Reversed: the other way round."
+    },
+    "colour": {
+      "label": "Karaoke colour",
+      "type": "boolean",
+      "default": false,
+      "description": "The line being sung fills with the record's colour from left to right. The words' times are known line by line only, so the colour runs evenly."
+    },
+    "start_over": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}
