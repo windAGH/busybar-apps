@@ -695,7 +695,7 @@ let lo = -U2 * 2, hi = U2 * 2;                 // while fewer than six fit: what
 for (let i = 0; i < N; i++) {
 if ((i & 127) === 127) {
 await sleep(1);
-if (!patient && (ctl.turn || ctl.ok || backs)) return null;
+if (!patient && (ctl.turn || ctl.ok || ctl.start || backs)) return null;
 }
 if (i === from) continue;
 const dot = geoX[i] * x0 + geoY[i] * y0 + geoZ[i] * z0;
@@ -816,7 +816,7 @@ mode = "lobby";
 minutes = 60;
 cands = [];
 pick = logPick = late = lockPage = 0;
-locked = finding = findAsk = turned = false;
+locked = finding = turned = false;
 findWord = "---";
 findAt = hintAt = eggDue = 0;
 egg = coverWanted = null;
@@ -921,9 +921,13 @@ function airportEls(label, i, extra, tints, hint) {
 const els = [rect("bg", 0, 0, 72, 16, "#000000FF", 0)];
 const land = country(i), both = land && smallWidth(cityOf(i)) + 5 + smallWidth(land) <= 68;       // the country only when both fit whole
 if (hint !== undefined) {
-const part = (v) => ("0" + Math.round(v * hint).toString(16).toUpperCase()).slice(-2), ink = "#" + part(200) + part(204) + part(214);
-els.push(bitmap("ha", "! XPM2\n6 3 2 1\n. c none\na c " + ink + "\n..aa..\n.aaaa.\naaaaaa", 33, 1, 4),
-small("h1", "TAP", 30, -1, ink + "FF", "top_right"), small("h2", "SEARCH", 42, -1, ink + "FF"));
+const part = (v, k) => ("0" + Math.round(v * hint * (k || 1)).toString(16).toUpperCase()).slice(-2);
+const grey = "#" + part(200) + part(204) + part(214), amber = "#" + part(255) + part(190) + part(40);
+const ground = "#" + part(255, 0.6) + part(190, 0.6) + part(40, 0.6), down = mod(Date.now() - hintAt, 800) >= 500;
+const press = "! XPM2\n5 5 3 1\n. c none\na c " + amber + "\ng c " + ground + "\n" + (down ? ".....\naaaaa\n.aaa.\n..a.." : "aaaaa\n.aaa.\n..a..\n.....") + "\nggggg";
+els.push(bitmap("ha", "! XPM2\n6 3 2 1\n. c none\na c " + grey + "\n..aa..\n.aaaa.\naaaaaa", 33, 1, 4),
+small("h1", "NEXT", 31, -1, grey + "FF", "top_right"),
+bitmap("hb", press, 60, 0, 4), small("h3", "FIND", 58, -1, amber + "FF", "top_right"));
 } else {
 els.push(small("city", fit(cityOf(i), 68), 2, -1, WHITE));
 if (both) els.push(small("land", land, 70, -1, GREY, "top_right"));
@@ -934,16 +938,16 @@ if (extra) els.push(small("ex", extra, 70, 8, GREY, "top_right"));
 else els.push(bitmap("ud", UPDOWN, 66, 9, 4));
 return tag(els, label === "TO" ? "d" : "h");
 }
-function findEls(word, at, on) {
-const run = still(text("run", "TURN = CHOOSE A LETTER       PRESS = NEXT LETTER       TOP BUTTON = LEAVE THE SEARCH", "small", 2, -1, GREY, "top_left", 4));
+function findEls(label, word, at, on) {
+const run = still(text("run", "TURN THE KNOB = CHOOSE A LETTER       OK = NEXT LETTER       BACK = LEAVE THE SEARCH", "small", 2, -1, GREY, "top_left", 4));
 run.width = 68;
 run.scroll_rate = 800;            // columns a minute
 run.scroll_start_delay = 700;
 run.scroll_repeat_delay = 1200;
-const els = [rect("bg", 0, 0, 72, 16, "#000000FF", 0), run, small("lab", "FROM", 2, 8, DIM)];
-tiles(els, "a", findShown(word, at, on), TX("FROM"), 7, 8, at === 0 ? " gg" : at === 1 ? "  g" : "");
+const els = [rect("bg", 0, 0, 72, 16, "#000000FF", 0), run, small("lab", label, 2, 8, DIM)];
+tiles(els, "a", findShown(word, at, on), TX(label), 7, 8, at === 0 ? " gg" : at === 1 ? "  g" : "");
 els.push(bitmap("ud", UPDOWN, 66, 9, 4));
-return tag(els, "h");
+return tag(els, label === "TO" ? "d" : "h");
 }
 function findShown(word, at, on) {
 let out = "";
@@ -972,10 +976,22 @@ for (let j = 0; j < lines.length; j++) if (lines[j].slice(0, 3) === word) return
 return -1;
 }
 const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let hintAt = 0;                     // when the departure page came up: its hint shows for the first moments
+let hintAt = 0;                     // when an airport page came up: its hint shows for the first moments
+function hintNow() {
+const age = Date.now() - hintAt;
+return age >= HINT_MS ? undefined : Math.max(0.08, age < 600 ? age / 600 : age > HINT_MS - 600 ? (HINT_MS - age) / 600 : 1);
+}
 const HINT_MS = 2800;
-let finding = false, findAt = 0, findWord = "---";     // the search on the departure page: on, which letter, the letters
-let findAsk = false, leaveYes = true, blinkOn = true, turned = false;
+let finding = false, findAt = 0, findWord = "---";     // the search on an airport page: on, which letter, the letters
+let blinkOn = true, turned = false;
+async function openFind() {
+findWord = "---";
+findAt = 0;
+blinkOn = true;
+finding = true;
+await card("FIND AN AIRPORT", "SEARCH", 1100);
+flaps[mode === "dest" ? "d" : "h"] = "";
+}
 function clock4(min) {
 return pad2(Math.floor(min / 60)) + pad2(min % 60);
 }
@@ -1409,63 +1425,56 @@ flaps.h = "";
 hintAt = Date.now() + 500;                 // (counted from when the page is there, behind its blind)
 mode = "home";
 }
-} else if (mode === "home" && finding && findAsk) {      // the top button with letters chosen but no search yet: sure?
-await draw("leave", confirmEls(leaveYes, "LEAVE SEARCH?"));
-await nap(15000);
-const k = keys();
-if (k.turn) leaveYes = !leaveYes;
-if (k.back) findAsk = false;
-else if (k.ok || k.start) {                  // (the top button again takes the answer on show as well)
-findAsk = false;
-if (leaveYes) finding = false;
-flaps.h = "";
-}
-} else if (mode === "home" && finding) {
-const xs = [TX("FROM"), TX("FROM") + 9, TX("FROM") + 18], open = findWord.charAt(findAt) === "-";
+} else if ((mode === "home" || mode === "dest") && finding) {
+const to = mode === "dest", label = to ? "TO" : "FROM", f = to ? "d" : "h";
+const xs = [TX(label), TX(label) + 9, TX(label) + 18], open = findWord.charAt(findAt) === "-";
 const shown = findShown(findWord, findAt, blinkOn);
-if (turned) await flip("h", "h_at", shown, xs, 7, 8, findAt === 0 ? " gg" : findAt === 1 ? "  g" : "");
-else flaps.h = shown;
+if (turned) await flip(f, f + "_at", shown, xs, 7, 8, findAt === 0 ? " gg" : findAt === 1 ? "  g" : "");
+else flaps[f] = shown;
 turned = false;
-await draw("home", findEls(findWord, findAt, blinkOn));
+await draw(mode, findEls(label, findWord, findAt, blinkOn));
 if (!waiting()) await nap(open ? 450 : 30000);       // (a turn that came while the tiles flipped is taken now)
 blinkOn = open ? !blinkOn : true;
-const k = keys();
-const touched = findAt > 0 || !open;
+const k = keys(), on = k.ok || k.start;      // (START, "go on", goes on to the next letter as OK does)
 if (k.turn) {
 const from = open ? (k.turn > 0 ? -1 : 26) : ABC.indexOf(findWord.charAt(findAt));
 findWord = findWord.slice(0, findAt) + ABC.charAt(mod(from + k.turn, 26)) + findWord.slice(findAt + 1);
 turned = !open;
 blinkOn = true;
 if (k.ok) ctl.ok = true;                   // pressed in the same breath: it counts for the letter turned to,
-}                                            // once that letter is on show (the next step)
-if ((k.back && findAt === 0) || k.start) {   // out of the search: asked first when letters would be lost
-if (touched) {
-findAsk = true;
-leaveYes = true;
-} else finding = false;
-flaps.h = "";
-} else if (k.back) {                         // a letter back: this one is a dash again
-findWord = findWord.slice(0, findAt) + "-" + findWord.slice(findAt + 1);
-findAt--;
-} else if (k.ok && !open && !k.turn && findAt < 2) {
+if (k.start) ctl.start = true;             // once that letter is on show (the next step)
+}
+if (k.back) {                                // out of the search: the airport that was chosen stays
+finding = false;
+flaps[f] = "";
+} else if (on && !open && !k.turn && findAt < 2) {
 findAt++;
 blinkOn = true;
-} else if (k.ok && !open && !k.turn) {
+} else if (on && !open && !k.turn) {
 const i = await findCode(findWord);
 finding = false;
-if (i >= 0) {
+if (i < 0) await card(whole ? "SORRY, NOT FOUND" : "NOT LOADED YET", findWord, 1800);     // and back to the airport it was
+else if (!to) {
 await need([i]);
 st.at = i;
 await card("FOUND", findWord, 1200);
-} else await card(whole ? "SORRY, NOT FOUND" : "NOT LOADED YET", findWord, 1800);       // and back to the airport it was
-flaps.h = "";
+} else if (cands.indexOf(i) !== -1) {      // among the airports that far away: the list stands on it
+pick = cands.indexOf(i);
+await need([i]);
+need([cands[mod(pick + 1, cands.length)], cands[mod(pick - 1, cands.length)]]);
+await card("FOUND", findWord, 1200);
+} else if (i === st.at) await card("YOU ARE HERE", findWord, 1800);
+else {                                     // an airport, but not this far away: how far it is
+await need([i]);
+await card("IT IS " + hm(Math.round(flightMin(km(st.at, i)) / 5) * 5) + " AWAY", findWord, 2200);
+}
+flaps[f] = "";
 }
 } else if (mode === "home") {
 await flip("h", "h_at", code(st.at), [TX("FROM"), TX("FROM") + 9, TX("FROM") + 18], 7, 8);
-const age = Date.now() - hintAt, hinting = age < HINT_MS;       // the hint: in over 0.6 s, there, out over 0.6 s
-const glow = age < 600 ? age / 600 : age > HINT_MS - 600 ? (HINT_MS - age) / 600 : 1;
-await draw("home", airportEls("FROM", st.at, "", "", hinting ? Math.max(0.08, glow) : undefined));
-if (!waiting()) await nap(hinting ? 90 : 30000);
+const hint = hintNow();
+await draw("home", airportEls("FROM", st.at, "", "", hint));
+if (!waiting()) await nap(hint ? 90 : 30000);
 const k = keys();
 if (k.turn || k.ok || k.start || k.back) hintAt = 0;            // (touched: the city at once)
 if (k.turn) {
@@ -1473,30 +1482,22 @@ st.at = mod(st.at + k.turn * (Math.abs(k.turn) > 2 ? 4 : 1), N);                
 await need([st.at]);
 }
 if (k.back) mode = "lobby";
-else if (k.ok) {
+else if (k.start) {                          // START: on to the next page
 mode = "time";
 save();
-} else if (k.start) {                        // look an airport up by its three letters
-findWord = "---";
-findAt = 0;
-findAsk = false;
-blinkOn = true;
-finding = true;
-await card("FIND AN AIRPORT", "SEARCH", 1100);
-flaps.h = "";
-}
+} else if (k.ok) await openFind();           // OK: look an airport up by its three letters
 } else if (mode === "time") {
 await flip("m", "m_tt", clock4(minutes), TIME_X, 4, 8);
 await draw("time", timeEls());
 if (reachKey !== st.at + ":" + minutes) {    // the wheel rests: which airports are that far is worked out now,
 await nap(250);                            // not when OK is pressed
-if (!ctl.turn && !ctl.ok && !backs) {
+if (!waiting()) {
 const t0 = Date.now(), got = await reach(st.at, minutes);
 if (got) need(got.slice(0, 2));          // (and the first ones' names are fetched)
 await tr("reach ahead " + (Date.now() - t0) + "ms " + (got ? got.length : "given up"));
 }
 }
-if (!ctl.turn && !ctl.ok && !backs) await nap(30000);
+if (!waiting()) await nap(30000);
 const k = keys();
 if (k.turn) {
 let at = 0;
@@ -1507,7 +1508,7 @@ if (k.back) {
 mode = "home";
 hintAt = Date.now() + 500;
 }
-else if (k.ok) {
+else if (k.start || k.ok) {                  // START goes on; so does OK here - there is nothing to look up by letters
 const t0 = Date.now();
 await show(timeEls(true));                 // at once: the press is answered, the dots run while the app counts
 cands = await reach(st.at, minutes, true);
@@ -1518,14 +1519,17 @@ await show(timeEls(cands.length));
 await sleep(450);
 need([cands[1], cands[cands.length - 1]]);                 // (the neighbours: fetched while the first is read)
 flaps.d = "";                              // (the first destination is simply there: nothing to flip from)
+hintAt = Date.now() + 500;
 mode = "dest";
 }
 } else if (mode === "dest") {
 const i = cands[pick];
 await flip("d", "d_at", code(i), [TX("TO"), TX("TO") + 9, TX("TO") + 18], 7, 8);
-await draw("dest", airportEls("TO", i, hm(Math.round(flightMin(km(st.at, i)) / 5) * 5)));
-if (!waiting()) await nap(30000);
+const hint = hintNow();
+await draw("dest", airportEls("TO", i, hm(Math.round(flightMin(km(st.at, i)) / 5) * 5), "", hint));
+if (!waiting()) await nap(hint ? 90 : 30000);
 const k = keys();
+if (k.turn || k.ok || k.start || k.back) hintAt = 0;            // (touched: the city at once)
 if (k.turn) {
 const dir = k.turn > 0 ? 1 : -1;
 pick = mod(pick + k.turn, cands.length);
@@ -1533,7 +1537,8 @@ await need([cands[pick]]);
 need([cands[mod(pick + dir, cands.length)], cands[mod(pick + 2 * dir, cands.length)]]);   // (the next ones, ahead of the wheel)
 }
 if (k.back) mode = "time";
-else if (k.ok) {
+else if (k.ok && !k.start) await openFind(); // OK: look one of them up by its three letters
+else if (k.start) {                          // START: on to the next page
 mode = "ready";
 since = Date.now();
 if (weatherOn && !D.noWeather) {           // the weather where the flight starts: asked for now, so that the sky
@@ -1547,7 +1552,10 @@ const wait = D.fast ? 1200 : 3500, hint = now - since >= wait;        // the rip
 await draw(mode, mode === "ready" ? readyEls(hint) : ticketEls(hint));
 await nap(hint ? 30000 : wait - (now - since) + 30);
 const k = keys();
-if (k.back) mode = mode === "ready" ? "dest" : "ready";
+if (k.back) {
+if (mode === "ready") hintAt = Date.now() + 500;
+mode = mode === "ready" ? "dest" : "ready";
+}
 else if (k.start || k.ok) {
 if (mode === "ready") {
 if (coverFor !== "next" || Date.now() - coverAt > 600000) coverWanted = [lat(st.at), lon(st.at)];    // (not asked for yet)

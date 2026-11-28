@@ -20,8 +20,8 @@ A flight keeps running while the app is closed and is picked up when you open it
 ## Controls
 
 - **In the hall**: OK (a press of the knob) checks in, START (the big button on top) opens the logbook, BACK exits.
-- **Check-in pages**: turn the knob to choose, OK goes on, BACK goes one page back. The best-known airports come first.
-- **Find an airport by its letters**: on the departure page, press START. Turn the knob for a letter, OK for the next; after the third the airport is looked up.
+- **Check-in pages**: turn the knob to choose, START goes on to the next page, BACK goes one page back. The best-known airports come first.
+- **Find an airport by its letters**: on the departure or the destination page, press OK. Turn the knob for a letter, OK for the next; after the third the airport is looked up, and you can turn on from there. BACK leaves the search.
 - **Route and boarding pass**: START (or OK) prints the pass, then boards.
 - **In the air**: turn the knob for the other page, OK keeps it or lets the two take turns again, START pauses and resumes, BACK asks whether to end the flight early.
 
