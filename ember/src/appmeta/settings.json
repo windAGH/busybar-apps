@@ -1,0 +1,18 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "aim": {
+      "label": "Aiming dots",
+      "type": "boolean",
+      "default": true,
+      "description": "A short dotted arc shows where the shot starts out. Off: aim by feel."
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}

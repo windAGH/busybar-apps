@@ -1,0 +1,22 @@
+{
+  "name": "ember",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A slingshot game on the BUSY Bar: sling a glowing ember at towers of ice and stone and knock out every gem.",
+  "author": "Dennis Zhang",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "busy-cli build",
+    "app:install": "busy-cli app install",
+    "app:uninstall": "busy-cli app uninstall",
+    "app:run": "busy-cli app run",
+    "app:stop": "busy-cli app stop"
+  },
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "devDependencies": {
+    "@busy-app/cli": "^0.6.0"
+  }
+}
