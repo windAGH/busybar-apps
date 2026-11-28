@@ -1,0 +1,52 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "zone": {
+      "label": "Zone",
+      "type": "enum",
+      "default": "normal",
+      "description": "How wide the hidden target is.",
+      "options": [
+        {
+          "value": "wide",
+          "label": "Wide (easy)"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "narrow",
+          "label": "Narrow (hard)"
+        }
+      ]
+    },
+    "words": {
+      "label": "Words",
+      "type": "enum",
+      "default": "all",
+      "description": "Which pairs of opposites are dealt.",
+      "options": [
+        {
+          "value": "all",
+          "label": "All"
+        },
+        {
+          "value": "everyday",
+          "label": "Everyday"
+        },
+        {
+          "value": "silly",
+          "label": "Silly"
+        }
+      ]
+    },
+    "reset": {
+      "label": "Start over",
+      "type": "boolean",
+      "default": false,
+      "description": "Flip this switch to clear everything this app has kept and see the guide again. Each flip starts over once. Cannot be undone."
+    }
+  }
+}
