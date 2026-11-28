@@ -25,9 +25,9 @@ Cannot decide? A reel picks for you. Choose a list, spin, and the reel slows dow
 ## Controls
 
 - The controls by their names: Start is the big button on top, OK is a press of the knob, Turn is turning the knob, Back is the Back button.
-- The first time you open the app, a short guide shows them: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before (Back on the first page leaves the app). On the last page any key starts the app, and does nothing else. One page says that My list is filled in the settings. The guide does not come again by itself; Start over in the settings brings it back.
-- Turn the knob: the next or the previous list.
-- Start or OK: spin. Press again for another answer.
+- The app opens on its main screen, the list you were on. Start spins. Turn the knob for the next or the previous list. OK opens the guide. Back leaves the app.
+- The guide: five numbered pages, one control on each, with what it does in large letters under an arrow that points at it. Start, OK or a turn forward goes to the next page; a turn back or Back goes to the page before. Any key on the last page, or Back on the first, closes it and leads back to the main screen. One page says that My list is filled in the settings. The first time you open the app the guide opens by itself.
+- On an answer: Start or OK spins again. Turn the knob to go back to the lists.
 - Back: leave the app.
 
 ## Settings

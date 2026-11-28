@@ -209,6 +209,7 @@ el.timeout = 30;
 return wire(el);
 }
 let bookAt = -1, bookBacks = 0;     // the page on show (-1: no guide); Back presses the guide has taken
+let bookShut = false;               // Back on the first page: the book is to be closed
 const pageEl = (i, on) => film("k_p" + i, "guide_" + i, on ? 0 : OFF, 0, 20, true);
 function bookEls(at) {
 const els = [];
@@ -217,13 +218,14 @@ return els;
 }
 function bookBack() {               // (for onBack) true: the guide has taken the key
 if (bookAt < 0) return false;
-if (bookAt === 0) return false;   // on the first page Back leaves the app
+if (bookAt === 0) bookShut = true;               // on the first page Back closes the book
 bookBacks++;
 return true;
 }
 async function book(under) {
 if (!live.get("k_p0")) await put(bookEls(-1));
 bookAt = 0;
+bookShut = false;
 onPage = "book";
 await put([pageEl(0, true)]);
 if (under) await wipe([under]);
@@ -235,7 +237,7 @@ await nap(50000);
 const steps = ctl.n + ctl.turn - bookBacks, any = ctl.n || ctl.turn || bookBacks;
 ctl.n = ctl.turn = bookBacks = 0;
 ctl.ok = ctl.start = false;
-if (stopped) break;
+if (stopped || bookShut) break;
 if (!any) {
 await put(bookEls(bookAt));                  // nothing was pressed: the pictures are only kept alive
 continue;
@@ -280,7 +282,7 @@ if (wake) wake();
 const GREY = "#8A90A6FF", PASS = "#C4C8D8FF", BLACK = "#000000FF";
 const DX = 16, MID = 44;            // the drum's left column; the column words are centred on
 const FILE = "/ext/data/pick.json";
-const UPDOWN = "! XPM2\n5 6 2 1\n. c none\na c #5E6274\n..a..\n.aaa.\n.....\n.....\n.aaa.\n..a..";
+const UPDOWN = "! XPM2\n3 5 2 1\n. c none\na c #5E6274\n.a.\naaa\n...\naaa\n.a.";      // "turn": beside the list's name
 let cats = [], at = 0, res = null;  // the lists in use, the one on show, its answer (null: its title)
 let last = {}, kept = "", mine = "", backs = 0, rigAt = 0, dirty = false;
 let resetOn = null;                 // the setting "Start over" as it stands (null: not answered)
@@ -356,7 +358,7 @@ await save();
 }
 async function guide(under) {
 await book(under);
-if (stopped) return;
+if (stopped || read) return;
 read = true;
 await save();
 }
@@ -376,7 +378,11 @@ return el;
 }
 const drum = (dy) => film("p_dr", "drum", DX, dy - 1, 1);
 const reel = () => film("p_f", "spin", DX, 0, 5, true);
-const title1 = (dy) => small("p_t1", cats[at].top, MID, dy - 1, GREY, "top_mid");                 // rows 1-5
+const title1 = (dy) => small("p_t1", "GUIDE", 55, dy - 1, GREY, "top_mid");                       // rows 1-5, columns 44-64
+const MARK = "! XPM2\n6 5 2 1\n. c none\na c #FFBE28\n..aa..\n.aaaa.\naaaaaa\n..aa..\n..aa..";
+const CUE = "! XPM2\n5 3 2 1\n. c none\na c #969EB8\n..a..\n.aaa.\naaaaa";
+const cues = () => [{ id: "p_st", type: "xpmbitmap", x: 33, y: 0, align: "top_left", timeout: STILL, data: MARK, z_index: 3 },
+{ id: "p_ga", type: "xpmbitmap", x: 66, y: 1, align: "top_left", timeout: STILL, data: CUE, z_index: 3 }];
 const title2 = (dy) => text("p_t2", cats[at].name, "bold", MID, 6 + dy, cats[at].accent, "top_mid", 4);   // rows 8-14
 function icon(dy, word) {           // the list's icon; for an answer of WEAR, a shirt of that colour
 const name = word && cats[at].id === "WEAR" && D.wear.indexOf(word) >= 0 ? "w_" + word.toLowerCase() : "i_" + cats[at].id.toLowerCase();
@@ -392,8 +398,9 @@ return text("p_res", w, f[0], MID, f[1] + dy, cats[at].id === "WEAR" ? WHITE : c
 }
 function pageEls() {
 const els = [rect("p_bg", 0, 0, 72, 16, BLACK, 0), drum(0), icon(0, res)];
-if (res === null) els.push(title1(0), title2(0), { id: "p_ud", type: "xpmbitmap", x: 64, y: 1, align: "top_left", timeout: STILL, data: UPDOWN, z_index: 3 });
+if (res === null) els.push(title1(0), title2(0), { id: "p_ud", type: "xpmbitmap", x: 68, y: 9, align: "top_left", timeout: STILL, data: UPDOWN, z_index: 3 }, ...cues());
 else els.push(film("p_g", "glow", DX, 0, 2), answer(res, 0));
+for (let i = 0; i < D.guide; i++) els.push(pageEl(i, false));
 return els;
 }
 function clear(ids) {
@@ -438,7 +445,7 @@ await put([reel()]);
 await sleep(750);
 if (stopped) return;
 let t0 = Date.now();
-const hidden = clear(["p_t1", "p_t2", "p_ud", "p_res", "p_g", "p_f"]);
+const hidden = clear(["p_t1", "p_t2", "p_ud", "p_st", "p_ga", "p_res", "p_g", "p_f"]);
 await put([passing(0, pass[0], -10)].concat(hidden));
 await until(t0 + 50);
 await put([passing(0, pass[0], -3)]);
@@ -482,7 +489,7 @@ res = null;
 dirty = true;
 if (ctl.turn) return;
 const d = dir > 0 ? 1 : -1;
-await put(clear(["p_res", "p_g", "p_ud"]).concat([title1(-7 * d), title2(-7 * d), icon(-3 * d, null)]));
+await put(clear(["p_res", "p_g", "p_ud", "p_st", "p_ga"]).concat([title1(-7 * d), title2(-7 * d), icon(-3 * d, null)]));
 await sleep(45);
 await put([title1(d), title2(d), icon(d, null)]);
 await sleep(55);
@@ -499,7 +506,8 @@ await draw("page", pageEls());
 await nap(dirty ? 1500 : IDLE);                  // (the list on show is kept once the knob has rested a moment)
 const k = keys();
 if (k.turn) return turnTo(k.turn > 0 ? 1 : -1);
-if (k.start || k.ok) return spin();
+if (k.ok && res === null) return guide("");      // on the main screen OK opens the guide; closing it leads back here
+if (k.start || k.ok) return spin();              // Start spins; on an answer OK spins again too
 if (dirty) save();
 }
 const IDLE = 5000;                  // the page at rest looks at the settings again this often (nothing is drawn for that)
@@ -527,7 +535,7 @@ await load();
 await readSettings();
 const fresh = startOverAsked();
 if (fresh) await startOver();
-if (!read && !fresh) await put(bookEls(-1));      // (first use: the guide's pages are made now, off-screen)
+if (!fresh) await put(bookEls(-1));              // (the guide's pages are made now, off-screen, with the mark over them)
 await until(t0 + SPLASH_MS);
 if (stopped) return;
 let under = true;                                // the mark is still on the screen
