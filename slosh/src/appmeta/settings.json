@@ -1,0 +1,52 @@
+{
+  "format_version": 1,
+  "version": 1,
+  "fields": {
+    "toy": {
+      "label": "Floating",
+      "type": "enum",
+      "default": "duck",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "duck",
+          "label": "Duck"
+        },
+        {
+          "value": "boat",
+          "label": "Sailing boat"
+        },
+        {
+          "value": "paper",
+          "label": "Paper boat"
+        },
+        {
+          "value": "bottle",
+          "label": "Message in a bottle"
+        },
+        {
+          "value": "ball",
+          "label": "Beach ball"
+        },
+        {
+          "value": "ice",
+          "label": "Ice cube"
+        },
+        {
+          "value": "buoy",
+          "label": "Buoy with a light"
+        }
+      ],
+      "description": "One small thing that floats on the water, or none."
+    },
+    "calm": {
+      "label": "Calm",
+      "type": "boolean",
+      "default": true,
+      "description": "The water also moves by itself now and then: a gentle push every half minute."
+    }
+  }
+}
