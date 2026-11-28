@@ -430,7 +430,7 @@ async function show(els, partial) {
     const old = live.get(el.id);
     if (old && old.s === s && now - old.t < 400 * el.timeout) continue;
     batch.push({ el: el, s: s });
-    if (batch.length === 3) await flush();
+    if (batch.length === 4) await flush();       // (four: the pieces of a strip's middle go in one request)
     if (unanswered !== lost) return;             // the bar is not answering: this pass is over, the next one starts afresh
   }
   await flush();
@@ -1073,14 +1073,18 @@ function isHalf(g) {
 const NAME_MS = 1000;               // how long the name stands before LOADING takes its place
 let nameSince = 0, startDone = false;
 
-/** A game that has not been looked at may still be one that is being played. */
+/** A game that has not been looked at may still be one that is being played. (One that was over when the app last
+ *  ran is over, and one that was more than an hour from its start then and still is cannot be on: neither need be
+ *  waited for.) */
 function bandOpen() {
-  const n = todayIds.length;
+  const n = todayIds.length, now = Date.now();
   let lo = -1, hi = n;
   for (let i = 0; i < n; i++) {
-    const g = games.get(todayIds[i]);
-    if (g && g.state === "post") lo = i;
-    else if (g && g.state === "pre" && !isOn(g) && hi === n) hi = i;
+    const g = games.get(todayIds[i]), k = lastKnown[todayIds[i]];
+    const st = g ? (g.state === "post" ? "post" : g.state === "pre" && !isOn(g) ? "pre" : "")
+      : k ? (k[0] === "post" ? "post" : k[0] === "pre" && k[1] - now > SOON_MS ? "pre" : "") : "";
+    if (st === "post") lo = i;
+    else if (st === "pre" && hi === n) hi = i;
   }
   for (let i = lo + 1; i < hi; i++) if (!games.get(todayIds[i])) return true;
   return false;
@@ -1569,13 +1573,20 @@ function midLine(els, p, part, left, right) {
 
 /** The quarter's time along the bottom (see the top of this file). Not drawn while the clock cannot be read.
  *  Its two halves are two bars in every case, both in the colour of the team that has the ball, or each in its own
- *  team's. Over them lie two films the build made, no colour of their own: ball.anim, the running light (section
- *  "r<n>" to the right, "l<n>" to the left, n = lit columns a side), and veil.anim, which makes the lit part go
- *  dark ("o<n>") and come back ("i<n>"). Both are there from the first moment of the strip, off-screen while not
- *  wanted, so that a change of the ball costs no new film: the veil is moved over the line and darkens it, the bars
- *  change colour and the light its way under it, the veil clears and is moved off again - three small requests. */
-const BREATH_OUT = 190, BREATH_IN = 300;        // ms the veil takes to close (then the colours change), and to clear
-const lineNow = { id: null, key: "", was: "", at: 0 };
+ *  team's. Over them lies ball.anim, the running light (no colour of its own; section "r<n>" to the right, "l<n>"
+ *  to the left, n = lit columns a side; a looping film takes a new section at once), there from the first moment of
+ *  the strip, off-screen while not wanted. When the ball changes hands the line breathes: veil.anim ("b<n>": the
+ *  lit part goes dark, stays dark for a third of a second, comes back) is put over it - a new element each time,
+ *  see plateFilm - and the bars change colour and the light its way while it is dark: two small requests. */
+const BREATH_OUT = 130;             // ms from the veil's film to the change of colour under it
+const lineNow = { id: null, key: "", was: "", at: 0, veil: 0 };
+let veilN = 0;
+
+function veilFilm(n, z) {
+  veilN = 1 - veilN;
+  return '{"id":"zz_v' + veilN + '","type":"animation","path":"animations/veil.anim","x":' + LINE_X + ',"y":15,"align":"top_left","loop":false,' +
+    '"section":"b' + n + '","timeout":2,"z_index":' + (z + 11) + "}";
+}
 
 function quarterLine(els, p, g) {
   const left = clockShown(g);
@@ -1588,11 +1599,12 @@ function quarterLine(els, p, g) {
   if (lineNow.id !== g.id) {                     // another game: its line as it is, no breath
     lineNow.id = g.id;
     lineNow.key = lineNow.was = key;
-    lineNow.at = 0;
+    lineNow.at = lineNow.veil = 0;
   } else if (key !== lineNow.key) {
-    if (now - lineNow.at >= BREATH_OUT + BREATH_IN) {
+    if (now - lineNow.at >= BREATH_OUT) {
       lineNow.was = lineNow.key;
       lineNow.at = now;
+      lineNow.veil = n;                          // (the page loop puts the veil's film there before it draws)
     }
     lineNow.key = key;
   }
@@ -1601,14 +1613,12 @@ function quarterLine(els, p, g) {
   els.push(bar(p + "hb1", LINE_X + LINE_HALF - n, 15, n, 1, a, 2), bar(p + "hb2", LINE_X + LINE_HALF, 15, n, 1, h, 2));
   els.push({ id: p + "hl", type: "animation", path: "animations/ball.anim", x: look ? LINE_X : OFF, y: 15, align: "top_left",
     loop: true, section: (look === "h" ? "l" : "r") + n, timeout: STILL, z_index: 3, _w: 2 * LINE_HALF });
-  els.push({ id: p + "hx", type: "animation", path: "animations/veil.anim", x: age < BREATH_OUT + BREATH_IN ? LINE_X : OFF, y: 15,
-    align: "top_left", loop: false, section: (age < BREATH_OUT ? "o" : "i") + n, timeout: STILL, z_index: 5, _w: 2 * LINE_HALF });
 }
 
 /** How long until the line's breath needs its next step, in ms (Infinity: it rests). */
 function lineIn() {
   const age = Date.now() - lineNow.at;
-  return age < BREATH_OUT ? BREATH_OUT - age : age < BREATH_OUT + BREATH_IN ? BREATH_OUT + BREATH_IN - age : Infinity;
+  return age < BREATH_OUT ? BREATH_OUT - age : Infinity;
 }
 
 /** Timeouts left: seven dots over each score (row 3), in the team's colour: full while that timeout is still
@@ -1639,8 +1649,27 @@ function periodName(g) {
   return g.period > 5 ? (g.period - 4) + "OT" : g.period === 5 ? "OT" : "Q" + Math.max(1, g.period);
 }
 
-/** The middle of a game that is being played: two short lines. */
+/** The dash and the second number of the Foul page, off-screen: every other page of the middle carries them, first
+ *  in its list, so that they are moved away in the same request that writes the page - never deleted afterwards
+ *  (that would leave them standing in the clock for a moment). */
+function foulParked(els, p) {
+  els.push(text(p + "m3", "-", "small", OFF, 7, FAINT), text(p + "m4", "0", "small", OFF, 7, WHITE));
+}
+
+/** The middle of a game that is being played: two short lines. Its pieces come first in the strip's list and go in
+ *  one request: the pieces a page does not use are moved away before the page is written (never deleted after it),
+ *  the ones it adds come after its first two - so one page's writing never stands in another's. */
 function middle(els, p, g) {
+  const mid = [];
+  middleOf(mid, p, g);
+  if (mid.length < 4) {
+    if (mid.length < 2) els.push(text(p + "m2", "-", "small", OFF, 7, FAINT));
+    foulParked(els, p);
+  }
+  for (let i = 0; i < mid.length; i++) els.push(mid[i]);
+}
+
+function middleOf(els, p, g) {
   const now = Date.now();
   if (now - g.at > STALE_MS) {                   // no fresh numbers for a while: the quarter goes grey, the clock blank
     els.push(text(p + "m1", periodName(g), "small", 36, 0, FAINT, "top_mid"), text(p + "m2", "--:--", "small", 36, 7, FAINT, "top_mid"));
@@ -1671,12 +1700,16 @@ function middle(els, p, g) {
     els.push(text(p + "m1", g.run === "away" ? g.away : g.home, "small", 36, 0, WHITE, "top_mid"),
       text(p + "m2", g.runPts + "-0", "small", 36, 7, WARN, "top_mid"));
   } else if (what === "foul") {                  // away - home, like the strip; yellow = the other side shoots
+    // (three pieces in the lower row instead of one: they are sent in the same request as the upper row, the upper
+    // row and the first number first, and when the page goes the dash and the second number go first - see
+    // foulParked - so that at no moment one page's writing stands in another's)
     const a = String(Math.min(9, g.foul_a)), h = String(Math.min(9, g.foul_h));
     const w = smallWidth(a) + 1 + 2 + 1 + smallWidth(h), x0 = 36 - (w >> 1);
     els.push(text(p + "m1", "Foul", "small", 36, 0, SOFT, "top_mid"),
       text(p + "m2", a, "small", x0, 7, g.foul_a >= 5 ? WARN : WHITE),
       text(p + "m3", "-", "small", x0 + smallWidth(a) + 1, 7, FAINT),
       text(p + "m4", h, "small", x0 + smallWidth(a) + 4, 7, g.foul_h >= 5 ? WARN : WHITE));
+    return;
   } else {
     els.push(text(p + "m1", periodName(g), "small", 36, 0, LIVE, "top_mid"), text(p + "m2", clockText(g), "small", 36, 7, SOFT, "top_mid"));
   }
@@ -1719,6 +1752,26 @@ function seasonEls(g, p) {
       text(p + "m2", days <= 1 ? "TOMORROW" : "IN " + days + " DAYS", "small", 36, 7, WHITE, "top_mid")];
   }
   return [image(p + "cd", "images/card_off.png", 0, 0, 0, 72)];
+}
+
+// ---------- a change that should be noticed: a plate dims the part, the change happens under it, the plate lifts ----------
+// Nothing on the strip is taken away before what follows it is there. What changes all the time - the clock's
+// second, the line's length, the pages of the middle taking turns - changes in place, in one request. A change the
+// user makes or should notice gets one quiet move, the same everywhere: a see-through black plate comes down over
+// just that part, stays for four tenths of a second and lifts (plate.anim, section "p" + part); the change is made
+// under it, a tenth of a second after the film was asked for. Parts: "s" the two teams' sides (OK: pictures <->
+// letters), "a" / "h" / "b" a score, the other one, both, "m" the middle (a new period, a timeout called).
+// The film is a NEW element each time (two ids in turn; it runs out by itself after two seconds): the bar plays a
+// film from its start only when the element is new - a change of section on a film that has ended does nothing,
+// nor does moving it (tried, 27 Nov 2026). If the bar is slow and the change comes after the plate has lifted,
+// it is simply a change in place: nothing is ever dark.
+const PLATE_MS = 90;                // from the request that brings the plate down to the one that makes the change
+let plateN = 0;
+
+function plateFilm(part, z) {
+  plateN = 1 - plateN;
+  return '{"id":"zz_p' + plateN + '","type":"animation","path":"animations/plate.anim","x":0,"y":0,"align":"top_left","loop":false,' +
+    '"section":"p' + part + '","timeout":2,"z_index":' + (z + 11) + "}";
 }
 
 function gameEls(g, p) {
@@ -1811,7 +1864,9 @@ function gameEls(g, p) {
     }
     return els;
   }
-  middle(els, p, g);
+  const mid = [];
+  middle(mid, p, g);
+  for (let i = mid.length - 1; i >= 0; i--) els.unshift(mid[i]);        // (first in the list: see middle)
   timeouts(els, p, g);
   quarterLine(els, p, g);
   return els;
@@ -1957,6 +2012,7 @@ async function hoopsPage(p, enter) {
   // game on show has been over, and when the last sign was shown
   let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
   let onLoad = false, loadSeen = [];             // the knob stands on LOADING; the games that were on when it got there
+  let drawn = null;                              // the game as the strip on screen shows it (the look it was drawn from)
   const seen = { id: null, period: 0, to: false };       // the game on show as it was a moment ago
   scoresUp = true;
   if (!nameSince) nameSince = Date.now();
@@ -2019,6 +2075,16 @@ async function hoopsPage(p, enter) {
       dir = 1;
       first = false;
       shown = game;
+      drawn = game;
+      // A change of one part of the strip under the plate (see "a change that should be noticed"): the plate's film,
+      // a moment, then the strip as it is now.
+      const plate = async (part, to, change) => {
+        await post([plateFilm(part, z)]);
+        await sleep(PLATE_MS);
+        if (change) change();
+        await show(lift(gameEls(to, pp), pp, z));
+        drawn = to;
+      };
       onScreen = game ? game.id : null;
       let full = 0;
       // ---- stay on it
@@ -2063,6 +2129,7 @@ async function hoopsPage(p, enter) {
           kickId = null;
           if (go) {
             await show(lift(gameEls(game, pp), pp, z));      // the game is there when the card has gone
+            drawn = game;
             await notice("kick", 1800);
             ctl.turn = 0;
             ctl.ok = ctl.start = false;
@@ -2077,14 +2144,18 @@ async function hoopsPage(p, enter) {
           seen.id = game.id;
           seen.period = game.period;
           seen.to = to;
-          if (turned) {
-            redo = true;
-            how = "mid";
-            jump = game;
-            break;
+          if (turned && drawn && drawn.id === game.id) {         // (under the plate: the middle as it was, then as it is)
+            await plate("m", game);
+            continue;
           }
         } else {
           seen.id = null;
+        }
+        // A score has changed in the game on show (and no sign is about to cover it): the new number comes under
+        // the plate, over that score only.
+        if (game && game.state === "in" && drawn && drawn.id === game.id && !pendingSign && (game.as !== drawn.as || game.hs !== drawn.hs)) {
+          await plate(game.as !== drawn.as && game.hs !== drawn.hs ? "b" : game.as !== drawn.as ? "a" : "h", game);
+          continue;
         }
         if (pendingSign) {                       // a sign: only over the game the app stays on, and not too often
           const s = pendingSign;
@@ -2093,19 +2164,22 @@ async function hoopsPage(p, enter) {
           if (due && game && s.id === game.id && !tour && t0 - s.at < 30000) {
             signAt = t0;
             await show(lift(gameEls(game, pp), pp, z));      // the new score is there when the sign has gone
+            drawn = game;
             await playSign(s, game);
             ctl.turn = 0;
             ctl.ok = ctl.start = false;
             continue;
           }
         }
-        if (ctl.ok) {                            // OK: jerseys <-> letters only, at once
+        if (ctl.ok) {                            // OK: jerseys <-> letters, the two sides only, under the plate
           ctl.ok = false;
+          if (game && !game.kind) {
+            await plate("s", game, () => {
+              teamsAsText = !teamsAsText;
+            });
+            continue;
+          }
           teamsAsText = !teamsAsText;
-          redo = true;
-          how = "flip";
-          if (game) jump = game;
-          break;
         }
         // During the round of the league, Start again - or a turn of the knob - ends it at once: back to the game
         // the app stays on (or the one it would choose now, if that one has ended), behind the closing card ("BACK
@@ -2188,7 +2262,14 @@ async function hoopsPage(p, enter) {
         // nothing on the strip moves by itself but the clock: a few times a second is enough (a timeout's dot blinks
         // twice a second), once more right when the clock's next second is due - only its text is sent then - and
         // at the two steps of the line's breath when the ball has changed hands
-        await show(lift(gameEls(game, pp), pp, z));
+        const strip = lift(gameEls(game, pp), pp, z);
+        if (lineNow.veil) {                      // the ball has changed hands: the veil first, the colours after it
+          const n = lineNow.veil;
+          lineNow.veil = 0;
+          await post([veilFilm(n, z)]);
+          lineNow.at = Date.now();
+        } else await show(strip);
+        drawn = game;
         await nap(game && game.timeout_by ? Math.min(wait, 250, lineIn() + 3) : Math.max(10, Math.min(wait, tickIn(game) + 3, lineIn() + 3)));
       }
     }

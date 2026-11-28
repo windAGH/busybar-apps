@@ -8,7 +8,7 @@
 // (the week's games read one small request at a time, one game as a strip, the carousel, the controls, the
 // big-play signs, the season's end), then the settings and the start.
 
-const D = {"app":"io.github.windagh.gameday","team":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#10A0EA","CHI":"#FA5A12","CIN":"#FB4F14","CLE":"#FF5014","DAL":"#C4D0DE","DEN":"#FB4F14","DET":"#1E90E0","GB":"#FFB612","HOU":"#E21030","IND":"#2A66E8","JAX":"#1AA8A4","KC":"#E8162F","LAC":"#1C9BF0","LAR":"#3565F0","LV":"#C8CDD2","MIA":"#08B8BA","MIN":"#7A45D8","NE":"#D81432","NO":"#D3BC8D","NYG":"#3358DC","NYJ":"#20B06C","PHI":"#14907A","PIT":"#FFB612","SEA":"#69C828","SF":"#DC1C24","TB":"#DA1616","TEN":"#4B92DB","WSH":"#B82642"},"logo":{"ARI":[14,13,0,0],"ATL":[14,13,0,0],"BAL":[14,14,0,0],"BUF":[14,14,0,0],"CAR":[14,14,0,0],"CHI":[14,13,0,0],"CIN":[14,13,0,0],"CLE":[14,14,0,0],"DAL":[12,14,1,1],"DEN":[14,14,0,0],"DET":[14,13,0,0],"GB":[14,9,0,0],"HOU":[13,14,1,1],"IND":[12,13,1,1],"JAX":[14,14,0,0],"KC":[14,9,0,0],"LAC":[14,14,0,0],"LAR":[14,14,0,0],"LV":[12,10,1,1],"MIA":[14,14,0,0],"MIN":[14,14,0,0],"NE":[14,9,0,0],"NO":[13,9,0,1],"NYG":[14,13,0,0],"NYJ":[14,13,0,0],"PHI":[14,13,0,0],"PIT":[12,12,1,1],"SEA":[14,14,0,0],"SF":[14,9,0,0],"TB":[14,8,0,0],"TEN":[12,13,1,1],"WSH":[14,14,0,0],"XXX":[10,4]},"name":"Gameday","card":300,"roll":150,"swap":733,"sign":{"td":1300,"fg":1300,"safety":1300,"two":1300,"int":1300,"fumble":1300,"sack":1300,"who":2200,"kick":1400,"final":1300,"ot":1300},"plate":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#0557A3","CHI":"#AE2306","CIN":"#AF1B07","CLE":"#B21B07","DAL":"#888E9B","DEN":"#AF1B07","DET":"#0F4F9C","GB":"#B26506","HOU":"#E21030","IND":"#2A66E8","JAX":"#0E6A75","KC":"#E8162F","LAC":"#0D54A7","LAR":"#3565F0","LV":"#30333A","MIA":"#006E82","MIN":"#7A45D8","NE":"#D81432","NO":"#937B60","NYG":"#3358DC","NYJ":"#127B58","PHI":"#0A6461","PIT":"#B26506","SEA":"#368C17","SF":"#DC1C24","TB":"#DA1616","TEN":"#305599","WSH":"#B82642"},"shade":{"ARI":"#58002B","ATL":"#5F032C","BAL":"#281B5B","BUF":"#090C62","CAR":"#001245","CHI":"#4A0007","CIN":"#4A000B","CLE":"#4B000B","DAL":"#393942","DEN":"#4A000B","DET":"#020E42","GB":"#4B1600","HOU":"#600028","IND":"#0B1062","JAX":"#022032","KC":"#620227","LAC":"#000E47","LAR":"#111066","LV":"#141419","MIA":"#002037","MIN":"#26185C","NE":"#5C0227","NO":"#3E2D27","NYG":"#13105D","NYJ":"#043431","PHI":"#01212A","PIT":"#4B1600","SEA":"#063B06","SF":"#5D0520","TB":"#5C031A","TEN":"#111541","WSH":"#4E0B2A"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.gameday","team":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#10A0EA","CHI":"#FA5A12","CIN":"#FB4F14","CLE":"#FF5014","DAL":"#C4D0DE","DEN":"#FB4F14","DET":"#1E90E0","GB":"#FFB612","HOU":"#E21030","IND":"#2A66E8","JAX":"#1AA8A4","KC":"#E8162F","LAC":"#1C9BF0","LAR":"#3565F0","LV":"#C8CDD2","MIA":"#08B8BA","MIN":"#7A45D8","NE":"#D81432","NO":"#D3BC8D","NYG":"#3358DC","NYJ":"#20B06C","PHI":"#14907A","PIT":"#FFB612","SEA":"#69C828","SF":"#DC1C24","TB":"#DA1616","TEN":"#4B92DB","WSH":"#B82642","AFC":"#D81E2E","NFC":"#2452C4"},"tall":{"w":{"A":[2046,33,33,2046],"B":[2047,1057,1057,990],"C":[1022,1025,1025,1025],"D":[2047,1025,1025,1022],"E":[2047,1057,1057,1025],"F":[2047,33,33,1],"G":[1022,1025,1057,2017],"H":[2047,32,32,2047],"I":[1025,2047,1025],"J":[768,1024,1025,1023],"K":[2047,32,216,1799],"L":[2047,1024,1024,1024],"M":[2047,6,56,6,2047],"N":[2047,30,224,2047],"O":[1022,1025,1025,1022],"P":[2047,33,33,30],"Q":[1022,1025,769,1278],"R":[2047,33,225,1822],"S":[1054,1057,1057,961],"T":[1,2047,1],"U":[1023,1024,1024,1023],"V":[31,992,1024,992,31],"W":[2047,768,224,768,2047],"X":[1799,248,248,1799],"Y":[31,2016,31],"Z":[1793,1249,1049,1031]},"n":{"A":[2046,33,2046],"B":[2047,1057,990],"C":[1022,1025,1025],"D":[2047,1025,1022],"E":[2047,1057,1025],"F":[2047,33,1],"G":[1022,1025,2017],"H":[2047,32,2047],"I":[2047],"J":[768,1024,1023],"K":[2047,32,2015],"L":[2047,1024,1024],"M":[2047,30,2047],"N":[2047,1,2046],"O":[1022,1025,1022],"P":[2047,33,30],"Q":[1022,1793,2046],"R":[2047,33,2014],"S":[1054,1057,961],"T":[1,2047,1],"U":[2047,1024,2047],"V":[255,1792,255],"W":[2047,960,2047],"X":[1799,248,1799],"Y":[31,2016,31],"Z":[1793,1249,1055]}},"logo":{"ARI":[14,13,0,0],"ATL":[14,13,0,0],"BAL":[14,14,0,0],"BUF":[14,14,0,0],"CAR":[14,14,0,0],"CHI":[14,13,0,0],"CIN":[14,13,0,0],"CLE":[14,14,0,0],"DAL":[12,14,1,1],"DEN":[14,14,0,0],"DET":[14,13,0,0],"GB":[14,9,0,0],"HOU":[13,14,1,1],"IND":[12,13,1,1],"JAX":[14,14,0,0],"KC":[14,9,0,0],"LAC":[14,14,0,0],"LAR":[14,14,0,0],"LV":[12,10,1,1],"MIA":[14,14,0,0],"MIN":[14,14,0,0],"NE":[14,9,0,0],"NO":[13,9,0,1],"NYG":[14,13,0,0],"NYJ":[14,13,0,0],"PHI":[14,13,0,0],"PIT":[12,12,1,1],"SEA":[14,14,0,0],"SF":[14,9,0,0],"TB":[14,8,0,0],"TEN":[12,13,1,1],"WSH":[14,14,0,0],"AFC":[14,14,0,0],"NFC":[14,14,0,0],"XXX":[14,0]},"name":"Gameday","card":300,"roll":150,"swap":733,"sign":{"td":1300,"fg":1300,"safety":1300,"two":1300,"int":1300,"fumble":1300,"sack":1300,"who":2200,"kick":1400,"final":1300,"ot":1300},"plate":{"ARI":"#D0103A","ATL":"#E0183C","BAL":"#7A4BD6","BUF":"#2460E8","CAR":"#0557A3","CHI":"#AE2306","CIN":"#AF1B07","CLE":"#B21B07","DAL":"#888E9B","DEN":"#AF1B07","DET":"#0F4F9C","GB":"#B26506","HOU":"#E21030","IND":"#2A66E8","JAX":"#0E6A75","KC":"#E8162F","LAC":"#0D54A7","LAR":"#3565F0","LV":"#30333A","MIA":"#006E82","MIN":"#7A45D8","NE":"#D81432","NO":"#937B60","NYG":"#3358DC","NYJ":"#127B58","PHI":"#0A6461","PIT":"#B26506","SEA":"#368C17","SF":"#DC1C24","TB":"#DA1616","TEN":"#305599","WSH":"#B82642","AFC":"#D81E2E","NFC":"#2452C4"},"shade":{"ARI":"#58002B","ATL":"#5F032C","BAL":"#281B5B","BUF":"#090C62","CAR":"#001245","CHI":"#4A0007","CIN":"#4A000B","CLE":"#4B000B","DAL":"#393942","DEN":"#4A000B","DET":"#020E42","GB":"#4B1600","HOU":"#600028","IND":"#0B1062","JAX":"#022032","KC":"#620227","LAC":"#000E47","LAR":"#111066","LV":"#141419","MIA":"#002037","MIN":"#26185C","NE":"#5C0227","NO":"#3E2D27","NYG":"#13105D","NYJ":"#043431","PHI":"#01212A","PIT":"#4B1600","SEA":"#063B06","SF":"#5D0520","TB":"#5C031A","TEN":"#111541","WSH":"#4E0B2A","AFC":"#5C0624","NFC":"#0A0C53"},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -301,7 +301,7 @@ const s = wire(el);
 const old = live.get(el.id);
 if (old && old.s === s && now - old.t < 400 * el.timeout) continue;
 batch.push({ el: el, s: s });
-if (batch.length === 3) await flush();
+if (batch.length === 4) await flush();       // (four: the pieces of a strip's middle go in one request)
 if (unanswered !== lost) return;             // the bar is not answering: this pass is over, the next one starts afresh
 }
 await flush();
@@ -749,6 +749,17 @@ if (/intercept/.test(play)) wantSign(g, "int", has, g.fakeWho || whoOf("int", lp
 else if (/fumble/.test(play) && g.poss !== before.poss) wantSign(g, "fumble", has, g.fakeWho || whoOf("fumble", lp));
 else if (/sack/.test(play)) wantSign(g, "sack", other, g.fakeWho || whoOf("sack", lp));
 }
+function abbrOf(c) {
+const team = (c && c.team) || {};
+const a = String(team.abbreviation || "");
+if (D.team[a]) return a;
+const names = [a, team.shortDisplayName, team.location, team.displayName];
+for (let i = 0; i < names.length; i++) {
+const m = /^\s*([AN]FC)(?![A-Za-z])/i.exec(String(names[i] || ""));
+if (m && D.team[m[1].toUpperCase()]) return m[1].toUpperCase();
+}
+return a;
+}
 async function loadGame(id) {
 const e = await getJsonAny(GAME_HOSTS, GAME_PATH + id);
 const comp = e.competitions[0];
@@ -756,10 +767,12 @@ const t = {};
 for (let i = 0; i < comp.competitors.length; i++) {
 t[comp.competitors[i].homeAway] = comp.competitors[i];
 }
+if (!t.away) t.away = {};                      // (a game whose sides the feed does not name yet)
+if (!t.home) t.home = {};
 const st = e.status || comp.status;
 const sit = comp.situation || {};
 const g = {
-id: id, away: t.away.team.abbreviation, home: t.home.team.abbreviation,
+id: id, away: abbrOf(t.away), home: abbrOf(t.home),
 as: parseInt(t.away.score, 10) || 0, hs: parseInt(t.home.score, 10) || 0,
 state: st.type.state, period: st.period || 0, clock: st.displayClock || "", detail: st.type.shortDetail || "",
 start: utc(e.date), rec_a: record(t.away), rec_h: record(t.home),
@@ -775,8 +788,8 @@ const by = /by\s+([A-Z]{2,3})/.exec((sit.lastPlay && sit.lastPlay.text) || "");
 g.timeout_by = by && by[1] === g.away ? "away" : by && by[1] === g.home ? "home" : "tv";
 }
 const has = String(sit.possession || "");     // who has the ball, and where it is (scores.situation)
-if (has && has === String(t.away.id || t.away.team.id)) g.poss = "away";
-if (has && has === String(t.home.id || t.home.team.id)) g.poss = "home";
+if (has && has === String(t.away.id || (t.away.team || {}).id)) g.poss = "away";
+if (has && has === String(t.home.id || (t.home.team || {}).id)) g.poss = "home";
 const where = (sit.possessionText || "").split(/\s+/).filter((part) => part);   // "DET 35": 35 yards from DET's goal line
 if (where.length === 2 && /^\d+$/.test(where[1])) {
 if (where[0] === g.away) g.spot = Number(where[1]);
@@ -1026,12 +1039,14 @@ const NAME_MS = 1000;               // how long the name stands before LOADING t
 const LOADPAGE = { id: "load", kind: "load", state: "pre", away: "", home: "", start: 0 };
 let nameSince = 0, startDone = false;
 function bandOpen() {
-const n = gameIds.length;
+const n = gameIds.length, now = Date.now();
 let lo = -1, hi = n;
 for (let i = 0; i < n; i++) {
-const g = games.get(gameIds[i]);
-if (g && g.state === "post") lo = i;
-else if (g && g.state === "pre" && !isOn(g) && hi === n) hi = i;
+const g = games.get(gameIds[i]), k = lastKnown[gameIds[i]];
+const st = g ? (g.state === "post" ? "post" : g.state === "pre" && !isOn(g) ? "pre" : "")
+: k ? (k[0] === "post" ? "post" : k[0] === "pre" && k[1] - now > SOON_MS ? "pre" : "") : "";
+if (st === "post") lo = i;
+else if (st === "pre" && hi === n) hi = i;
 }
 for (let i = lo + 1; i < hi; i++) if (!games.get(gameIds[i])) return true;
 return false;
@@ -1098,16 +1113,64 @@ return Math.floor(sec / 60) + ":" + pad2(sec % 60);
 function mod(a, n) {
 return ((a % n) + n) % n;
 }
+const GREY = "#C8CDD2";
+const tallMade = {};
 function teamColour(abbr) {
-return (D.team[abbr] || "#FFFFFF") + "FF";
+return (D.team[abbr] || GREY) + "FF";
+}
+function tallWord(abbr) {
+const s = String(abbr || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 4);
+if (tallMade[s]) return tallMade[s];
+const made = tallMade[s] = { s: s, w: 0, data: "" };
+if (!s || !D.tall) return made;
+let glyphs = [], gaps = 0, w = 0;
+for (let narrow = 0; narrow < 2; narrow++) {
+const set = narrow ? D.tall.n : D.tall.w;
+glyphs = [];
+w = 0;
+for (let i = 0; i < s.length; i++) {
+glyphs.push(set[s.charAt(i)]);
+w += glyphs[i].length;
+}
+gaps = s.length - 1;                         // one dark column between two letters; too wide: the last one goes
+while (w + gaps > 14 && gaps > (narrow ? 0 : s.length - 2) && gaps > 0) gaps--;
+if (w + gaps <= 14) break;
+}
+const lines = [];
+for (let y = 0; y < 11; y++) {
+let line = "";
+for (let i = 0; i < glyphs.length; i++) {
+for (let x = 0; x < glyphs[i].length; x++) line += glyphs[i][x] >> y & 1 ? "a" : ".";
+if (i < gaps) line += ".";
+}
+lines.push(line);
+}
+made.w = w + gaps;
+made.data = "! XPM2\n" + made.w + " 11 2 1\n. c none\na c " + GREY + "\n" + lines.join("\n");
+return made;
 }
 function cap(els, id, abbr, side, strong, low) {
-const el = image(id, "images/team_" + (D.team[abbr] ? abbr : "XXX") + "_" + side + (strong ? 1 : 0) + "_" +
-(teamsAsText ? "t" : "") + (low ? "l" : "u") + ".png", side === "a" ? 0 : 42, 0, 0, 30);
+const known = !!D.team[abbr], word = known ? null : tallWord(abbr);
+const letters = teamsAsText && (known || word.w > 0 || !!D.lettersOnly);   // (no name at all: the helmet stays)
+const el = image(id, "images/team_" + (known ? abbr : "XXX") + "_" + side + (strong ? 1 : 0) + "_" +
+(letters ? "t" : "") + (low ? "l" : "u") + ".png", side === "a" ? 0 : 42, 0, 0, 30);
 els.push(el);
+if (known || !word.w) return;
+if (D.lettersOnly) {                           // (the build without pictures: under its helmet, in the small letters)
+els.push(text(id + "n", word.s.slice(0, 3), "small", side === "a" ? 7 : 65, 10, GREY + "FF", "top_mid", 1));
+return;
+}
+els.push({ id: id + "n", type: "xpmbitmap", x: letters ? (side === "a" ? 0 : 58) + ((14 - word.w) >> 1) : OFF, y: 2,
+align: "top_left", timeout: T, z_index: 1, data: word.data });
 }
 const MID = [28, 43];
 function logoSpan(abbr, x0) {
+if (!D.team[abbr] && !D.lettersOnly) {         // the plain helmet fills its square; its letters are as wide as they are
+const word = tallWord(abbr);
+if (!teamsAsText || !word.w) return [x0, x0 + 13];
+const at = x0 + ((14 - word.w) >> 1);
+return [at, at + word.w - 1];
+}
 const d = D.logo[abbr] || D.logo.XXX, w = d[teamsAsText ? 1 : 0];
 const left = x0 + (!teamsAsText && d.length > 2 ? d[x0 === 0 ? 2 : 3] : (14 - w) >> 1);
 return [left, left + w - 1];
@@ -1165,6 +1228,13 @@ els.push(bar(p + "fd", Math.min(Math.max(4 + Math.round(target * 63 / 100), 4), 
 }
 }
 els.push(bar(p + "b", Math.min(Math.max(bx - 1, 4), 66), 14, 2, 2, "#FF7A1AFF", 6));
+}
+const PLATE_MS = 90;                // from the request that brings the plate down to the one that makes the change
+let plateN = 0;
+function plateFilm(part, z) {
+plateN = 1 - plateN;
+return '{"id":"zz_p' + plateN + '","type":"animation","path":"animations/plate.anim","x":0,"y":0,"align":"top_left","loop":false,' +
+'"section":"p' + part + '","timeout":2,"z_index":' + (z + 11) + "}";
 }
 function gameEls(g, p, phase, at) {
 if (g && g.kind === "load") return loadEls(p); // the place of the games still to come
@@ -1292,7 +1362,7 @@ const sides = [["a", "away", centred(8, room[0], true), g.to_a, g.away], ["h", "
 for (let n = 0; n < 2; n++) {
 const have = sides[n][3];
 if (typeof have !== "number") continue;
-const colour = D.team[sides[n][4]] || "#FFFFFF";
+const colour = D.team[sides[n][4]] || GREY;
 for (let k = 0; k < 3; k++) {                // k = 0 is the mark nearest the logo
 const lit = k < have || (blink && g.timeout_by === sides[n][1] && k === have);
 els.push(bar(p + "o" + sides[n][0] + k, sides[n][2] + (n === 0 ? k : 2 - k) * 3, 3, 2, 1, colour + (lit ? "FF" : "40"), 4));
@@ -1450,6 +1520,7 @@ shown = games.get(onScreen) || undefined;
 }
 let tour = null, jump = null, finalSince = 0, signAt = 0, kickId = null;
 let onLoad = false, loadSeen = [];             // the knob stands on LOADING; the games that were on when it got there
+let drawn = null;                              // the game as the strip on screen shows it (the look it was drawn from)
 const seen = { id: null, poss: null, period: 0, to: false };     // the game on show as it was a moment ago
 scoresUp = true;
 if (solo && !nameSince) nameSince = Date.now();
@@ -1521,6 +1592,15 @@ how = "roll";                              // by itself the strip moves on upwar
 dir = 1;
 first = false;
 shown = game;
+drawn = game;
+const plate = async (part, to, change) => {
+await post([plateFilm(part, z)]);
+await sleep(PLATE_MS);
+if (change) change();
+await show(lift(to.state === "in" && !isHalf(to) ? gameEls(to, pp, Math.floor(Date.now() * 0.011), spots.has(to.id) ? spots.get(to.id) : to.spot)
+: gameEls(to, pp), pp, z));
+drawn = to;
+};
 onScreen = game ? game.id : null;
 if (!solo && !ctl.held && end - until < 3000) until = end;   // no new game for under 3 seconds: this one stays
 let full = 0, clockWas = "";
@@ -1578,11 +1658,9 @@ seen.id = game.id;
 seen.poss = game.poss || seen.poss;
 seen.period = game.period;
 seen.to = to;
-if (turned) {
-redo = true;
-how = "mid";
-jump = game;
-break;
+if (turned && drawn && drawn.id === game.id) {       // (under the plate: the middle as it was, then as it is)
+await plate("m", game);
+continue;
 }
 if (swapped && !hits.wait && hits.on) {
 await show(lift(gameEls(game, pp), pp, z));
@@ -1595,6 +1673,10 @@ continue;
 } else {
 seen.id = null;
 }
+if (game && game.state === "in" && drawn && drawn.id === game.id && !hits.wait && (game.as !== drawn.as || game.hs !== drawn.hs)) {
+await plate(game.as !== drawn.as && game.hs !== drawn.hs ? "b" : game.as !== drawn.as ? "a" : "h", game);
+continue;
+}
 if (hits.wait) {                       // a sign: only over the game the app stays on, and not too often
 const s = hits.wait;
 hits.wait = null;
@@ -1602,19 +1684,22 @@ const due = s.rank >= RANK.two || t0 - signAt >= SIGN_GAP;
 if (due && game && s.id === game.id && (!tour || s.rank >= RANK.ot) && t0 - s.at < 30000) {
 signAt = t0;
 await show(lift(gameEls(game, pp), pp, z));    // the new score is there when the sign has gone
+drawn = game;
 await playSign(s);
 ctl.turn = 0;
 ctl.ok = ctl.start = false;
 continue;
 }
 }
-if (ctl.ok) {                          // OK: logos <-> letters, at once
+if (ctl.ok) {                          // OK: logos <-> letters, the two sides only, under the plate
 ctl.ok = false;
+if (game && !game.kind && !D.lettersOnly) {
+await plate("s", game, () => {
+teamsAsText = !teamsAsText;
+});
+continue;
+}
 teamsAsText = D.lettersOnly ? true : !teamsAsText;
-redo = true;
-how = "flip";
-if (game) jump = game;
-break;
 }
 if (tour && tour.why !== "auto" && (ctl.start || ctl.turn)) {
 ctl.start = false;
@@ -1708,6 +1793,7 @@ if (!game && seasonItems()) break;       // the season's end is known now: its p
 const wait = Math.min(until - t0, 500);
 if (!game || game.state !== "in" || isHalf(game)) {      // nothing runs along the field: a few times a second
 await show(lift(gameEls(game, pp), pp, z));
+drawn = game;
 await nap(wait);
 continue;
 }
@@ -1722,6 +1808,7 @@ if (t0 - full >= 1000 || clock !== clockWas) {       // once a second everything
 full = t0;                             // second is due: only its text is sent then; in between only what moves
 clockWas = clock;
 await show(lift(gameEls(game, pp, phase, at), pp, z));
+drawn = game;
 } else {
 const strip = [];
 field(strip, pp, game, phase, at);
