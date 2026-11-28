@@ -2066,7 +2066,7 @@ if (have.wv_m) return;
 await post([film("wv_c", "wash0", OFF, 2, false, LONG), film("wv_m", "wave_still", OFF, 3, false, LONG), film("wv_s", "wave_still", OFF, 3, false, LONG), waveDim("00")]);
 }
 const pz = { on: false, at: 0 };
-const pzFilm = (x) => film("pz", "pausemark", x, 44, false, LONG, 3);
+const pzFilm = (x) => film("pz", "pausemark", x, 49, false, LONG, 3);
 async function pauseStep(now) {
 const lies = deck.state === "stopped" && (!deck.busy || (deck.seq === "halt" && !!deck.move && (deck.move.kind === "outq" || deck.move.kind === "rest")));
 const paused = hold && hold.key === cur.key ? hold.state !== "playing" : cur.state !== "playing";       // (a key's word counts before the Mac's)
@@ -2144,7 +2144,8 @@ const ids = ["g_bk", "g_nx"];
 for (let n = 0; n < D.guide.pages; n++) ids.push("g_p" + n);
 return ids;
 };
-const pageBase = () => (onPage === "deck" ? deckBase(0).slice(0, 2).concat([armLies(deck.armOn && deck.state === "playing" ? "arm_p" + deck.arm : "arm_rest")])
+const pageBase = () => (onPage === "deck" ? (LAY.plat.on < 0 || LAY.arm.on < 0 ? deckBase(0) : [block("km", 0, 0, TXT, 16, "#000000FF", 5), layHere("plat"),
+layHere("arm", deck.armOn && deck.state === "playing" ? "arm_p" + deck.arm : "arm_rest")])
 : [film("p_st", "reel_still", 0, 30, false, STILL)]);
 async function guideUnder() {
 const now = Date.now();
@@ -2507,23 +2508,76 @@ await sleep(Math.min(40, end - Date.now()));
 }
 return gen === deck.gen;
 }
-const deckBase = (dx) => [block("km", dx, 0, TXT, 16, "#000000FF", 5), film("d_pl", "platter", dx, 10, true, LONG),
-film("d_ar", "arm_rest", ARM_X + dx, 50, false, STILL)];
+const LAY = { plat: { ids: ["d_pl", "d_p2"], z0: 10, zn: 4 }, loop: { ids: ["d_lp", "d_l2"], z0: 18, zn: 4 },
+rec: { ids: ["d_st", "d_s2"], z0: 23, zn: 26 }, arm: { ids: ["d_ar", "d_a2"], z0: 51, zn: 44 } };
+let pend = [];                      // [part, id]: elements on show before their part's last change - away in the next request
+const rimAt = { n: -1, t: 0 };
+function layReset() {
+for (const k in LAY) Object.assign(LAY[k], { on: -1, c: 0, pic: "", loop: false, x: 0 });
+pend = [];
+rimAt.n = -1;
+}
+layReset();
+function lay(part, name, x, loop) {
+const L = LAY[part], k = L.on < 0 ? 0 : 1 - L.on;
+if (L.on >= 0) pend.push([part, L.ids[L.on]]);
+L.on = k;
+L.c++;
+L.pic = name;
+L.loop = !!loop;
+L.x = x;
+return film(L.ids[k], name, x, L.z0 + (L.c % L.zn), !!loop, LONG);
+}
+function unlay(part) {
+const L = LAY[part];
+if (L.on >= 0) pend.push([part, L.ids[L.on]]);
+L.on = -1;
+L.pic = "";
+return null;
+}
+const layHere = (part, still) => {
+const L = LAY[part];
+if (L.on < 0) return null;
+if (still) {
+L.pic = still;
+L.loop = false;
+}
+return film(L.ids[L.on], L.pic, L.x, L.z0 + (L.c % L.zn), L.loop, LONG);
+};
+const rim = (n) => {
+rimAt.n = n;
+rimAt.t = Date.now();
+return film("d_rm", n >= 0 ? "rec" + n + "_rim" : "arm_rest", n >= 0 ? 0 : OFF, 22, false, 4 * LONG);
+};
+async function swap(parts, after) {
+const mine = pend, now = parts.filter(Boolean);
+pend = [];
+const t = now.length ? await show1(now) : Date.now();
+const off = mine.filter(([p, id]) => LAY[p].on < 0 || LAY[p].ids[LAY[p].on] !== id).map(([p, id]) => away(id));
+if (off.length || after) await show1(off.concat(after || []));
+return t;
+}
+const deckBase = (dx) => {
+layReset();
+LAY.plat.on = LAY.arm.on = 0;
+Object.assign(LAY.plat, { pic: "platter", loop: true, x: dx });
+Object.assign(LAY.arm, { pic: "arm_rest", loop: false, x: ARM_X + dx });
+return [block("km", dx, 0, TXT, 16, "#000000FF", 5), film("d_pl", "platter", dx, LAY.plat.z0, true, LONG), film("d_ar", "arm_rest", ARM_X + dx, LAY.arm.z0, false, LONG)];
+};
 const away = (id) => film(id, "arm_rest", OFF, 1, false, LONG);
-const deckSlots = () => [away("d_lp"), away("d_st"), pzFilm(OFF)];
-const recFilm = (name) => film("d_st", name, 0, 30, false, STILL);          // (a film holds its last picture: the still that follows)
-const armFilm = (name) => film("d_ar", name, ARM_X, 50, false, STILL);
-const armLies = (name) => film("d_ar", name, ARM_X, 50, false, STILL);
-const recLies = (n) => film("d_st", "rec" + n + "_still", 0, 30, false, STILL);
+const deckSlots = () => [away("d_p2"), away("d_a2"), away("d_lp"), away("d_l2"), away("d_st"), away("d_s2"), away("d_rm"), pzFilm(OFF)];
+const recPic = (name) => lay("rec", name, 0, false);          // (a film holds its last picture)
+const armPic = (name) => lay("arm", name, ARM_X, false);
+const recLies = (n) => lay("rec", "rec" + n + "_still", 0, false);
 function edge(what) {
 const now = Date.now(), left = tail(now);
 dbg("EDGE " + what + (left < 1e8 ? " left " + left.toFixed(2) : "") + " pos " + posNow(now).toFixed(2) + (fin.at ? " over " + ((now - fin.at) / 1000).toFixed(2) : ""));
 }
 async function recIn(n, go) {
-const t0 = await show1([recFilm("rec" + n + "_in")]);
+const t0 = await swap([recPic("rec" + n + "_in")]);
 edge("in begins");
 await sleep(D.ms.in + 60 - (Date.now() - t0));
-await post([recLies(n)]);
+await swap([recLies(n)], [rim(n)]);               // (the edge: from the film's to its own element, in one request)
 edge("lies");
 deck.rec = n;
 deck.state = "stopped";
@@ -2533,7 +2587,7 @@ if (its || cur.key === deck.lead) await recStart(0);
 } else if (its && tail(now) > FROM_S) await recStart(armPlace(now));
 }
 async function recOut(n) {
-const t0 = await show1([recFilm("rec" + deck.rec + "_out")]);     // (it begins with the record lying still)
+const t0 = await swap([recPic("rec" + deck.rec + "_out"), rim(-1)]);     // (it begins with the record lying still; it has its own edge)
 edge("out begins");
 await sleep(D.ms.out - (Date.now() - t0));
 edge("out has left");
@@ -2542,7 +2596,7 @@ deck.state = "empty";
 if (n >= 0) {
 deck.lead = cur.key;
 await recIn(n, true);
-} else await post([away("d_st")]);
+} else await swap([unlay("rec")]);
 }
 async function recStart(k) {
 const n = deck.rec, gen = deck.gen;
@@ -2551,16 +2605,15 @@ const mv = deck.move, part = mv && mv.kind === "outq" ? (Date.now() - mv.t0) / D
 const back = part < 1.15 ? clamp(Math.ceil(part * 3), 1, 3) : 0;
 if (back) k = mv.k;
 const armMs = back ? Math.round(D.ms.armOutQ * back / 3) + 50 : D.ms.armIn;
-const t0 = await show1([film("d_lp", "rec" + n + "_spin", 0, 20, true, LONG), recFilm("rec" + n + "_up"), armFilm(back ? "arm_outq" + k + "_b" + back : "arm_in" + k)]);
+const t0 = await swap([lay("loop", "rec" + n + "_spin", 0, true), recPic("rec" + n + "_up"), armPic(back ? "arm_outq" + k + "_b" + back : "arm_in" + k)]);
 edge("start");
 deck.loops = t0;
 deck.arm = k;
 deck.move = { kind: back ? "back" : "in", t0: t0, k: k };
 if (!(await whileOn(armMs + 60 - (Date.now() - t0), gen))) return;     // (broken off by the pause key: see recHalt)
-await post([armLies("arm_p" + k)]);
-deck.armOn = true;
+deck.armOn = true;                                 // (the arm's film holds its last picture: the arm lying on the record)
 if (!(await whileOn(D.ms.up + 100 - (Date.now() - t0), gen))) return;
-await post([away("d_st")]);                        // (the spin-up has dissolved into the loop under it)
+await swap([unlay("rec")]);                        // (the spin-up has dissolved into the loop under it)
 deck.state = "playing";
 deck.seq = "";
 }
@@ -2572,15 +2625,12 @@ const part = !deck.armOn && mv && mv.kind === "in" ? (Date.now() - mv.t0) / D.ms
 const back = part >= 0.16 ? clamp(Math.ceil(part * 4), 1, 4) : 0, down = deck.armOn || (mv && mv.kind === "back");
 const name = down ? "arm_outq" + k : back ? "arm_in" + k + "_b" + back : "", ms = down ? D.ms.armOutQ : Math.round(D.ms.armIn * back / 8) + 60;
 deck.armOn = false;
-const t0 = await show1([recLies(n), away("d_lp"), name ? armFilm(name) : armLies("arm_rest")]);
+const t0 = await swap([recLies(n), unlay("loop"), name ? armPic(name) : LAY.arm.pic === "arm_rest" ? null : armPic("arm_rest")]);
 edge("halt");
 jot("still: the record lies, " + (name || "the arm on its rest") + (Date.now() - helper.saidAt < 5000 ? " - " + (Date.now() - helper.saidAt) + " ms after the Mac's word" : ""));
 deck.move = { kind: down ? "outq" : "rest", t0: t0, k: k };
 await pauseStep(Date.now());                       // (the pause mark comes with the record's stop, not at the loop's next round)
-if (name) {
-if (!(await whileOn(ms + 40 - (Date.now() - t0), gen))) return;
-await post([armLies("arm_rest")]);
-}
+if (name && !(await whileOn(ms + 40 - (Date.now() - t0), gen))) return;     // (the arm's film holds its last picture: on its rest)
 deck.seq = "";
 }
 function haltNow() {
@@ -2600,12 +2650,10 @@ async function recStop() {
 const n = deck.rec;
 deck.seq = "stop";
 deck.armOn = false;
-const t0 = await show1([recFilm("rec" + n + "_down"), armFilm("arm_out" + deck.arm)]);
+const t0 = await swap([recPic("rec" + n + "_down"), armPic("arm_out" + deck.arm)]);
 edge("arm lifts");
-await sleep(D.ms.armOut + 60 - (Date.now() - t0));
-await post([armLies("arm_rest")]);
 await sleep(D.ms.down + 100 - (Date.now() - t0));
-await post([recLies(n), away("d_lp")]);          // (one request: the still, with its edge, and the loop gone from under it)
+await swap([unlay("loop")]);                       // (the film holds its last picture, the record lying still)
 deck.state = "stopped";
 }
 async function recEnd() {
@@ -2623,10 +2671,10 @@ async function recLay(n, t0) {
 await sleep(D.ms.out + 20 - (Date.now() - t0));
 deck.hold = false;                                 // the old record has left: from here on the words' half is the new song's,
 songSince = Date.now();                            // and its name gets its time from now
-const t1 = await show1([recFilm("rec" + n + "_in")]);
+const t1 = await swap([recPic("rec" + n + "_in")]);
 edge("old one gone, in begins");
 await sleep(D.ms.in + 40 - (Date.now() - t1));
-await post([recLies(n)]);
+await swap([recLies(n)], [rim(n)]);
 edge("lies");
 deck.rec = n;
 deck.state = "stopped";
@@ -2635,24 +2683,21 @@ if (cur.kind === "music" && cur.state === "playing" && recordOf(cur) === n && ta
 }
 async function recSwap(n) {
 deck.hold = true;
-const t0 = await show1([recFilm("rec" + deck.rec + "_out")]);     // (it begins with the record lying still)
+const t0 = await swap([recPic("rec" + deck.rec + "_out"), rim(-1)]);     // (it begins with the record lying still)
 await recLay(n, t0);
 }
 async function recSkip(n) {
 deck.hold = true;
-const t0 = await show1([armFilm("arm_outq" + deck.arm)]);
+const t0 = await swap([armPic("arm_outq" + deck.arm)]);
 await sleep(D.ms.armOutQ - 250 - (Date.now() - t0));
-const t1 = await show1([recFilm("rec" + deck.rec + "_out"), away("d_lp")]);      // (one request: the record at rest over the loop, the loop gone)
-await sleep(D.ms.armOutQ + 40 - (Date.now() - t0));
-await post([armLies("arm_rest")]);
+const t1 = await swap([recPic("rec" + deck.rec + "_out"), unlay("loop"), rim(-1)]);      // (the record at rest over the loop; the loop goes in the next request)
 await recLay(n, t1);
 }
 async function armAgain(k) {
-const t0 = await show1([armFilm("arm_outq" + deck.arm)]);
+const t0 = await swap([armPic("arm_outq" + deck.arm)]);
 await sleep(D.ms.armOutQ + 20 - (Date.now() - t0));
-const t1 = await show1([armFilm("arm_inq" + k)]);
+const t1 = await swap([armPic("arm_inq" + k)]);
 await sleep(D.ms.armInQ + 40 - (Date.now() - t1));
-await post([armLies("arm_p" + k)]);
 deck.arm = k;
 }
 function armPlace(now) {
@@ -2686,7 +2731,7 @@ const k = armPlace(now);
 if (Math.abs(k - deck.arm) > 1) run(deck, () => armAgain(k));     // a new song, or a leap within one
 else {                                        // the song goes on: the arm has crept a little further in
 deck.arm = k;
-run(deck, () => post([armLies("arm_p" + k)]));
+run(deck, () => swap([armPic("arm_p" + k)]));
 }
 }
 } else if (deck.state === "stopped") {
@@ -2792,18 +2837,20 @@ async function refresh(now) {
 if (onPage === "deck" && !deck.busy && deck.state !== "off") {
 if (now - deck.still > 45000) {
 deck.still = now;
-const parts = [film("d_ar", deck.state === "playing" ? "arm_p" + deck.arm : "arm_rest", ARM_X, 50, false, STILL), block("km", 0, 0, TXT, 16, "#000000FF", 5)];
-if (deck.state === "stopped") parts.push(film("d_st", "rec" + deck.rec + "_still", 0, 30, false, STILL));
-await post(parts);
+await post([block("km", 0, 0, TXT, 16, "#000000FF", 5)]);
 }
 if (now - deck.plat > 400 * LONG) {
 deck.plat = now;
-await post([film("d_pl", "platter", 0, 10, true, LONG)]);
-await post(deck.state === "playing" ? [away("d_st")] : deck.state === "stopped" ? [away("d_lp")] : [away("d_st"), away("d_lp")]);     // (the parts that wait out of sight)
+const arm = deck.armOn && deck.state === "playing" ? "arm_p" + deck.arm : "arm_rest";
+await swap([lay("plat", "platter", 0, true), armPic(arm), deck.state === "stopped" && deck.rec >= 0 ? recLies(deck.rec) : null]);
+const idle = [];                              // (the elements that wait out of sight, sent again)
+for (const k in LAY) for (let i = 0; i < 2; i++) if (LAY[k].on !== i) idle.push(away(LAY[k].ids[i]));
+await post(idle);
+if (rimAt.n >= 0) await post([rim(rimAt.n)]);
 }
 if (deck.state === "playing" && now - deck.loops > 400 * LONG) {
 deck.loops = now;
-await post([film("d_lp", "rec" + deck.rec + "_spin", 0, 20, true, LONG)]);
+await swap([lay("loop", "rec" + deck.rec + "_spin", 0, true)]);
 }
 }
 if (onPage === "proj" && !proj.busy && now - proj.loops > 400 * LONG) {
