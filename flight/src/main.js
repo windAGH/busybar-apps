@@ -49,20 +49,34 @@ const pad2 = (n) => (n < 10 ? "0" : "") + n;
 function report(what, err) {
 console.error(APP + ": " + what + ": " + (err && err.message ? err.message : String(err)));
 }
+let callWait = 0, netWait = 0;
+function within(p, ms) {
+if (!ms) return p;
+return new Promise((done, fail) => {
+const timer = setTimeout(() => fail(new Error("no answer in " + ms + " ms")), ms);
+p.then((v) => {
+clearTimeout(timer);
+done(v);
+}, (err) => {
+clearTimeout(timer);
+fail(err);
+});
+});
+}
 async function call(method, path, body, type) {
 try {
 const init = body === undefined ? { method: method }
 : { method: method, headers: { "Content-Type": type || "application/json" }, body: body };
-const res = await fetch(API + path, init);
-const text = await res.text();
+const res = await within(fetch(API + path, init), callWait);
+const text = await within(res.text(), callWait);
 return { ok: res.ok, status: res.status, text: text };
 } catch (err) {
 return { ok: false, status: 0, text: String(err) };
 }
 }
 async function getJson(url) {
-const res = await fetch(url);
-const text = await res.text();
+const res = await within(fetch(url), netWait);
+const text = await within(res.text(), netWait);
 if (!res.ok) {
 throw new Error("HTTP " + res.status);
 }
@@ -920,7 +934,8 @@ const TX = (label) => 2 + smallWidth(label) + 4;                      // where a
 function airportEls(label, i, extra, tints, hint) {
 const els = [rect("bg", 0, 0, 72, 16, "#000000FF", 0)];
 const land = country(i), both = land && smallWidth(cityOf(i)) + 5 + smallWidth(land) <= 68;       // the country only when both fit whole
-if (hint !== undefined) {
+if (hint === null) {
+} else if (hint !== undefined) {
 const part = (v, k) => ("0" + Math.round(v * hint * (k || 1)).toString(16).toUpperCase()).slice(-2);
 const grey = "#" + part(200) + part(204) + part(214), amber = "#" + part(255) + part(190) + part(40);
 const ground = "#" + part(255, 0.6) + part(190, 0.6) + part(40, 0.6), down = mod(Date.now() - hintAt, 800) >= 500;
@@ -977,6 +992,7 @@ return -1;
 }
 const ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let hintAt = 0;                     // when an airport page came up: its hint shows for the first moments
+let hintUp = false;                 // the hint is on the page that is on screen
 function hintNow() {
 const age = Date.now() - hintAt;
 return age >= HINT_MS ? undefined : Math.max(0.08, age < 600 ? age / 600 : age > HINT_MS - 600 ? (HINT_MS - age) / 600 : 1);
@@ -1473,6 +1489,8 @@ flaps[f] = "";
 } else if (mode === "home") {
 await flip("h", "h_at", code(st.at), [TX("FROM"), TX("FROM") + 9, TX("FROM") + 18], 7, 8);
 const hint = hintNow();
+if (hint === undefined && hintUp && onPage === "home") await show(airportEls("FROM", st.at, "", "", null));
+hintUp = hint !== undefined;
 await draw("home", airportEls("FROM", st.at, "", "", hint));
 if (!waiting()) await nap(hint ? 90 : 30000);
 const k = keys();
@@ -1526,6 +1544,8 @@ mode = "dest";
 const i = cands[pick];
 await flip("d", "d_at", code(i), [TX("TO"), TX("TO") + 9, TX("TO") + 18], 7, 8);
 const hint = hintNow();
+if (hint === undefined && hintUp && onPage === "dest") await show(airportEls("TO", i, hm(Math.round(flightMin(km(st.at, i)) / 5) * 5), "", null));
+hintUp = hint !== undefined;
 await draw("dest", airportEls("TO", i, hm(Math.round(flightMin(km(st.at, i)) / 5) * 5), "", hint));
 if (!waiting()) await nap(hint ? 90 : 30000);
 const k = keys();
