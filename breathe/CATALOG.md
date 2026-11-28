@@ -4,7 +4,8 @@ A light to breathe with. It swells as you breathe in and sinks as you breathe ou
 
 ## What you see
 
-- The main screen: the light at rest in the middle, left of it the name of the pattern and under that the minutes, a small arrowhead under Start (the button on top), and at the knob a small arrow with the word GUIDE.
+- The main screen, at every start: the name, the light at rest, a small arrowhead under Start (the button on top) that moves up to it and back, and at the knob the mark for a press with the word GUIDE.
+- The choice: the light at rest in the middle, the name of the pattern on its left, the minutes on its right.
 - Three patterns, each with its own colour of light. Calm (purple) is a guided breath of seven breaths a minute, out longer than in, with no holds. Box (gold) is in for 4 seconds, hold 4, out 4, hold 4. Sleep (teal) is in for 4, hold 7, out 8.
 - A session: only the light. It grows quickly at first and settles, and lets go slowly. With the first three breaths the words IN, HOLD and OUT appear for a moment, then there is nothing but the light. A thin line along the bottom edge shows how far the session is.
 - A session is made of whole breaths and always ends on a breath out. One minute of Calm is seven breaths.
@@ -13,9 +14,10 @@ A light to breathe with. It swells as you breathe in and sinks as you breathe ou
 
 ## Controls
 
-- The app opens on its main screen and waits there. Start begins the session. Turn the knob to choose: 1 to 5 minutes of Calm, then of Box, then of Sleep, and round again. Pressing the knob (OK) opens the guide. Back leaves the app.
-- In a session: Start pauses and goes on. When paused, the light dims and two bars stand under Start. Back stops the session and returns to the main screen.
-- Summary: any control returns to the main screen. It also returns by itself after a while.
+- Main screen: the app opens here and waits. Start goes on to the choice. Pressing the knob (OK) opens the guide. Back leaves the app.
+- The choice: turn the knob for 1 to 5 minutes. OK goes to the next pattern. Start begins the session. Back returns to the main screen.
+- In a session: Start pauses and goes on. When paused, the light dims and two bars stand under Start. Back stops the session and returns to the choice.
+- Summary: any control returns to the choice. It also returns by itself after a while.
 - Guide: Start, OK or a turn of the knob forward goes to the next page. A turn back or Back goes to the page before. Any control on the last page, or Back on the first, closes the guide and returns to the main screen.
 
 ## Settings
