@@ -18,7 +18,8 @@ A conveyor-belt sushi bar for your desk. Plates glide past under glass domes; ta
 - On the belt: Start or OK takes the plate in the light. Turn the knob to look down at your table. Back leaves the app.
 - With a plate in front of you: Start or OK takes a bite; three bites and it is eaten. Back puts an untouched plate back on the belt.
 - At your table: Start or OK pushes one plate into the slot. Turn the knob, or press Back, to go up to the belt again.
-- Every start begins with the author's mark for a second and a half. The first time, a short guide follows: five pages, one control a page, that you turn yourself. Start, OK or a turn of the knob forward goes to the next page, a turn back or Back to the page before. On the last page any key opens the bar, and does nothing else. The guide does not come again by itself.
+- Every start begins with the author's mark for a second and a half and opens on the main screen: the name over the running belt. Start enters at once, pressing the knob (OK) opens the guide, Back leaves. Left alone, the name fades after four seconds and the bar is open.
+- The guide is five pages, one control a page, that you turn yourself: Start, OK or a turn of the knob forward for the next page, a turn back or Back for the page before. Any key on the last page, or Back on the first, closes it and leads back to the main screen. The first time you use the app it opens by itself.
 - When you wait, a small light under Start or the knob shows what it does there.
 
 ## Settings

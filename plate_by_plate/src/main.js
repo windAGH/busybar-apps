@@ -10,7 +10,7 @@
 // "Start over", the ceremony for a finished menu, the one step that is repeated, the settings, the start with the
 // author's mark).
 
-const D = {"app":"io.github.windagh.plate_by_plate","name":"Plate by Plate","items":[{"n":["SALMON","NIGIRI"],"t":1,"e":[16,9]},{"n":["TUNA","NIGIRI"],"t":2,"e":[16,9]},{"n":["SHRIMP","NIGIRI"],"t":1,"e":[16,8]},{"n":["SWEET","OMELETTE"],"t":0,"e":[16,9]},{"n":["GRILLED","EEL"],"t":2,"e":[16,9]},{"n":["SQUID","NIGIRI"],"t":1,"e":[17,9]},{"n":["SCALLOP","NIGIRI"],"t":2,"e":[16,9]},{"n":["SALMON","ROE"],"t":3,"e":[15,10]},{"n":["SEA","URCHIN"],"t":3,"e":[17,10]},{"n":["CUCUMBER","ROLL"],"t":0,"e":[17,10]},{"n":["TUNA","ROLL"],"t":0,"e":[17,10]},{"n":["BIG","ROLL"],"t":2,"e":[16,11]},{"n":["INSIDE-","OUT ROLL"],"t":2,"e":[17,10]},{"n":["TOFU","POUCH"],"t":0,"e":[16,9]},{"n":["HAND","ROLL"],"t":2,"e":[18,10]},{"n":["EDAMAME","BEANS"],"t":0,"e":[16,9]},{"n":["MISO","SOUP"],"t":0,"e":[16,9]},{"n":["CUSTARD","PUDDING"],"t":1,"e":[15,10]},{"n":["MATCHA","ICE"],"t":1,"e":[17,12]},{"n":["MELON","SLICE"],"t":2,"e":[16,9]},{"n":["FATTY","TUNA"],"t":4,"e":[16,9]},{"n":["LOBSTER","TAIL"],"t":4,"e":[17,9]},{"n":["GOLD","LEAF"],"t":4,"e":[16,9]}],"key":["#FF7A32","#E02438","#FF966E","#FFCE38","#BE601E","#DCE6FF","#FFE8C4","#FF5A14","#F4A41E","#60D25A","#C82846","#FF96AA","#FF9628","#E29632","#508268","#78D242","#D63C28","#FFD678","#8CC446","#B4EC7C","#FF96A6","#F03C1E","#FFD232"],"tier":[["#BEFFCC","#42CC70","#106032","#E2FFE8","#1A763E"],["#B8DEFF","#4096FF","#103C96","#DFF0FF","#1A4EAB"],["#FFAA96","#F6463E","#821012","#FFD9D0","#991B1B"],["#E4C4FF","#B268FA","#4C1E8C","#F3E4FF","#602DA2"],["#FFF6B4","#FFC82C","#AA6406","#FFFBDD","#BB780E"]],"speed":[3,4.5,6],"guide":5,"swallow":250,"charm":[{"n":"LUCKY CAT","d":[".ccd.","cbccd","bbccd",".bcd.",".bcc."]},{"n":"DARUMA","d":["..d..",".ccd.","abccd","aabbc",".aaa."]},{"n":"TEA CUP","d":[".....",".....",".bbd.",".bbd.",".aab."]},{"n":"FISH KITE","d":[".....","ccccc","cbbcc","bb..c","....."]},{"n":"TINY CHEF","d":[".ccd.",".bcd.",".bbd.",".cbd.",".bcc."]},{"n":"LANTERN","d":["..c..",".bbc.","abbbc",".abc.","..a.."]},{"n":"TORII","d":["baabc","ababc",".bbc.",".b.c.",".b.a."]},{"n":"MT FUJI","d":["...bd","..cbc",".bbd.",".bbc.","aaaab"]},{"n":"KOKESHI","d":["..c..",".bbc.",".bbd.",".bcd.",".abc."]},{"n":"SAKURA","d":["..d..",".ccd.","bcccd",".ccd.",".b.b."]}],"dimPal":["a c #20140E","b c #382418","c c #563A26","d c #966A42","e c #281609","f c #40240E","g c #5E3616","h c #824C20","i c #AA662C"],"shelf":"eeeeeeeeeeffffffffgggghhhhhiii","pile":{"x":[35,43],"max":4,"shade":"#46220C"},"f":{"dn0":[1,11,350],"dn1":[1,11,350],"dn2":[1,11,350],"dn3":[1,11,350],"dn4":[1,11,350],"dome":[0,0,1000],"bar":[0,0,1000],"belt0":[0,12,2000],"belt1":[0,12,1333],"belt2":[0,12,1000],"rest":[53,10,1000],"herald":[0,9,1300],"tap":[29,0,1300],"guide_0":[0,0,1000],"guide_1":[0,0,1000],"guide_2":[0,0,1000],"guide_3":[0,0,1000],"guide_4":[0,0,1000],"whl_dn":[58,3,2000],"whl_up":[58,0,2000],"night":[0,0,1000],"night_in":[0,0,1000],"veil":[0,0,1000],"veil_in":[0,0,300],"veil_out":[0,0,450],"rise":[0,0,500],"settle":[0,0,400],"sink1":[0,0,400],"sink2":[0,0,650],"lift":[0,0,750],"cover":[0,0,550],"glow":[1,0,2400],"glow2":[1,0,2400],"crumb":[0,0,350],"blank":[0,0,1000],"yum":[0,0,700],"twk":[0,0,800],"table":[0,0,1000],"pan_dn":[0,0,600],"pan_up":[0,0,600],"lamp_on":[0,0,350],"lamp_off":[0,0,250],"belt_in":[0,0,300],"in0":[49,6,650],"in1":[49,6,650],"in2":[49,6,650],"in3":[49,6,650],"in4":[49,6,650],"dark_out":[0,0,350],"open":[0,0,200],"dark_in":[0,0,300],"stage_in":[0,0,300],"stage_out":[0,0,350],"capsule":[0,0,3050],"pop":[0,0,600],"spark":[0,0,2000],"c0":[10,1,1000],"c1":[10,1,1000],"c2":[10,1,1000],"c3":[10,1,1000],"c4":[10,1,1000],"c5":[10,1,1000],"c6":[10,1,1000],"c7":[10,1,1000],"c8":[10,1,1000],"c9":[10,1,1000],"tube":[0,0,1700],"gift":[2,1,350]},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
+const D = {"app":"io.github.windagh.plate_by_plate","name":"Plate by Plate","items":[{"n":["SALMON","NIGIRI"],"t":1,"e":[16,9]},{"n":["TUNA","NIGIRI"],"t":2,"e":[16,9]},{"n":["SHRIMP","NIGIRI"],"t":1,"e":[16,8]},{"n":["SWEET","OMELETTE"],"t":0,"e":[16,9]},{"n":["GRILLED","EEL"],"t":2,"e":[16,9]},{"n":["SQUID","NIGIRI"],"t":1,"e":[17,9]},{"n":["SCALLOP","NIGIRI"],"t":2,"e":[16,9]},{"n":["SALMON","ROE"],"t":3,"e":[15,10]},{"n":["SEA","URCHIN"],"t":3,"e":[17,10]},{"n":["CUCUMBER","ROLL"],"t":0,"e":[17,10]},{"n":["TUNA","ROLL"],"t":0,"e":[17,10]},{"n":["BIG","ROLL"],"t":2,"e":[16,11]},{"n":["INSIDE-","OUT ROLL"],"t":2,"e":[17,10]},{"n":["TOFU","POUCH"],"t":0,"e":[16,9]},{"n":["HAND","ROLL"],"t":2,"e":[18,10]},{"n":["EDAMAME","BEANS"],"t":0,"e":[16,9]},{"n":["MISO","SOUP"],"t":0,"e":[16,9]},{"n":["CUSTARD","PUDDING"],"t":1,"e":[15,10]},{"n":["MATCHA","ICE"],"t":1,"e":[17,12]},{"n":["MELON","SLICE"],"t":2,"e":[16,9]},{"n":["FATTY","TUNA"],"t":4,"e":[16,9]},{"n":["LOBSTER","TAIL"],"t":4,"e":[17,9]},{"n":["GOLD","LEAF"],"t":4,"e":[16,9]}],"key":["#FF7A32","#E02438","#FF966E","#FFCE38","#BE601E","#DCE6FF","#FFE8C4","#FF5A14","#F4A41E","#60D25A","#C82846","#FF96AA","#FF9628","#E29632","#508268","#78D242","#D63C28","#FFD678","#8CC446","#B4EC7C","#FF96A6","#F03C1E","#FFD232"],"tier":[["#BEFFCC","#42CC70","#106032","#E2FFE8","#1A763E"],["#B8DEFF","#4096FF","#103C96","#DFF0FF","#1A4EAB"],["#FFAA96","#F6463E","#821012","#FFD9D0","#991B1B"],["#E4C4FF","#B268FA","#4C1E8C","#F3E4FF","#602DA2"],["#FFF6B4","#FFC82C","#AA6406","#FFFBDD","#BB780E"]],"speed":[3,4.5,6],"guide":5,"swallow":250,"charm":[{"n":"LUCKY CAT","d":[".ccd.","cbccd","bbccd",".bcd.",".bcc."]},{"n":"DARUMA","d":["..d..",".ccd.","abccd","aabbc",".aaa."]},{"n":"TEA CUP","d":[".....",".....",".bbd.",".bbd.",".aab."]},{"n":"FISH KITE","d":[".....","ccccc","cbbcc","bb..c","....."]},{"n":"TINY CHEF","d":[".ccd.",".bcd.",".bbd.",".cbd.",".bcc."]},{"n":"LANTERN","d":["..c..",".bbc.","abbbc",".abc.","..a.."]},{"n":"TORII","d":["baabc","ababc",".bbc.",".b.c.",".b.a."]},{"n":"MT FUJI","d":["...bd","..cbc",".bbd.",".bbc.","aaaab"]},{"n":"KOKESHI","d":["..c..",".bbc.",".bbd.",".bcd.",".abc."]},{"n":"SAKURA","d":["..d..",".ccd.","bcccd",".ccd.",".b.b."]}],"dimPal":["a c #20140E","b c #382418","c c #563A26","d c #966A42","e c #281609","f c #40240E","g c #5E3616","h c #824C20","i c #AA662C"],"shelf":"eeeeeeeeeeffffffffgggghhhhhiii","pile":{"x":[35,43],"max":4,"shade":"#46220C"},"f":{"dn0":[1,11,350],"dn1":[1,11,350],"dn2":[1,11,350],"dn3":[1,11,350],"dn4":[1,11,350],"dome":[0,0,1000],"bar":[0,0,1000],"belt0":[0,12,2000],"belt1":[0,12,1333],"belt2":[0,12,1000],"rest":[53,10,1000],"herald":[0,9,1300],"tap":[29,0,1300],"guide_0":[0,0,1000],"guide_1":[0,0,1000],"guide_2":[0,0,1000],"guide_3":[0,0,1000],"guide_4":[0,0,1000],"title":[0,0,1000],"title_out":[0,0,300],"whl_dn":[58,3,2000],"whl_up":[58,0,2000],"night":[0,0,1000],"night_in":[0,0,1000],"veil":[0,0,1000],"veil_in":[0,0,300],"veil_out":[0,0,450],"rise":[0,0,500],"settle":[0,0,400],"sink1":[0,0,400],"sink2":[0,0,650],"lift":[0,0,750],"cover":[0,0,550],"glow":[1,0,2400],"glow2":[1,0,2400],"crumb":[0,0,350],"blank":[0,0,1000],"yum":[0,0,700],"twk":[0,0,800],"table":[0,0,1000],"pan_dn":[0,0,600],"pan_up":[0,0,600],"lamp_on":[0,0,350],"lamp_off":[0,0,250],"belt_in":[0,0,300],"in0":[49,6,650],"in1":[49,6,650],"in2":[49,6,650],"in3":[49,6,650],"in4":[49,6,650],"dark_out":[0,0,350],"open":[0,0,200],"dark_in":[0,0,300],"stage_in":[0,0,300],"stage_out":[0,0,350],"capsule":[0,0,3050],"pop":[0,0,600],"spark":[0,0,2000],"c0":[10,1,1000],"c1":[10,1,1000],"c2":[10,1,1000],"c3":[10,1,1000],"c4":[10,1,1000],"c5":[10,1,1000],"c6":[10,1,1000],"c7":[10,1,1000],"c8":[10,1,1000],"c9":[10,1,1000],"tube":[0,0,1700],"gift":[2,1,350]},"small":{"A":4,"B":4,"C":4,"D":4,"E":4,"F":4,"G":4,"H":4,"I":1,"J":3,"K":4,"L":3,"M":5,"N":4,"O":4,"P":4,"Q":4,"R":4,"S":4,"T":3,"U":4,"V":3,"W":5,"X":3,"Y":3,"Z":3,"a":3,"b":3,"c":3,"d":3,"e":3,"f":2,"g":3,"h":3,"i":1,"j":2,"k":3,"l":1,"m":5,"n":3,"o":3,"p":3,"q":3,"r":2,"s":3,"t":2,"u":3,"v":3,"w":5,"x":3,"y":3,"z":3,"0":3,"1":2,"2":3,"3":3,"4":3,"5":3,"6":3,"7":3,"8":3,"9":3,",":1,":":1,".":1,"%":4,"/":2,"-":2,"+":3," ":1,"&":4},"smallGap":1,"xl":{"0":7,"1":4,"2":7,"3":7,"4":7,"5":7,"6":7,"7":7,"8":7,"9":7},"bold":{"0":6,"1":6,"2":6,"3":6,"4":6,"5":6,"6":6,"7":6,"8":6,"9":6},"normal":{"0":5,"1":5,"2":5,"3":5,"4":5,"5":5,"6":5,"7":5,"8":5,"9":5}};
 // ===== core.js =====
 const APP = D.app;
 const API = "http://localhost/api/";
@@ -798,9 +798,9 @@ if (k.turn || k.ok || k.start || k.back) since = Date.now();
 return k;
 }
 const pending = () => ctl.turn !== 0 || ctl.ok || ctl.start || backs > 0;
-onBack = () => {                                 // Back leaves the app at the belt (and on the guide's first page); elsewhere it is a step back
-if (bookAt < 0 ? mode === "belt" : bookAt === 0) return false;
-backs++;
+onBack = () => {                                 // Back leaves the app on the main screen and at the belt; elsewhere it is a step back
+if (bookAt < 0 && (mode === "belt" || mode === "title")) return false;
+backs++;                                       // (in the guide: a page back; on its first page the guide closes)
 return true;
 };
 function hour() {
@@ -1395,7 +1395,8 @@ cur = null;
 bites = 0;
 pv.lines = [];
 beltHints = 0;
-await post(pageParts(-1));                       // the guide's pages, off-screen (made now if this start had no guide)
+await post(pageParts(-1));                       // the guide's pages, off-screen (made now if they were not yet)
+pagesMade = PAGES;
 if (!black) {
 await barUp();
 beltAt = Math.max(beltAt, Date.now() - 20000);
@@ -1405,10 +1406,8 @@ keys();
 await sleep(1600 - (Date.now() - shown));
 mode = "belt";
 await book(park(["z_blk", "z_t1", "z_t2"]), black);     // the guide again: its first page takes the card's place
-beltGo();
-barDue = 0;
-keys();
-since = Date.now();
+if (stopped) return;
+await mainScreen();                              // and then, as at every start, the main screen
 }
 async function feast() {
 mode = "show";
@@ -1561,6 +1560,7 @@ if (bookAt === PAGES - 1) {                    // the last page: any key or turn
 if (Date.now() - read < 400) continue;       // that was on its way before the page could be read
 break;
 }
+if (bookAt === 0 && k.backs > 0 && k.turn + presses - k.backs < 0) break;    // Back on the first page: the guide closes
 const to = Math.max(0, Math.min(PAGES - 1, bookAt + k.turn + presses - k.backs));
 if (to !== bookAt) {
 await post([pagePart(to, true), pagePart(bookAt, false)]);
@@ -1573,13 +1573,58 @@ while (todo.length) await todo.shift()();
 beltGo();
 await barUp();
 await beltCatch();
+await titleUp();
 await post([play("open", Z.book + 1, 0, 0).part].concat(pageParts(-1)));
 bookAt = -1;
 const opened = Date.now();
+if (!st.seen) {
 st.seen = true;
 await save();
+}
 await sleep(ms("open") - (Date.now() - opened));
 keys();                                          // the key that closed the guide does nothing else
+}
+const TITLE_MS = 4000;
+let titleMade = false, pagesMade = 0;
+const titlePart = (on) => '{"id":"ttl","type":"animation","path":"animations/title.anim","x":' + (on ? 0 : OFF) +
+',"y":0,"align":"top_left","loop":true,"section":"default","timeout":' + LOOP_T + ',"z_index":' + (Z.book - 10) + "}";
+async function titleUp() {
+if (!titleMade) await post([titlePart(false)]);
+titleMade = true;
+await post([titlePart(true)]);
+}
+async function mainScreen() {
+mode = "title";
+keys();
+let until = Date.now() + TITLE_MS;
+while (!stopped) {
+await beltTick();                              // the belt runs on under the name
+if (!pending()) {
+if (pagesMade < PAGES) {
+await post([pagePart(pagesMade++, false)]);
+continue;
+}
+await nap(Math.max(0, Math.min(untilStep(), until - Date.now())));
+}
+if (stopped) return;
+const k = keys();
+if (k.start) break;                            // Start: in
+if (k.ok) {                                    // OK: the guide; it comes back to this screen
+while (pagesMade < PAGES) await post([pagePart(pagesMade++, false)]);
+await book([], false);
+if (stopped) return;
+mode = "title";
+until = Date.now() + TITLE_MS;
+continue;
+}
+if (k.turn) until = Date.now() + TITLE_MS;     // (a turn does nothing here; it only shows that somebody is there)
+if (Date.now() >= until) break;
+}
+await post([play("title_out", Z.book - 9, 0, 0).part, titlePart(false)]);     // the name fades: a film takes its place and thins away
+mode = "belt";
+keys();
+barDue = Date.now() + 5000;
+since = hintAt = Date.now();
 }
 const SPLASH_MS = 1500;
 const SPLASH = { id: "zz_mark", type: "animation", path: "animations/splash.anim", x: 0, y: 0, align: "top_left", loop: false,
@@ -1605,15 +1650,26 @@ at += gap();
 goldDue = gold;                                  // (TEST build --gold: the first plate that comes in)
 nextAt = at;
 const withBook = !st.seen || resetDue;
-if (withBook) await post(pageParts(-1));         // the guide's pages: made now, off-screen (a turn of the page only moves them)
-else await layBar();
+if (withBook) {
+await post(pageParts(-1));                     // the guide's pages: made now, off-screen (a turn of the page only moves them)
+pagesMade = PAGES;
+} else {
+await layBar();
+await titleUp();                               // the main screen, over the bar and under the mark
+}
 const t3 = Date.now();
 await sleep(SPLASH_MS - (Date.now() - t0));      // the film's time (never cut short, never drawn twice)
 if (stopped) return;                             // Back during the mark: the app leaves, as on the belt
 const t4 = Date.now();
-if (resetDue) await act("startOver", () => startOver(true));     // the switch was flipped while the app was closed
-else if (withBook) await book([away(SPLASH)], true);
-else await post([play("open", Z.show + 11, 0, 0).part, away(SPLASH)]);     // out of the film's black, in a fifth of a second
+if (resetDue) {
+await act("startOver", () => startOver(true)); // the switch was flipped while the app was closed (the card, the guide, the main screen)
+} else {
+if (withBook) await book([away(SPLASH)], true);
+else await post([play("open", Z.book + 1, 0, 0).part, away(SPLASH)]);    // out of the film's black, in a fifth of a second
+if (stopped) return;
+beltGo();
+await mainScreen();
+}
 if (stopped) return;
 beltGo();
 keys();                                          // what was pressed during the mark does not count
