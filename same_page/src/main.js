@@ -801,28 +801,42 @@ await putWith([], [byId(els).g_shut], [over("zz_door", "close", OFF, 8, 5)]);
 await sync(els, true);
 await wipe(["zz_door"]);
 }
+async function cueStep(els) {
+const changed = els.filter((el) => {
+const rec = live.get(el.id);
+return !rec || rec.s !== wire(el);
+});
+if (changed.length > 8) return sync(els, true);
+if (changed.length) await putWith([], changed);
+}
 async function cueIn(c, ms, els) {
-const page = els || gameEls;
-if (cue) {                                     // another one is on: it slides out first
+const page = els || gameEls, replaced = cue !== null;
+if (replaced) {                                // another one is on: it starts to leave first
 cueDy = -4;
-await sync(page(), true);
+await cueStep(page());
 }
 cue = c;
-for (const dy of [-5, -2, 0]) {
-cueDy = dy;
-await sync(page(), dy !== -5);                // (the first picture takes what the last cue left away)
-if (dy) await sleep(35);
-}
-cueEnd = ms === 0 ? 0 : Date.now() + (ms || 1400);
+const t0 = Date.now();
+cueDy = -4;
+await cueStep(page());
+let spent = Date.now() - t0;
+if (replaced) await sync(page());              // (takes away what the last cue left)
+await sleep(20);
+const t1 = Date.now();
+cueDy = 0;
+await cueStep(page());
+spent += Date.now() - t1;
+const request = Math.min(250, spent / 2);
+const was = c[2] === "tap" && c[1] ? 2 : 1;    // the requests a step of this cue took before (four elements: two)
+const saved = 100 + Math.round((5 * was - 3) * request);
+cueEnd = ms === 0 ? 0 : Date.now() + (ms || 1400) + saved;
 }
 async function cueOut(els) {
 if (!cue) return;
 const page = els || gameEls;
-for (const dy of [-2, -5]) {
-cueDy = dy;
-await sync(page(), true);
-await sleep(35);
-}
+cueDy = -3;
+await cueStep(page());
+await sleep(20);
 cue = null;
 cueEnd = 0;
 await sync(page());
