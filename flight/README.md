@@ -36,7 +36,7 @@ A flight keeps running while the app is closed and is picked up when you open it
 ## Airports
 
 - 3,244 airports with scheduled flights. The busiest 512 are part of the app and work at once.
-- The others arrive on the first start: 75 small text files (about 80 KB), fetched from this app's repository on GitHub and kept in its storage. It takes under a minute; you can plan a flight meanwhile. Without a connection the app says so once and goes on with the 512.
+- The others arrive on the first start: 75 small text files (about 80 KB), fetched from this app's repository on GitHub (or the same files through the jsDelivr CDN where GitHub does not answer) and kept in its storage. It takes under a minute; you can plan a flight meanwhile. Without a connection the app says so once and goes on with the 512.
 - Clocks use each airport's time zone as of the day the tables were built: after a change to or from summer time an arrival can be an hour off.
 
 ## Data and privacy

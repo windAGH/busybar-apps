@@ -1,7 +1,7 @@
 // Stocks: one ticker at a time on the BUSY Bar - the ticker and its price on the left, and on the right a box in
 // the day's colour with the change in percent, a small arrow that nods the way the price is going, and the day's
 // line. Quotes come straight from Yahoo Finance's public chart endpoint over the bar's Wi-Fi (no account, no key),
-// with CNBC's public quote as a fallback.
+// with CNBC's and Tencent's public quotes as fallbacks.
 //
 //   main.js    this file: the settings, and the start
 //   ticker.js  one ticker's stay on screen, and what the controls do

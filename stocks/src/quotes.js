@@ -6,12 +6,16 @@ import { run, sleep, wake } from "./bar.js";
 // Where the numbers come from, in this order. The first two are the same Yahoo Finance service on two addresses
 // and give everything (price, the close before, the line, the market's hours). The third, CNBC's public quote,
 // gives the price and today's change only: the line stays the last one we had (none if there never was one), and
-// the longer spans cannot come from it. The source that answered last is asked first for the next 10 minutes.
+// the longer spans cannot come from it. The fourth, Tencent's public quote, gives the same two numbers and is
+// there for the places the other three do not answer in; it carries shares and funds listed in the United States,
+// Hong Kong, Shanghai and Shenzhen and four indexes, nothing else (tencentCode). The source that answered last is
+// asked first for the next 10 minutes.
 const SOURCES = [
   { name: "yahoo-1", chart: "https://query1.finance.yahoo.com/v8/finance/chart/" },
   { name: "yahoo-2", chart: "https://query2.finance.yahoo.com/v8/finance/chart/" },
   { name: "cnbc", quote: "https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol" +
     "?requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&symbols=" },
+  { name: "tencent", quote: "https://qt.gtimg.cn/utf8/q=", codes: true },
 ];
 
 const STALE_MS = 900000;            // numbers this old while the market is open are shown as "not fresh"
@@ -169,6 +173,62 @@ async function askQuote(base, who, q) {
     hint: dot === -1 ? 0 : Math.min(4, String(r.last).length - dot - 1), open: r.curmktstatus === "REG_MKT" };
 }
 
+/** The symbol as Tencent's quote service writes it, or "" for a kind it is not asked for: AAPL -> usAAPL,
+ *  BRK-B -> usBRK.B, ^GSPC -> us.INX, 0700.HK -> hk00700, 600519.SS -> sh600519, 000001.SZ -> sz000001.
+ *  (Crypto, currencies, futures and the other exchanges: not carried, or not with numbers of the same kind.) */
+function tencentCode(sym) {
+  const index = { "^GSPC": "us.INX", "^DJI": "us.DJI", "^IXIC": "us.IXIC", "^HSI": "hkHSI" };
+  if (index[sym]) return index[sym];
+  let m = /^(\d{1,5})\.HK$/.exec(sym);
+  if (m) return "hk" + ("0000" + m[1]).slice(-5);
+  m = /^(\d{6})\.(SS|SZ)$/.exec(sym);
+  if (m) return (m[2] === "SS" ? "sh" : "sz") + m[1];
+  return /^[A-Z]{1,5}(-[A-Z])?$/.test(sym) ? "us" + sym.replace("-", ".") : "";
+}
+
+/** Whether New York is on summer time at that moment (in seconds): from the second Sunday of March to the first
+ *  Sunday of November. (To the day: the hours round the change are a Sunday's small hours, no market is open.) */
+function summerNY(t) {
+  const y = new Date(t * 1000).getUTCFullYear();
+  const sunday = (month, from) => {
+    const d = Date.UTC(y, month, from) / 1000;
+    return d + ((7 - new Date(d * 1000).getUTCDay()) % 7) * 86400;
+  };
+  return t >= sunday(2, 8) && t < sunday(10, 1);
+}
+
+/** Tencent's quote: one line of text, v_usAAPL="200~name~AAPL.OQ~358.54~355.58~...", fields separated by "~" -
+ *  [3] the price of the regular session, [4] the close of the day before, [30] the time of the quote on the
+ *  market's own clock ("2026-11-27 13:00:01", "2026/11/27 16:09:04" or "20261127161454"). No line, no extended
+ *  sessions, and no word on whether the market is open: it is taken as open while the quote is fresh inside the
+ *  market's regular hours. The name in the line is not used. */
+async function askTencent(base, who, q) {
+  const code = tencentCode(q.sym);
+  const body = await bodyOf(base + code, who);
+  const at = body.indexOf("v_" + code + '="');
+  const f = at === -1 ? [] : body.slice(at + code.length + 4, body.indexOf('"', at + code.length + 4)).split("~");
+  const d = String(f[30]).replace(/[^0-9]/g, "");
+  if (f.length < 33 || d.length !== 14) throw refused(who + " does not know " + q.sym, 200, body.indexOf("v_pv_none_match") !== -1);
+  const us = code.slice(0, 2) === "us";
+  const wall = Date.UTC(Number(d.slice(0, 4)), Number(d.slice(4, 6)) - 1, Number(d.slice(6, 8)), Number(d.slice(8, 10)),
+    Number(d.slice(10, 12)), Number(d.slice(12, 14))) / 1000;
+  const ahead = us ? (summerNY(wall) ? -14400 : -18000) : 28800;       // the market's clock against UTC, in seconds
+  const now = Date.now() / 1000;
+  const age = now - (wall - ahead);
+  // a symbol that left the market stays in the service with its last numbers: older than two weeks is "not known"
+  if (age > 1209600) throw refused(who + " has only old numbers for " + q.sym, 200, true);
+  const price = Number(f[3]);
+  if (!(price > 0)) throw refused(who + " no price", 200, false);
+  // the regular hours, in minutes of the market's day: New York 9:30-16:00, Hong Kong 9:30-16:10, Shanghai and
+  // Shenzhen 9:30-15:00 (the midday breaks count as open, as they do in the first source's hours)
+  const clock = Math.floor((now + ahead) / 60) % 1440;
+  const shut = us ? 960 : code.slice(0, 2) === "hk" ? 970 : 900;
+  const dot = f[3].indexOf(".");
+  return { price: price, prev: Number(f[4]), closes: null, start: q.start, allDay: q.allDay,
+    hint: dot === -1 ? 0 : Math.min(4, f[3].length - dot - 1),
+    open: clock >= 570 && clock < shut && age > -600 && age < (us ? 1800 : 6000) };
+}
+
 let best = 0, bestUntil = 0;        // the source that answered last, and until when it is asked first
 
 /** Reads one symbol for one span, from the first source that answers. Throws when none does (the caller keeps what
@@ -180,8 +240,10 @@ async function loadQuote(q, k) {
   for (let n = 0; n < SOURCES.length && !got; n++) {
     const i = (best + n) % SOURCES.length, src = SOURCES[i];
     if (k !== 0 && !src.chart) continue;         // the longer spans need the closes
+    if (src.codes && !tencentCode(q.sym)) continue;      // not a kind of symbol this source carries
     try {
-      got = src.chart ? await askChart(src.chart, src.name, q, k) : await askQuote(src.quote, src.name, q);
+      got = src.chart ? await askChart(src.chart, src.name, q, k)
+        : await (src.codes ? askTencent : askQuote)(src.quote, src.name, q);
       from = i;
     } catch (err) {
       if (err && err.unknown) unknown++;

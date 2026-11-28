@@ -31,11 +31,11 @@ A change applies within 10 seconds; no restart is needed.
 
 ## Data and privacy
 
-- Quotes come from Yahoo Finance's public chart endpoint (query1.finance.yahoo.com, then query2.finance.yahoo.com). When neither answers, CNBC's public quote (quote.cnbc.com) fills in: it gives the price and the day's change, but no line and no 5-day or 1-month span.
+- Quotes come from Yahoo Finance's public chart endpoint (query1.finance.yahoo.com, then query2.finance.yahoo.com). When neither answers, CNBC's public quote (quote.cnbc.com) fills in, and after it Tencent's public quote (qt.gtimg.cn), for places where the others cannot be reached. These two give the price and the day's change, but no line and no 5-day or 1-month span. Tencent's is asked only for shares and funds listed in the United States, Hong Kong (0700.HK), Shanghai (600519.SS) and Shenzhen (000001.SZ) and for ^GSPC, ^DJI, ^IXIC and ^HSI; it shows the regular session only.
 - These are unofficial endpoints. They need no key and no account, and they can be rate-limited or change without notice. Quotes may be delayed. This is not investment advice.
 - Each symbol is asked for once a minute while it trades (the extended sessions included) and every 10 minutes while its market is closed. The overnight session is not in these feeds.
 - The app sends no personal data: only the ticker symbols you entered go to those services. On the bar it keeps one small file with a count of failed requests.
-- This app is not affiliated with or endorsed by Yahoo or CNBC.
+- This app is not affiliated with or endorsed by Yahoo, CNBC or Tencent.
 
 ## Without a connection
 

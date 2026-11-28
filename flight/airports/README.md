@@ -2,6 +2,8 @@
 
 Small text files the Flight app fetches once, after it has been installed, and keeps in its own storage on the bar. One folder per set; an app asks for the set it was built with, so older versions keep working.
 
+The app asks for them at three addresses, in this order, each pinned to the same commit of this repository: `raw.githubusercontent.com`, then `cdn.jsdelivr.net/gh` and `fastly.jsdelivr.net/gh` ([jsDelivr](https://www.jsdelivr.com/), a public CDN that serves GitHub repositories as they are). An address that does not answer, or answers with something that is not the file, is passed over; a file is kept only when it has the length the app expects.
+
 - `v.txt`: the name of the set.
 - `g<k>.txt`: the positions of 600 airports, six characters each: the direction of the place from the middle of the earth (x, y, z, each between -1 and 1), two characters a number: (value + 1) x 4232, rounded, in base 92 with the characters from `#` on. Kept as directions so that the distance between two airports needs no trigonometry on the bar.
 - `a<c>.txt`: 64 airports, one line each: IATA code (3 characters), clock (2: minutes ahead of UTC on the day the set was built, plus 720, divided by 15, in base 36), country (2 letters), city.
